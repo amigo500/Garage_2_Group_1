@@ -22,7 +22,7 @@
                 return false;
             }
 
-            if (validFirstPart || validSecondPart || valid6thChar)
+            if (validFirstPart && validSecondPart && valid6thChar)
             {
                 return true;
             }
