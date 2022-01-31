@@ -23,7 +23,7 @@ namespace Garage_2_Group_1.Data
                     { 
                         Id = 1,
                         RegNr = "AIR001",
-                        Type = 0,
+                        Type = VehicleType.Airplane,
                         Color = VehicleColor.Blue,
                         ArrivalTime = DateTime.Now,
                         Make = "Boeing",
@@ -34,7 +34,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 2,
                         RegNr = "AIR00S",
-                        Type = 0,
+                        Type = VehicleType.Airplane,
                         Color = VehicleColor.Red,
                         ArrivalTime = DateTime.Now.AddSeconds(1),
                         Make = "SAAB",
@@ -45,7 +45,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 3,
                         RegNr = "WET001",
-                        Type = 0,
+                        Type = VehicleType.Boat,
                         Color = VehicleColor.Green,
                         ArrivalTime = DateTime.Now.AddSeconds(2),
                         Make = "Bertram",
@@ -56,7 +56,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 4,
                         RegNr = "WET00B",
-                        Type = 0,
+                        Type = VehicleType.Boat,
                         Color = VehicleColor.Black,
                         ArrivalTime = DateTime.Now.AddSeconds(3),
                         Make = "Viking Line",
@@ -67,7 +67,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 5,
                         RegNr = "LNG420",
-                        Type = 0,
+                        Type = VehicleType.Bus,
                         Color = VehicleColor.White,
                         ArrivalTime = DateTime.Now.AddSeconds(4),
                         Make = "Bridgestone",
@@ -78,7 +78,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 6,
                         RegNr = "LNG404",
-                        Type = 0,
+                        Type = VehicleType.Bus,
                         Color = VehicleColor.Silver,
                         ArrivalTime = DateTime.Now.AddSeconds(5),
                         Make = "Goodyear",
@@ -89,7 +89,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 7,
                         RegNr = "FST00S",
-                        Type = 0,
+                        Type = VehicleType.Car,
                         Color = VehicleColor.Brown,
                         ArrivalTime = DateTime.Now.AddSeconds(6),
                         Make = "Toyota",
@@ -100,7 +100,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 8,
                         RegNr = "FST00T",
-                        Type = 0,
+                        Type = VehicleType.Car,
                         Color = VehicleColor.Yellow,
                         ArrivalTime = DateTime.Now.AddSeconds(7),
                         Make = "Jeep",
@@ -111,7 +111,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 9,
                         RegNr = "SOL006",
-                        Type = 0,
+                        Type = VehicleType.Motorcycle,
                         Color = VehicleColor.Orange,
                         ArrivalTime = DateTime.Now.AddSeconds(8),
                         Make = "Yamaha",
@@ -122,7 +122,7 @@ namespace Garage_2_Group_1.Data
                     {
                         Id = 10,
                         RegNr = "SOL00P",
-                        Type = 0,
+                        Type = VehicleType.Motorcycle,
                         Color = VehicleColor.Purple,
                         ArrivalTime = DateTime.Now.AddSeconds(9),
                         Make = "Triumph",
