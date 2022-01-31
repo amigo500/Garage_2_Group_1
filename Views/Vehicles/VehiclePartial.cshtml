@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<Garage_2_Group_1.Models.Vehicle>
 
-<h1>Index</h1>
+@{
+    ViewData["Title"] = "Index1";
+}
+
+<h1>Index1</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -17,18 +21,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ArrivalTime)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WheelCount)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,18 +36,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ArrivalTime)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WheelCount)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
