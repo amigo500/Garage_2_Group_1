@@ -2,6 +2,7 @@
 using Garage_2_Group_1.Data;
 using Garage_2_Group_1.Models;
 using Garage_2_Group_1.Models.ViewModels;
+using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -82,10 +83,10 @@ namespace Garage_2_Group_1.Controllers
             {
                 var vehicle = new Vehicle
                 {
-                    RegNr = viewModel.RegNr,
-                    Type = viewModel.Type,
+                    RegNr = viewModel.RegNr.ToUpper(),
+                    Type = (VehicleType)viewModel.Type,
                     ArrivalTime = DateTime.Now,
-                    Color = viewModel.Color,
+                    Color = (VehicleColor)viewModel.Color,
                     Make = viewModel.Make,
                     Model = viewModel.Model,
                     WheelCount = viewModel.WheelCount
@@ -93,7 +94,10 @@ namespace Garage_2_Group_1.Controllers
 
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                ModelState.Clear();
+                viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+
             }
             return View(viewModel);
         }
@@ -185,6 +189,11 @@ namespace Garage_2_Group_1.Controllers
 
         public async Task<IActionResult> CheckRegNr(string regnr)
         {
+            //check validation
+            Validation val = new Validation();
+            if(!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
             //check database
             var dbResult = await _context.Vehicle
                 .FirstOrDefaultAsync(m => m.RegNr == regnr);
