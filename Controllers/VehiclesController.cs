@@ -26,9 +26,10 @@ namespace Garage_2_Group_1.Controllers
         {
             return View(await _context.Vehicle.ToListAsync());
         }
+
         public async Task<IActionResult> Index1()
         {
-            var model = new VehicleIndexViewModel
+            var model = new VehicleIndexViewModel()
             {
                 Vehicles = await _context.Vehicle.ToListAsync(),
                 Types = await GetTypesAsync()
