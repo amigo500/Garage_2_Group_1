@@ -11,7 +11,7 @@ namespace Garage_2_Group_1.Models
         [Required(ErrorMessage = "Enter the Vehicle Registration Number!")]
         [StringLength(6, MinimumLength = 6)]
         public string RegNr { get; set; } // visas
-
+        
         [Display(Name = "Vehicle Type")]
         [Required]
         public VehicleType Type { get; set; } // visas
@@ -24,8 +24,7 @@ namespace Garage_2_Group_1.Models
         public string Model { get; set; }
         public int WheelCount { get; set; }
 
-
+        
     }
-
+         
 }
-
