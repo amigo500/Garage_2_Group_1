@@ -15,8 +15,7 @@ namespace Garage_2_Group_1.Models
         [Display(Name = "Vehicle Type")]
         [Required]
         public VehicleType Type { get; set; } // visas
-        
-        public DateTime ArrivalTime { get; } // visas
+        public DateTime ArrivalTime { get; set; } // visas
 
         [Display(Name = "Color")]
         [Required]
