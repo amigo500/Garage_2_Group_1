@@ -1,13 +1,10 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Garage_2_Group_1.Data;
+using Garage_2_Group_1.Models;
+using Garage_2_Group_1.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Garage_2_Group_1.Data;
-using Garage_2_Group_1.Models;
 
 namespace Garage_2_Group_1.Controllers
 {
@@ -24,6 +21,30 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Vehicle.ToListAsync());
+        }
+
+        public async Task<IActionResult> Index1()
+        {
+            var model = new VehicleIndexViewModel()
+            {
+                Vehicles = await _context.Vehicle.ToListAsync(),
+                Types = await GetTypesAsync()
+            };
+
+            return View(model);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetTypesAsync()
+        {
+            return await _context.Vehicle
+                           .Select(v => v.Type)
+                           .Distinct()
+                           .Select(t => new SelectListItem
+                           {
+                               Text = t.ToString(),
+                               Value = t.ToString()
+                           })
+                           .ToListAsync();
         }
 
         // GET: Vehicles/Details/5
