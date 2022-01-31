@@ -22,57 +22,112 @@ namespace Garage_2_Group_1.Data
                     new Vehicle 
                     { 
                         Id = 1,
-                        RegNr = "ABC123",
+                        RegNr = "AIR001",
                         Type = 0,
-                        Color = 0,
+                        Color = VehicleColor.Blue,
                         ArrivalTime = DateTime.Now,
-                        Make = "Toyota",
-                        Model = "2H4EZ",
-                        WheelCount = 4
+                        Make = "Boeing",
+                        Model = "737",
+                        WheelCount = 6
                     },
                     new Vehicle
                     {
                         Id = 2,
-                        RegNr = "ABC12D",
+                        RegNr = "AIR00S",
                         Type = 0,
-                        Color = 0,
-                        ArrivalTime = DateTime.Now,
-                        Make = "Honda",
-                        Model = "PCD3Y",
+                        Color = VehicleColor.Red,
+                        ArrivalTime = DateTime.Now.AddSeconds(1),
+                        Make = "SAAB",
+                        Model = "JAS 39",
                         WheelCount = 4
                     },
                     new Vehicle
                     {
                         Id = 3,
-                        RegNr = "AIR001",
+                        RegNr = "WET001",
                         Type = 0,
-                        Color = 0,
-                        ArrivalTime = DateTime.Now,
-                        Make = "Ford",
-                        Model = "68R99",
-                        WheelCount = 4
+                        Color = VehicleColor.Green,
+                        ArrivalTime = DateTime.Now.AddSeconds(2),
+                        Make = "Bertram",
+                        Model = "35 Flybridge",
+                        WheelCount = 0
                     },
                     new Vehicle
                     {
                         Id = 4,
-                        RegNr = "WET696",
+                        RegNr = "WET00B",
                         Type = 0,
-                        Color = 0,
-                        ArrivalTime = DateTime.Now,
-                        Make = "Jeep",
+                        Color = VehicleColor.Black,
+                        ArrivalTime = DateTime.Now.AddSeconds(3),
+                        Make = "Viking Line",
+                        Model = "Cinderella",
+                        WheelCount = 0
+                    },
+                    new Vehicle
+                    {
+                        Id = 5,
+                        RegNr = "LNG420",
+                        Type = 0,
+                        Color = VehicleColor.White,
+                        ArrivalTime = DateTime.Now.AddSeconds(4),
+                        Make = "Bridgestone",
+                        Model = "U-AP 002",
+                        WheelCount = 6
+                    },
+                    new Vehicle
+                    {
+                        Id = 6,
+                        RegNr = "LNG404",
+                        Type = 0,
+                        Color = VehicleColor.Silver,
+                        ArrivalTime = DateTime.Now.AddSeconds(5),
+                        Make = "Goodyear",
                         Model = "CDOBQ",
                         WheelCount = 4
                     },
                     new Vehicle
                     {
-                        Id = 5,
-                        RegNr = "BAN420",
+                        Id = 7,
+                        RegNr = "FST00S",
                         Type = 0,
-                        Color = 0,
-                        ArrivalTime = DateTime.Now,
-                        Make = "BMW",
-                        Model = "GMKJM",
+                        Color = VehicleColor.Brown,
+                        ArrivalTime = DateTime.Now.AddSeconds(6),
+                        Make = "Toyota",
+                        Model = "RAV4",
                         WheelCount = 4
+                    },
+                    new Vehicle
+                    {
+                        Id = 8,
+                        RegNr = "FST00T",
+                        Type = 0,
+                        Color = VehicleColor.Yellow,
+                        ArrivalTime = DateTime.Now.AddSeconds(7),
+                        Make = "Jeep",
+                        Model = "Wrangler",
+                        WheelCount = 4
+                    },
+                    new Vehicle
+                    {
+                        Id = 9,
+                        RegNr = "SOL006",
+                        Type = 0,
+                        Color = VehicleColor.Orange,
+                        ArrivalTime = DateTime.Now.AddSeconds(8),
+                        Make = "Yamaha",
+                        Model = "YZF R15 V4",
+                        WheelCount = 2
+                    },
+                    new Vehicle
+                    {
+                        Id = 10,
+                        RegNr = "SOL00P",
+                        Type = 0,
+                        Color = VehicleColor.Purple,
+                        ArrivalTime = DateTime.Now.AddSeconds(9),
+                        Make = "Triumph",
+                        Model = "Speed Twin",
+                        WheelCount = 2
                     }
                 );
         }
