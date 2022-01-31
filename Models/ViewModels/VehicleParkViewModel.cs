@@ -1,31 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Garage_2_Group_1.Models.ViewModels
 {
     public class VehicleParkViewModel
     {
         [Display(Name = "Registration Number")]
-        [Required(ErrorMessage = "Enter the Vehicle Registration Number!")]
-        [StringLength(6, MinimumLength = 6)]
+        [Required(ErrorMessage = "Enter the registration number!")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Invalid registration number!")]
+        [Remote(action: "CheckRegNr", controller: "Vehicles")]
         public string? RegNr { get; set; }
 
         [Display(Name = "Vehicle Type")]
-        [Required]
+        [Required(ErrorMessage = "Pick the type!")]
         public VehicleType Type { get; set; }
         public DateTime ArrivalTime { get; set; }
 
         [Display(Name = "Color")]
-        [Required]
+        [Required(ErrorMessage = "Pick the color!")]
         public VehicleColor Color { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Enter the make!")]
         public string? Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Enter the model!")]
         public string? Model { get; set; }
 
-        [Required]
-        [Range(3, 20)]
+        [Required(ErrorMessage = "Enter the number of wheels!")]
+        [Display(Name = "Wheel Count")]
+        [Range(3, 20, ErrorMessage = "The wheel count must be between 3 and 20!")]
         public int WheelCount { get; set; }
     }
 }

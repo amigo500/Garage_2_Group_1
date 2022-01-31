@@ -76,15 +76,26 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Park([Bind("Id,RegNr,Type,ArrivalTime,Color,Make,Model,WheelCount")] Vehicle vehicle)
+        public async Task<IActionResult> Park(VehicleParkViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var vehicle = new Vehicle
+                {
+                    RegNr = viewModel.RegNr,
+                    Type = viewModel.Type,
+                    ArrivalTime = DateTime.Now,
+                    Color = viewModel.Color,
+                    Make = viewModel.Make,
+                    Model = viewModel.Model,
+                    WheelCount = viewModel.WheelCount
+                };
+
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Edit/5
@@ -170,6 +181,18 @@ namespace Garage_2_Group_1.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> CheckRegNr(string regnr)
+        {
+            //check database
+            var dbResult = await _context.Vehicle
+                .FirstOrDefaultAsync(m => m.RegNr == regnr);
+
+            if (dbResult != null)
+                return Json("The registration number has to be unique (already parked)");
+
+            return Json(true);
         }
     }
 }
