@@ -28,7 +28,7 @@ namespace Garage_2_Group_1.Models.ViewModels
 
         [Required(ErrorMessage = "Please enter the number of wheels")]
         [Display(Name = "Wheel Count")]
-        [Range(3, 20, ErrorMessage = "The wheel count must be between 3 and 20")]
+        [Range(2, 10, ErrorMessage = "The wheel count must be between 2 and 10")]
         public int WheelCount { get; set; }
 
         public bool? ParkedSuccesfully { get; set; }
