@@ -18,13 +18,10 @@ namespace Garage_2_Group_1.Controllers
             _context = context;
         }
 
-        // GET: Vehicles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Vehicle.ToListAsync());
-        }
+       
+    
 
-        public async Task<IActionResult> Index1()
+        public async Task<IActionResult> Index()
         {
             var model = new VehicleIndexViewModel()
             {
@@ -219,7 +216,7 @@ namespace Garage_2_Group_1.Controllers
                 Types = await GetTypesAsync()
             };
 
-            return View(nameof(Index1), model);
+            return View(nameof(Index), model);
         }
     }
 }
