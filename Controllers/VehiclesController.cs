@@ -66,13 +66,13 @@ namespace Garage_2_Group_1.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicles/Create
+        // GET: Vehicles/Park
         public IActionResult Park()
         {
             return View();
         }
 
-        // POST: Vehicles/Create
+        // POST: Vehicles/Park
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
