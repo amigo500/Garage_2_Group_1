@@ -132,9 +132,9 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RegNr,Type,ArrivalTime,Color,Make,Model,WheelCount")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, VehicleEditViewModel viewModel)
         {
-            if (id != vehicle.Id)
+            if (id != viewModel.Id)
             {
                 return NotFound();
             }
@@ -143,12 +143,19 @@ namespace Garage_2_Group_1.Controllers
             {
                 try
                 {
+                    var vehicle = await _context.Vehicle.FindAsync(id);
+                    vehicle.Type = (VehicleType)viewModel.Type;
+                    vehicle.Color = (VehicleColor)viewModel.Color;
+                    vehicle.Make = viewModel.Make;
+                    vehicle.Model = viewModel.Model;
+                    vehicle.WheelCount = viewModel.WheelCount;
+
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicle.Id))
+                    if (!VehicleExists(viewModel.Id))
                     {
                         return NotFound();
                     }
@@ -159,7 +166,7 @@ namespace Garage_2_Group_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Checkout/5
@@ -238,6 +245,17 @@ namespace Garage_2_Group_1.Controllers
 
             return Json(true);
         }
+
+        public IActionResult ValidateRegNr(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if (!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
+            return Json(true);
+        }
+
         public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
         {
             var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?

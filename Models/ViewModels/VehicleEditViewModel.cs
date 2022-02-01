@@ -8,9 +8,6 @@ namespace Garage_2_Group_1.Models.ViewModels
         public int Id { get; set; }
 
         [Display(Name = "Registration Number")]
-        [Required(ErrorMessage = "Please enter the registration number")]
-        [StringLength(6, MinimumLength = 6, ErrorMessage = "Invalid registration number")]
-        [Remote(action: "CheckRegNr", controller: "Vehicles")]
         public string? RegNr { get; set; }
 
         [Display(Name = "Vehicle Type")]
@@ -29,7 +26,7 @@ namespace Garage_2_Group_1.Models.ViewModels
 
         [Required(ErrorMessage = "Please enter the number of wheels")]
         [Display(Name = "Wheel Count")]
-        [Range(2, 10, ErrorMessage = "The wheel count must be between 2 and 10")]
+        [Range(0, 10, ErrorMessage = "The wheel count must be between 0 and 10")]
         public int WheelCount { get; set; }
 
         public bool? EditedSuccesfully { get; set; }
