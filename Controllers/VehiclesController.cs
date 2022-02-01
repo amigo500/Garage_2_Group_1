@@ -18,13 +18,10 @@ namespace Garage_2_Group_1.Controllers
             _context = context;
         }
 
-        // GET: Vehicles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Vehicle.ToListAsync());
-        }
+       
+    
 
-        public async Task<IActionResult> Index1()
+        public async Task<IActionResult> Index()
         {
             var model = new VehicleIndexViewModel()
             {
@@ -233,6 +230,24 @@ namespace Garage_2_Group_1.Controllers
                 return Json("The registration number has to be unique (already parked)");
 
             return Json(true);
+        }
+        public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
+        {
+            var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?
+                                    _context.Vehicle :
+                                    _context.Vehicle.Where(m => m.RegNr.StartsWith(viewModel.RegNr));
+
+            vehicles = viewModel.Type == null ?
+                             vehicles :
+                             vehicles.Where(v => v.Type == viewModel.Type);
+
+            var model = new VehicleIndexViewModel
+            {
+                Vehicles = await vehicles.ToListAsync(),
+                Types = await GetTypesAsync()
+            };
+
+            return View(nameof(Index), model);
         }
     }
 }
