@@ -20,8 +20,8 @@ namespace Garage_2_Group_1.Models
         [Display(Name = "Color")]
         [Required]
         public VehicleColor Color { get; set; }
-        public string? Make { get; set; }
-        public string? Model { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
         public int WheelCount { get; set; }
 
         
