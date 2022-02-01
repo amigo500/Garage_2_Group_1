@@ -153,8 +153,8 @@ namespace Garage_2_Group_1.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Vehicles/Checkout/5
+        public async Task<IActionResult> Checkout(int? id)
         {
             if (id == null)
             {
@@ -168,18 +168,49 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            return View(vehicle);
+            var checkoutTime = DateTime.Now;
+            var time = checkoutTime - vehicle.ArrivalTime;
+            var totalParkedTime = "";
+
+            if (time.Hours == 0)
+            {
+                totalParkedTime = $"{time.Minutes} minutes";
+            }
+            else if(time.Days == 0)
+            {
+                totalParkedTime = $"{time.Hours} hours, {time.Minutes} minutes";
+            }
+            else
+            {
+                totalParkedTime = $"{time.Days} days, {time.Hours} hours, {time.Minutes} minutes";
+            }
+
+            // 50 kr + 15 kr per hour
+            var price = 50 + time.Hours * 15;
+
+            var viewModel = new VehicleCheckoutViewModel
+            {
+                Id = vehicle.Id,
+                RegNr = vehicle.RegNr,
+                ArrivalTime = vehicle.ArrivalTime,
+                CheckoutTime = checkoutTime,
+                TotalParkedTime = totalParkedTime,
+                Price = price
+            };
+
+            return View(viewModel);
         }
 
-        // POST: Vehicles/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Vehicles/Checkout/5
+        [HttpPost, ActionName("Checkout")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> CheckoutConfirmed(VehicleCheckoutViewModel viewModel)
         {
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var vehicle = await _context.Vehicle.FindAsync(viewModel.Id);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return View(viewModel);
         }
 
         private bool VehicleExists(int id)
