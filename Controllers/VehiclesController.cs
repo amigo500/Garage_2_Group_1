@@ -169,21 +169,17 @@ namespace Garage_2_Group_1.Controllers
             var time = checkoutTime - vehicle.ArrivalTime;
             var totalParkedTime = "";
 
-            if (time.Hours == 0)
-            {
+            // A better looking total parked time string
+            if (time.TotalHours < 1)
                 totalParkedTime = $"{time.Minutes} minutes";
-            }
-            else if(time.Days == 0)
-            {
+            else if(time.TotalDays < 1)
                 totalParkedTime = $"{time.Hours} hours, {time.Minutes} minutes";
-            }
             else
-            {
                 totalParkedTime = $"{time.Days} days, {time.Hours} hours, {time.Minutes} minutes";
-            }
+            
 
             // 50 kr + 15 kr per hour
-            var price = 50 + time.Hours * 15;
+            var price = 50 + (int)time.TotalHours * 15;
 
             var viewModel = new VehicleCheckoutViewModel
             {
@@ -201,13 +197,12 @@ namespace Garage_2_Group_1.Controllers
         // POST: Vehicles/Checkout/5
         [HttpPost, ActionName("Checkout")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckoutConfirmed(VehicleCheckoutViewModel viewModel)
+        public async Task<IActionResult> CheckoutConfirmed(int id)
         {
-            var vehicle = await _context.Vehicle.FindAsync(viewModel.Id);
+            var vehicle = await _context.Vehicle.FindAsync(id);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-
-            return View(viewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleExists(int id)
