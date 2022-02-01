@@ -112,7 +112,19 @@ namespace Garage_2_Group_1.Controllers
             {
                 return NotFound();
             }
-            return View(vehicle);
+
+            var viewModel = new VehicleEditViewModel
+            {
+                Id = (int)id,
+                RegNr = vehicle.RegNr,
+                Type = vehicle.Type,
+                Color = vehicle.Color,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                WheelCount = vehicle.WheelCount
+            };
+
+            return View(viewModel);
         }
 
         // POST: Vehicles/Edit/5

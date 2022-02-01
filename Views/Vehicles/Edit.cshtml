@@ -1,4 +1,4 @@
-﻿@model Garage_2_Group_1.Models.Vehicle
+﻿@model VehicleEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -20,18 +20,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" class="form-control"></select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArrivalTime" class="control-label"></label>
-                <input asp-for="ArrivalTime" class="form-control" />
-                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+                <select class="form-control" name="Type" asp-items="@Html.GetEnumSelectList<VehicleType>()">
+                </select>
+                <span asp-validation-for="Type" id="TypeValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <select asp-for="Color" class="form-control"></select>
-                <span asp-validation-for="Color" class="text-danger"></span>
+                <select class="form-control" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
+                </select>
+                <span asp-validation-for="Color" id="ColorValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Make" class="control-label"></label>
