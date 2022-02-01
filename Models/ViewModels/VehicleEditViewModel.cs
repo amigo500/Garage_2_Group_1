@@ -8,15 +8,16 @@ namespace Garage_2_Group_1.Models.ViewModels
         public int Id { get; set; }
 
         [Display(Name = "Registration Number")]
+        [Required(ErrorMessage = "Please enter the registration number")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Invalid registration number")]
+        [Remote(action: "CheckRegNr", controller: "Vehicles", AdditionalFields ="Id")]
         public string? RegNr { get; set; }
 
         [Display(Name = "Vehicle Type")]
-        [Required(ErrorMessage = "Please pick a vehicle type")]
-        public VehicleType? Type { get; set; }
+        public VehicleType Type { get; set; }
 
         [Display(Name = "Color")]
-        [Required(ErrorMessage = "Please pick a color")]
-        public VehicleColor? Color { get; set; }
+        public VehicleColor Color { get; set; }
 
         [Required(ErrorMessage = "Please enter the make")]
         public string? Make { get; set; }

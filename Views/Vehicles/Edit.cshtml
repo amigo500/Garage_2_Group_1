@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
-                <input asp-for="RegNr" class="form-control" style="text-transform:uppercase" disabled/>
+                <input asp-for="RegNr" class="form-control" style="text-transform:uppercase"/>
                 <span asp-validation-for="RegNr" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,4 +58,21 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Manually select the correct vehicle type from the dropdown list
+        $('select[name="Type"] option').each(function () {
+            if ($(this).html() == '@(Html.DisplayFor(m => m.Type))') {
+                $(this).attr("selected", "selected");
+                return;
+            }
+        });
+        // Manually select the correct vehicle color from the dropdown list
+        $('select[name="Color"] option').each(function () {
+            if ($(this).html() == '@(Html.DisplayFor(m => m.Color))') {
+                $(this).attr("selected", "selected");
+                return;
+            }
+        });
+    </script>
 }

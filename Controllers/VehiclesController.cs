@@ -144,8 +144,9 @@ namespace Garage_2_Group_1.Controllers
                 try
                 {
                     var vehicle = await _context.Vehicle.FindAsync(id);
-                    vehicle.Type = (VehicleType)viewModel.Type;
-                    vehicle.Color = (VehicleColor)viewModel.Color;
+                    vehicle.RegNr = viewModel.RegNr;
+                    vehicle.Type = viewModel.Type;
+                    vehicle.Color = viewModel.Color;
                     vehicle.Make = viewModel.Make;
                     vehicle.Model = viewModel.Model;
                     vehicle.WheelCount = viewModel.WheelCount;
@@ -229,7 +230,7 @@ namespace Garage_2_Group_1.Controllers
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> CheckRegNr(string regnr)
+        public async Task<IActionResult> CheckRegNr(string regnr, int? id)
         {
             //check validation
             Validation val = new Validation();
@@ -237,8 +238,11 @@ namespace Garage_2_Group_1.Controllers
                 return Json("Invalid registration number");
 
             //check database
-            var dbResult = await _context.Vehicle
-                .FirstOrDefaultAsync(m => m.RegNr == regnr);
+            var dbResult = id == null ?
+                    await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regnr) :
+                    await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regnr && m.Id != id);
 
             if (dbResult != null)
                 return Json("The registration number has to be unique (already parked)");
