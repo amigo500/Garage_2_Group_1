@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage_2_Group_1.Migrations
 {
     [DbContext(typeof(Garage_2_Group_1Context))]
-    [Migration("20220131123109_seed")]
-    partial class seed
+    [Migration("20220202090658_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,9 +39,11 @@ namespace Garage_2_Group_1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Make")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegNr")
@@ -63,7 +65,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 9, 318, DateTimeKind.Local).AddTicks(5443),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 6, 57, 556, DateTimeKind.Local).AddTicks(7859),
                             Color = 0,
                             Make = "Boeing",
                             Model = "737",
@@ -74,7 +76,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 10, 318, DateTimeKind.Local).AddTicks(5477),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 6, 58, 556, DateTimeKind.Local).AddTicks(7987),
                             Color = 1,
                             Make = "SAAB",
                             Model = "JAS 39",
@@ -85,7 +87,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 3,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 11, 318, DateTimeKind.Local).AddTicks(5481),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 6, 59, 556, DateTimeKind.Local).AddTicks(8002),
                             Color = 2,
                             Make = "Bertram",
                             Model = "35 Flybridge",
@@ -96,7 +98,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 4,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 12, 318, DateTimeKind.Local).AddTicks(5483),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 0, 556, DateTimeKind.Local).AddTicks(8012),
                             Color = 3,
                             Make = "Viking Line",
                             Model = "Cinderella",
@@ -107,7 +109,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 5,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 13, 318, DateTimeKind.Local).AddTicks(5485),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 1, 556, DateTimeKind.Local).AddTicks(8028),
                             Color = 4,
                             Make = "Bridgestone",
                             Model = "U-AP 002",
@@ -118,7 +120,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 6,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 14, 318, DateTimeKind.Local).AddTicks(5487),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 2, 556, DateTimeKind.Local).AddTicks(8038),
                             Color = 5,
                             Make = "Goodyear",
                             Model = "CDOBQ",
@@ -129,7 +131,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 7,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 15, 318, DateTimeKind.Local).AddTicks(5490),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 3, 556, DateTimeKind.Local).AddTicks(8048),
                             Color = 6,
                             Make = "Toyota",
                             Model = "RAV4",
@@ -140,7 +142,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 8,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 16, 318, DateTimeKind.Local).AddTicks(5492),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 4, 556, DateTimeKind.Local).AddTicks(8064),
                             Color = 7,
                             Make = "Jeep",
                             Model = "Wrangler",
@@ -151,7 +153,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 9,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 17, 318, DateTimeKind.Local).AddTicks(5494),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 5, 556, DateTimeKind.Local).AddTicks(8074),
                             Color = 8,
                             Make = "Yamaha",
                             Model = "YZF R15 V4",
@@ -162,7 +164,7 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 10,
-                            ArrivalTime = new DateTime(2022, 1, 31, 13, 31, 18, 318, DateTimeKind.Local).AddTicks(5496),
+                            ArrivalTime = new DateTime(2022, 2, 2, 10, 7, 6, 556, DateTimeKind.Local).AddTicks(8084),
                             Color = 9,
                             Make = "Triumph",
                             Model = "Speed Twin",

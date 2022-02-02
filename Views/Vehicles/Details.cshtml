@@ -3,58 +3,40 @@
 @{
     ViewData["Title"] = "Details";
 }
+ 
 
-<h1>Vehicle Details</h1>
+<h1></h1>
 
-<div>
-    <h4>Vehicle</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegNr)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegNr)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArrivalTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Make)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WheelCount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WheelCount)
-        </dd>
-    </dl>
+<div class="card" style="width: 18rem;">
+  <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
+  <div class="card-body">
+    <h5 class="card-title">Vehicle Data</h5>
+    <p class="card-text"> @Html.DisplayNameFor(model => model.RegNr):
+    @Model.RegNr
+    @Html.DisplayNameFor(model => model.Type):
+    @Model.Type
+    <br>
+     @Html.DisplayNameFor(model => model.ArrivalTime):
+      @Model.ArrivalTime
+       @Html.DisplayNameFor(model => model.Color):
+       @Model.Color
+       <br>
+       @Html.DisplayNameFor(model => model.Make):
+        @Model.Make
+        <br>
+        @Html.DisplayNameFor(model => model.Model):
+        @Model.Model
+        <br>
+        @Html.DisplayNameFor(model => model.WheelCount):
+        @Model.WheelCount
+    </p>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+     
+  </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+   
+      
+
+               
