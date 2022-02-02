@@ -30,8 +30,8 @@
         @Html.DisplayNameFor(model => model.WheelCount):
         @Model.WheelCount
     </p>
-    <a href="@Url.Action("Edit")" class="btn btn-primary">Edit</a>
-    <a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
      
   </div>
 </div>

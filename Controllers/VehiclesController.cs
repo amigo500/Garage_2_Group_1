@@ -2,6 +2,7 @@
 using Garage_2_Group_1.Data;
 using Garage_2_Group_1.Models;
 using Garage_2_Group_1.Models.ViewModels;
+using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,10 @@ namespace Garage_2_Group_1.Controllers
             _context = context;
         }
 
-        // GET: Vehicles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Vehicle.ToListAsync());
-        }
+       
+    
 
-        public async Task<IActionResult> Index1()
+        public async Task<IActionResult> Index()
         {
             var model = new VehicleIndexViewModel()
             {
@@ -65,26 +63,40 @@ namespace Garage_2_Group_1.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicles/Create
-        public IActionResult Create()
+        // GET: Vehicles/Park
+        public IActionResult Park()
         {
             return View();
         }
 
-        // POST: Vehicles/Create
+        // POST: Vehicles/Park
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegNr,Type,ArrivalTime,Color,Make,Model,WheelCount")] Vehicle vehicle)
+        public async Task<IActionResult> Park(VehicleParkViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var vehicle = new Vehicle
+                {
+                    RegNr = viewModel.RegNr.ToUpper(),
+                    Type = (VehicleType)viewModel.Type,
+                    ArrivalTime = DateTime.Now,
+                    Color = (VehicleColor)viewModel.Color,
+                    Make = viewModel.Make,
+                    Model = viewModel.Model,
+                    WheelCount = viewModel.WheelCount
+                };
+
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                ModelState.Clear();
+                viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+
             }
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Edit/5
@@ -138,8 +150,8 @@ namespace Garage_2_Group_1.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Vehicles/Checkout/5
+        public async Task<IActionResult> Checkout(int? id)
         {
             if (id == null)
             {
@@ -153,13 +165,39 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            return View(vehicle);
+            var checkoutTime = DateTime.Now;
+            var time = checkoutTime - vehicle.ArrivalTime;
+            var totalParkedTime = "";
+
+            // A better looking total parked time string
+            if (time.TotalHours < 1)
+                totalParkedTime = $"{time.Minutes} minutes";
+            else if(time.TotalDays < 1)
+                totalParkedTime = $"{time.Hours} hours, {time.Minutes} minutes";
+            else
+                totalParkedTime = $"{time.Days} days, {time.Hours} hours, {time.Minutes} minutes";
+            
+
+            // 50 kr + 15 kr per hour
+            var price = 50 + (int)time.TotalHours * 15;
+
+            var viewModel = new VehicleCheckoutViewModel
+            {
+                Id = vehicle.Id,
+                RegNr = vehicle.RegNr,
+                ArrivalTime = vehicle.ArrivalTime,
+                CheckoutTime = checkoutTime,
+                TotalParkedTime = totalParkedTime,
+                Price = price
+            };
+
+            return View(viewModel);
         }
 
-        // POST: Vehicles/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Vehicles/Checkout/5
+        [HttpPost, ActionName("Checkout")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> CheckoutConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
             _context.Vehicle.Remove(vehicle);
@@ -170,6 +208,41 @@ namespace Garage_2_Group_1.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> CheckRegNr(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if(!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
+            //check database
+            var dbResult = await _context.Vehicle
+                .FirstOrDefaultAsync(m => m.RegNr == regnr);
+
+            if (dbResult != null)
+                return Json("The registration number has to be unique (already parked)");
+
+            return Json(true);
+        }
+        public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
+        {
+            var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?
+                                    _context.Vehicle :
+                                    _context.Vehicle.Where(m => m.RegNr.StartsWith(viewModel.RegNr));
+
+            vehicles = viewModel.Type == null ?
+                             vehicles :
+                             vehicles.Where(v => v.Type == viewModel.Type);
+
+            var model = new VehicleIndexViewModel
+            {
+                Vehicles = await vehicles.ToListAsync(),
+                Types = await GetTypesAsync()
+            };
+
+            return View(nameof(Index), model);
         }
     }
 }
