@@ -10,15 +10,28 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm border-bottom box-shadow mb-3">
+        <nav class="navbar border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Vehicles" asp-action="Index">
-                    Parkatron <div class="text-muted">The convenient WebGarage</div></a> 
-                   
-             
-               
-                
+                <div class="row">
+                    <div class="col-md-5">
+                        <a class="navbar-brand" asp-area="" asp-controller="Vehicles" asp-action="Index">
+                            Parkatron <div class="text-muted">The convenient WebGarage</div>
+                        </a>
+
+                    </div><div class="col-md-3">
+
+                        <a id="park" class="navbar-brand" asp-action="Park">Park Vehicle</a>
+                    </div>
+                </div>
             </div>
+
+
+
+
+
+
+
+
         </nav>
     </header>
     <div class="container">
