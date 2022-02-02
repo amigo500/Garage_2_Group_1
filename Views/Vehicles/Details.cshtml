@@ -5,115 +5,38 @@
 }
  
 
-<h1>Vehicle Data</h1>
+<h1></h1>
 
- <div class="card" style="width:400px">
-  <img class="card-img-top" src="/images/details.jpg" alt="Card image">
-  </div>
-        <h4></h4>
-    <hr />
-      </div>
-      <div class="card-columns">
-          <div class="btn btn-secondary">
-    <div class="card-bodytext-center">
-        
-    <dl class="row">
-         
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.RegNr)
-        </dt>
-        <dd class = "col-sm-10" >
-            
-             @Model.RegNr
-              
-               
-        </dd>
-         <dl class="column">
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            
-             @Model.Type
-                
-        </dd>
-          </div>
-           </div>
-           
-           <div class="btn btn-secondary">
-    <div class="card-bodytext-center">
-        
-    <dl class="row">
-         
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.ArrivalTime)
-        </dt>
-        <dd class = "col-sm-10" >
-            
-             @Model.ArrivalTime
-              
-               
-        </dd>
-         <dl class="column">
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class = "col-sm-10">
-            
-             @Model.Color
-                
-        </dd>
-          </div>
-           </div>
-
-           <div class="btn btn-secondary">
-    <div class="card-bodytext-center">
-        
-    <dl class="row">
-         
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd class = "col-sm-10" >
-            
-             @Model.Make
-              
-               
-        </dd>
-         <dl class="column">
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            
-             @Model.Model
-                
-        </dd>
-          </div>
-           </div>
-           
-           <div class="btn btn-secondary">
-    <div class="card-bodytext-center">
-        
-    <dl class="row">
-         
-        <dt class = "col-sm-10" >
-            @Html.DisplayNameFor(model => model.WheelCount)
-        </dt>
-        <dd class = "col-sm-10" >
-            
-             @Model.WheelCount
-              
-              </dd>
-          </div>
-           </div>
-
-</div>
-<p> 
+<div class="card" style="width: 18rem;">
+  <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
+  <div class="card-body">
+    <h5 class="card-title">Vehicle Data</h5>
+    <p class="card-text"> @Html.DisplayNameFor(model => model.RegNr):
+    @Model.RegNr
+    @Html.DisplayNameFor(model => model.Type):
+    @Model.Type
     <br>
+     @Html.DisplayNameFor(model => model.ArrivalTime):
+      @Model.ArrivalTime
+       @Html.DisplayNameFor(model => model.Color):
+       @Model.Color
+       <br>
+       @Html.DisplayNameFor(model => model.Make):
+        @Model.Make
+        <br>
+        @Html.DisplayNameFor(model => model.Model):
+        @Model.Model
+        <br>
+        @Html.DisplayNameFor(model => model.WheelCount):
+        @Model.WheelCount
     </p>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href="@Url.Action("Edit")" class="btn btn-primary">Edit</a>
+    <a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>
+     
+  </div>
 </div>
+
+   
+      
 
                
