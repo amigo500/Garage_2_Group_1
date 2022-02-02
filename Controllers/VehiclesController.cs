@@ -21,13 +21,15 @@ namespace Garage_2_Group_1.Controllers
        
     
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool? checkout)
         {
             var model = new VehicleIndexViewModel()
             {
                 Vehicles = await _context.Vehicle.ToListAsync(),
                 Types = await GetTypesAsync()
             };
+
+            if (checkout != null) model.Checkout = checkout;
 
             return View(model);
         }
@@ -153,6 +155,7 @@ namespace Garage_2_Group_1.Controllers
 
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
+                    viewModel.EditedSuccesfully = true;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,7 +168,6 @@ namespace Garage_2_Group_1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(viewModel);
         }
@@ -222,7 +224,7 @@ namespace Garage_2_Group_1.Controllers
             var vehicle = await _context.Vehicle.FindAsync(id);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {checkout = true});
         }
 
         private bool VehicleExists(int id)

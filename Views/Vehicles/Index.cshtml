@@ -11,9 +11,6 @@
     <a asp-action="Park">Park Vehicle</a>
 </p>
 
-
-
-
 <form asp-action="Filter">
     <div class="input-group mb-3">
         <input type="text" class="form-control" asp-for="RegNr"  placeholder="Search..." />
@@ -29,3 +26,33 @@
 </form>
 
 <partial name="VehiclePartial" model="@Model.Vehicles" />
+
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout results</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                The vehicle has been successfully left the parking!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @if (Model?.Checkout == true)
+    {
+        <script type="text/javascript">
+        $(function () {
+            $("#checkoutModal").modal('show');
+        });
+        </script>
+    }
+}

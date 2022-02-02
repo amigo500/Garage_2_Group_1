@@ -9,5 +9,6 @@ namespace Garage_2_Group_1.Models.ViewModels
         public string? RegNr { get; set; }
         public VehicleType? Type { get; set; }
         public DateTime ArrivalTime { get; }
+        public bool? Checkout { get; set; }
     }
 }
