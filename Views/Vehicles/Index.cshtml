@@ -7,20 +7,19 @@
 
 <h1>Parked Vehicles</h1>
 
-<p>
-    <a asp-action="Park">Park Vehicle</a>
-</p>
 
 <form asp-action="Filter">
+        <label for="regId" class="fw-bold">Registration Number:</label>
+        
     <div class="input-group mb-3">
-        <input type="text" class="form-control" asp-for="RegNr"  placeholder="Search..." />
+        <input id="regId" type="text" class="form-control" asp-for="RegNr"  placeholder="Vehicle Registration Number e.g. ABC123" />
         <div class="input-group-append">
-            <select class="form-control" asp-for="Type"  asp-items="@Model.Types">
-                <option selected="selected" value="">Please select</option>
+            <select class="form-control" asp-for="Type"  asp-items="@Model!.Types">
+                <option selected="selected" value="">Vehicle Type</option>
             </select>
         </div>
         <div class="input-group-append">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">Filter</i></button>
         </div>
     </div>
 </form>
