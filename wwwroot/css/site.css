@@ -16,17 +16,42 @@ html {
 body {
   margin-bottom: 60px;
 }
+#park {
+    margin-bottom: 1.5rem;
+}
 
 .navbar {
     background-color: #382f41 !important;
     text-align: center;
+    height: 5.4rem;
 }
 .navbar-brand {
-    font-size:1.5rem;
+    font-size:1.8rem;
     font-weight:700;
     color: #ffff !important;
+    
+   
 }
 .text-muted {
     font-weight:500;
     font-size: 0.8rem;
+    height: 1rem;
 }
+.btn-success:hover {
+    background-color: #7d7382;
+    border-color: #573058;
+}
+.btn-primary:hover {
+    background-color: #573058;
+    border-color: #573058;
+}
+
+.btn-primary {
+    background-color: #382f41;
+    border-color: #382f41;
+}
+.btn-success {
+    background-color: #573058;
+    border-color: #7d7382;
+}
+
