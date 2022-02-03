@@ -1,18 +1,17 @@
-﻿@model VehicleEditViewModel
+﻿@model VehicleParkViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Park";
 }
 
-<h1>Edit</h1>
+<h1>Park your vehicle</h1>
 
 <h4>Vehicle</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Park" id="ParkForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
                 <input asp-for="RegNr" class="form-control" style="text-transform:uppercase"/>
@@ -20,13 +19,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <select class="form-control" name="Type" asp-items="Html.GetEnumValueSelectList<VehicleType>(Model!.Type.ToString())">
+                <select class="form-control" name="Type" asp-items="@Html.GetEnumSelectList<VehicleType>()">
+                    <option selected="selected" disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="Type" id="TypeValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <select class="form-control" name="Color" asp-items="Html.GetEnumValueSelectList<VehicleColor>(Model!.Color.ToString())">
+                <select class="form-control" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
+                    <option selected="selected" disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="Color" id="ColorValidation" class="text-danger"></span>
             </div>
@@ -46,22 +47,22 @@
                 <span asp-validation-for="WheelCount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="parkModal" tabindex="-1" aria-labelledby="parkModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit results</h5>
+                <h5 class="modal-title" id="parkModalLabel">Parking results</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Your vehicle has been successfully edited!
+                Your vehicle has been successfully parked!
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
@@ -73,12 +74,36 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @if (Model?.EditedSuccesfully == true)
+    <script>
+        $('select[name="Type"]').on('change', function() {
+            $('#TypeValidation').html("");
+        });
+        $('select[name="Color"]').on('change', function() {
+            $('#ColorValidation').html("");
+        });
+        $('#ParkForm').submit(function(e) {
+            let selectedType = $('select[name="Type"]').find(":selected").val();
+            let selectedColor = $('select[name="Color"]').find(":selected").val();
+            if (selectedType == "") {
+                e.preventDefault();
+                $('#TypeValidation').html("Please pick a vehicle type");
+            }
+            if (selectedColor == ""){
+                e.preventDefault();
+                $('#ColorValidation').html("Please pick a color");
+            }
+        });
+    </script>
+
+    @if (Model?.ParkedSuccesfully == true)
     {
         <script type="text/javascript">
         $(function () {
-            $("#editModal").modal('show');
+            $("#parkModal").modal('show');
+            $('form')[0].reset();
         });
         </script>
     }
 }
+
+
