@@ -30,6 +30,8 @@ namespace Garage_2_Group_1.Models.ViewModels
         [Range(0, 10, ErrorMessage = "The wheel count must be between 0 and 10")]
         public int WheelCount { get; set; }
 
+        public string ParkingSlots { get; set; }
+
         public bool? EditedSuccesfully { get; set; }
     }
 }

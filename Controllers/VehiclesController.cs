@@ -137,7 +137,8 @@ namespace Garage_2_Group_1.Controllers
                 Color = vehicle.Color,
                 Make = vehicle.Make,
                 Model = vehicle.Model,
-                WheelCount = vehicle.WheelCount
+                WheelCount = vehicle.WheelCount,
+                ParkingSlots = vehicle.ParkingSlots
             };
 
             return View(viewModel);

@@ -24,6 +24,16 @@
     </div>
 </form>
 
+<div class="container">
+    <div class="row justify-content-center">
+        @for (var i = 0; i < service.Capacity; i++)
+        {
+           var color = service.EmptyParkingSlots[i] ? "green" : "red";
+           <span class="box @color">@i</span>
+        }
+    </div>
+</div>
+
 <partial name="VehiclePartial" model="@Model.Vehicles" />
 
 <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
