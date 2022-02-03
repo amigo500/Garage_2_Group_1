@@ -21,7 +21,7 @@ namespace Garage_2_Group_1.Controllers
        
     
 
-        public async Task<IActionResult> Index(bool? checkout)
+        public async Task<IActionResult> Index(bool? checkout, string? print)
         {
             var model = new VehicleIndexViewModel()
             {
