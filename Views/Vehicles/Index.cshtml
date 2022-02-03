@@ -9,12 +9,12 @@
 
 
 <form asp-action="Filter">
-        <label for="regId" class="fw-bold">Registration Number:</label>
-        
+    <label for="regId" class="fw-bold">Registration Number:</label>
+
     <div class="input-group mb-3">
-        <input type="text" class="form-control inputField" asp-for="RegNr"  placeholder="e.g. ABC123" />
+        <input type="text" class="form-control inputField" asp-for="RegNr" placeholder="e.g. ABC123" />
         <div class="input-group-append">
-            <select class="form-control inputField" asp-for="Type"  asp-items="@Model!.Types">
+            <select class="form-control inputField" asp-for="Type" asp-items="@Model!.Types">
                 <option selected="selected" value="">Vehicle Type</option>
             </select>
         </div>
@@ -31,27 +31,79 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="checkoutModalLabel">Checkout results</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <a type="button" class="btn-close" asp-action="Index" aria-label="Close"></a>
             </div>
             <div class="modal-body">
-                The vehicle has been successfully left the parking!
+                <div id="receipt">
+                    <h5>The following Vehicle has been Checked Out:</h5>
+                    <hr />
+                    <dl class="row">
+                        <dt>
+                            Registration Number:
+                        </dt>
+                        <dd>
+                            @TempData["RegId"]
+                        </dd>
+                        <dt>
+                            Arrival Time:
+                        </dt>
+                        <dd>
+                            @TempData["ArrivalTime"]
+                        </dd>
+                        <dt>
+                            Time of Checkout:
+                        </dt>
+                        <dd>
+                            @TempData["CheckoutTime"]
+                        </dd>
+                        <dt>
+                            Total Parked Time:
+                        </dt>
+                        <dd>
+                            @TempData["ParkedTime"]
+                        </dd>
+                        <dt>
+                            Price:
+                        </dt>
+                        <dd>
+                            @TempData["Price"] kr
+                        </dd>
+                    </dl>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                <button type="submit" value="Print" class="btn btn-primary" onclick="printContent('receipt')">Print</button>
+                <a type="button" class="btn btn-success" asp-controller="Vehicles" asp-action="Index">Close</a>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @if (Model?.Checkout == true)
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+    @if (Model?.Checkout != null)
     {
-        <script type="text/javascript">
-        $(function () {
-            $("#checkoutModal").modal('show');
-        });
-        </script>
+<script type="text/javascript">
+    $(function () {
+        $("#checkoutModal").modal('show');
+    });
+</script>
+
+    <script>
+    function printContent(el){
+    let restorepage = document.body.innerHTML;
+    let printcontent = document.getElementById(el).innerHTML;
+
+
+    document.body.innerHTML = printcontent;
+    window.print();
+    document.body.innerHTML = restorepage;
+    }
+    </script>
     }
 }
