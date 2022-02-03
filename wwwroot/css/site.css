@@ -1,5 +1,6 @@
 html {
-  font-size: 14px;
+   
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -14,7 +15,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Gluten', cursive !important;
+    font-family: 'Libre Franklin', sans-serif !important;
+    margin-bottom: 60px;
 }
 #park {
     margin-bottom: 1.5rem;
@@ -37,14 +40,6 @@ body {
     font-size: 0.8rem;
     height: 1rem;
 }
-.btn-success:active {
-    background-color: #7d7382;
-    border-color: #573058;
-}
-.btn-primary:active {
-    background-color: #573058;
-    border-color: #573058;
-}
 .btn-success:hover {
     background-color: #7d7382;
     border-color: #573058;
@@ -52,6 +47,39 @@ body {
 .btn-primary:hover {
     background-color: #573058;
     border-color: #573058;
+}
+.btn.btn-success.active,
+.btn.btn-success:active {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+.btn.btn-primary.focus,
+.btn.btn-primary:focus {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+.btn.btn-success.focus,
+.btn.btn-success:focus {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.btn.btn-primary.active,
+.btn.btn-primary:active {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
 }
 
 .btn-primary {
@@ -62,4 +90,15 @@ body {
     background-color: #573058;
     border-color: #7d7382;
 }
+.inputField.active, .inputField.focus, .inputField:active, .inputField:focus {
+    box-shadow: none;
+    border-color: #382f41;
+}
+#parkedCars {
+    font-weight: 300;
+    box-sizing: content-box;
+    transform-box: border-box;
+}
+
+
 
