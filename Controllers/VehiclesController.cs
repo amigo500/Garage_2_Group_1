@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
@@ -222,9 +223,10 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> CheckoutConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            var printReceipt = Receipt.PrintableReceipt(vehicle);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new {checkout = true});
+            return RedirectToAction(nameof(Index), new {printReceipt});
         }
 
         private bool VehicleExists(int id)

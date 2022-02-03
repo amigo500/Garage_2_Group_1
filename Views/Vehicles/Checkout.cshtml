@@ -46,21 +46,23 @@
 <form asp-action="Checkout">
     <input type="hidden" asp-for="Id" />
     <input type="submit" value="Checkout" class="btn btn-danger" />
-    <button type="submit" value="Print" class="btn btn-primary" onclick="printContent('receipt')">Print</button>
+    @*<button type="submit" value="Print" class="btn btn-primary" onclick="printContent('receipt')">Print</button>*@
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </form>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+@*
     <script>
         function printContent(el){
-            var restorepage = document.body.innerHTML;
-            var printcontent = document.getElementById(el).innerHTML;
-            document.body.innerHTML = printcontent;
-            window.print();
-            document.body.innerHTML = restorepage;
+            let restorepage = document.body.innerHTML;
+            let printcontent = document.getElementById(el).innerHTML;
+            
+
+            //document.body.innerHTML = printcontent;
+            //window.print();
+            //document.body.innerHTML = restorepage;
         }
-    </script>
+    </script>*@
 }

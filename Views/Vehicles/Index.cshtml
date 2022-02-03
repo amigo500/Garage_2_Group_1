@@ -37,6 +37,7 @@
                 The vehicle has been successfully left the parking!
             </div>
             <div class="modal-footer">
+
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -46,12 +47,24 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @if (Model?.Checkout == true)
+    @if (Model?.Checkout != null)
     {
         <script type="text/javascript">
         $(function () {
             $("#checkoutModal").modal('show');
         });
         </script>
+        
+    <script>
+        function printContent(el){
+            let restorepage = document.body.innerHTML;
+            let printcontent = document.getElementById(el).innerHTML;
+            
+
+            //document.body.innerHTML = printcontent;
+            //window.print();
+            //document.body.innerHTML = restorepage;
+        }
+    </script>
     }
 }
