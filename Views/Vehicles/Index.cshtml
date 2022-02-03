@@ -5,8 +5,17 @@
     ViewData["Title"] = "Index1";
 }
 
-<h1>Parked Vehicles, @service.EmptyParkingSlotsCount available spots out of @service.Capacity</h1>
+<h1>Parked Vehicles (@service.EmptyParkingSlotsCount available spots out of @service.Capacity)</h1>
 
+<div class="container mb-5">
+    <div class="row">
+        @for (var i = 0; i < service.Capacity; i++)
+        {
+           var color = service.EmptyParkingSlots[i] ? "green" : "red";
+           <span class="box @color">@i</span>
+        }
+    </div>
+</div>
 
 <form asp-action="Filter">
     <label for="regId" class="fw-bold">Registration Number:</label>
@@ -23,16 +32,6 @@
         </div>
     </div>
 </form>
-
-<div class="container">
-    <div class="row justify-content-center">
-        @for (var i = 0; i < service.Capacity; i++)
-        {
-           var color = service.EmptyParkingSlots[i] ? "green" : "red";
-           <span class="box @color">@i</span>
-        }
-    </div>
-</div>
 
 <partial name="VehiclePartial" model="@Model.Vehicles" />
 
