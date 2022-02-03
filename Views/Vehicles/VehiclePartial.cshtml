@@ -4,39 +4,43 @@
     ViewData["Title"] = "Index1";
 }
 
-<div class="container-fluid padding">
+<div id="parkedCars" class="container mt-5">
     <div class="row">
-        <div class="row padding">
+        <div class="row">
 
- 
 
-       @foreach (var item in Model) {
-        <div class="col-6 col-sm-4">
-          <div class="card" style="width: 18rem;">
-  <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
-   <div class="card-header">@Html.DisplayNameFor(model => model.RegNr): @Html.DisplayFor(modelItem => item.RegNr)</div>
-    <div class="card-header">@Html.DisplayNameFor(model => model.Type): @Html.DisplayFor(modelItem => item.Type)</div>
-    <div class="card-header">@Html.DisplayNameFor(model => model.ArrivalTime): @Html.DisplayFor(modelItem => item.ArrivalTime)</div>
-    <div class="card-header">@Html.DisplayNameFor(model => model.ParkingSlots): @Html.DisplayFor(modelItem => item.ParkingSlots)</div>
-  <div class="card-body">  
-       
-     
-   
-      
 
-   
-    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-    <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-warning">Checkout</a>
+            @foreach (var item in Model)
+            {
+
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
+                        <div class="card-header">@Html.DisplayNameFor(model => model.RegNr): @Html.DisplayFor(modelItem => item.RegNr)</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.Type): @Html.DisplayFor(modelItem => item.Type)</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.ArrivalTime): @Html.DisplayFor(modelItem => item.ArrivalTime)</div>
+                        <div class="card-body">
+
+
+
+
+
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                            <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-danger">Checkout</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-    </div>
-    </div>
-
-            
-  
+</div>
 
 
-  
 
 
-}
+
+
+

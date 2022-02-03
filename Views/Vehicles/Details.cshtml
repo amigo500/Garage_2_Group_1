@@ -31,7 +31,8 @@
         @Model.WheelCount
     </p>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary">Go back</a>
+    <a asp-action="Checkout" asp-route-id="@Model.Id" class="btn btn-danger">Checkout</a>
      
   </div>
 </div>

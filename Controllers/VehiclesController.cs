@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
@@ -24,15 +25,28 @@ namespace Garage_2_Group_1.Controllers
 
 
 
-         public async Task<IActionResult> Index(bool? checkout)
+        public async Task<IActionResult> Index(string? receiptInfo)
         {
+            if (!string.IsNullOrWhiteSpace(receiptInfo))
+            {
+                string[] split = receiptInfo.Split('^');
+
+                TempData["RegId"] = split[0];
+                TempData["ArrivalTime"] = split[1];
+                TempData["CheckoutTime"] = split[2];
+                TempData["ParkedTime"] = split[3];
+                TempData["Price"] = split[4];
+
+            }
+
+
             var model = new VehicleIndexViewModel()
             {
                 Vehicles = await _context.Vehicle.ToListAsync(),
                 Types = await GetTypesAsync()
             };
 
-            if (checkout != null) model.Checkout = checkout;
+            if (receiptInfo != null) model.Checkout = true;
 
             return View(model);
         }
@@ -212,11 +226,11 @@ namespace Garage_2_Group_1.Controllers
             // A better looking total parked time string
             if (time.TotalHours < 1)
                 totalParkedTime = $"{time.Minutes} minutes";
-            else if(time.TotalDays < 1)
+            else if (time.TotalDays < 1)
                 totalParkedTime = $"{time.Hours} hours, {time.Minutes} minutes";
             else
                 totalParkedTime = $"{time.Days} days, {time.Hours} hours, {time.Minutes} minutes";
-            
+
 
             // 50 kr + 15 kr per hour
             var price = 50 + (int)time.TotalHours * 15;
@@ -241,9 +255,10 @@ namespace Garage_2_Group_1.Controllers
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
             ps.FreeParkingSlots(vehicle.ParkingSlots);
+            var receiptInfo = Receipt.PrintableReceipt(vehicle);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new {checkout = true});
+            return RedirectToAction(nameof(Index), new { receiptInfo });
         }
 
         private bool VehicleExists(int id)
@@ -255,7 +270,7 @@ namespace Garage_2_Group_1.Controllers
         {
             //check validation
             Validation val = new Validation();
-            if(!val.RegIdValidation(regnr))
+            if (!val.RegIdValidation(regnr))
                 return Json("Invalid registration number");
 
             //check database
