@@ -13,6 +13,12 @@ html {
   position: relative;
   min-height: 100%;
 }
+.col {
+    
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
 
 body {
     font-family: 'Gluten', cursive !important;
@@ -93,11 +99,6 @@ body {
 .inputField.active, .inputField.focus, .inputField:active, .inputField:focus {
     box-shadow: none;
     border-color: #382f41;
-}
-#parkedCars {
-    font-weight: 300;
-    box-sizing: content-box;
-    transform-box: border-box;
 }
 
 
