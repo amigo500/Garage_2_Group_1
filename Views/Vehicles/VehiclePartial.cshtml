@@ -4,14 +4,14 @@
     ViewData["Title"] = "Index1";
 }
 
-<div class="container-fluid padding">
+<div class="container-fluid padding mt-5">
     <div class="row">
         <div class="row padding">
 
  
 
        @foreach (var item in Model) {
-        <div class="col-6 col-sm-4">
+        <div class="col-md-6 col-lg-4 col-sm-12">
           <div class="card" style="width: 18rem;">
   <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
    <div class="card-header">@Html.DisplayNameFor(model => model.RegNr): @Html.DisplayFor(modelItem => item.RegNr)</div>
@@ -26,10 +26,11 @@
    
     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-    <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-warning">Checkout</a>
+    <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-danger">Checkout</a>
     </div>
     </div>
     </div>
+}
 
             
   
@@ -37,5 +38,3 @@
 
   
 
-
-}

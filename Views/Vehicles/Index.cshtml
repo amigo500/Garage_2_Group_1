@@ -12,7 +12,7 @@
         <label for="regId" class="fw-bold">Registration Number:</label>
         
     <div class="input-group mb-3">
-        <input id="regId" type="text" class="form-control" asp-for="RegNr"  placeholder="Vehicle Registration Number e.g. ABC123" />
+        <input id="regId" type="text" class="form-control" asp-for="RegNr"  placeholder="e.g. ABC123" />
         <div class="input-group-append">
             <select class="form-control" asp-for="Type"  asp-items="@Model!.Types">
                 <option selected="selected" value="">Vehicle Type</option>

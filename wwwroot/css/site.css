@@ -37,6 +37,14 @@ body {
     font-size: 0.8rem;
     height: 1rem;
 }
+.btn-success:active {
+    background-color: #7d7382;
+    border-color: #573058;
+}
+.btn-primary:active {
+    background-color: #573058;
+    border-color: #573058;
+}
 .btn-success:hover {
     background-color: #7d7382;
     border-color: #573058;
