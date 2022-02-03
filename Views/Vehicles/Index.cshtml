@@ -31,7 +31,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="checkoutModalLabel">Checkout results</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <a type="button" class="btn-close" asp-action="Index" aria-label="Close"></a>
             </div>
             <div class="modal-body">
                 <div id="receipt">
@@ -73,7 +73,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" value="Print" class="btn btn-primary" onclick="printContent('receipt')">Print</button>
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                <a type="button" class="btn btn-success" asp-controller="Vehicles" asp-action="Index">Close</a>
             </div>
         </div>
     </div>
