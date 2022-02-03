@@ -2,6 +2,7 @@
 using Garage_2_Group_1.Data;
 using Garage_2_Group_1.Models;
 using Garage_2_Group_1.Models.ViewModels;
+using Garage_2_Group_1.Services;
 using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,16 +13,18 @@ namespace Garage_2_Group_1.Controllers
     public class VehiclesController : Controller
     {
         private readonly Garage_2_Group_1Context _context;
+        private readonly IParkingService ps;
 
-        public VehiclesController(Garage_2_Group_1Context context)
+        public VehiclesController(Garage_2_Group_1Context context, IParkingService parkingService)
         {
             _context = context;
+            ps = parkingService;
         }
 
-       
-    
 
-        public async Task<IActionResult> Index(bool? checkout)
+
+
+         public async Task<IActionResult> Index(bool? checkout)
         {
             var model = new VehicleIndexViewModel()
             {
@@ -91,12 +94,23 @@ namespace Garage_2_Group_1.Controllers
                     WheelCount = viewModel.WheelCount
                 };
 
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
+                var size = vehicle.GetVehicleSize();
+                var parkingSlots = ps.GetParkingSlots(size);
+                vehicle.ParkingSlots = parkingSlots;
                 
-                ModelState.Clear();
-                viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+                if (parkingSlots == null)
+                {
+                    ModelState.AddModelError("Parking", $"No avaiable parking slot for size {size}");
+                }
 
+                if (ModelState.IsValid)
+                {
+                    _context.Add(vehicle);
+                    await _context.SaveChangesAsync();
+
+                    ModelState.Clear();
+                    viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+                }
             }
             return View(viewModel);
         }
@@ -152,6 +166,9 @@ namespace Garage_2_Group_1.Controllers
                     vehicle.Make = viewModel.Make;
                     vehicle.Model = viewModel.Model;
                     vehicle.WheelCount = viewModel.WheelCount;
+
+                    ps.FreeParkingSlots(vehicle.ParkingSlots);
+                    vehicle.ParkingSlots = ps.GetParkingSlots(vehicle.GetVehicleSize());
 
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
@@ -222,6 +239,7 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> CheckoutConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            ps.FreeParkingSlots(vehicle.ParkingSlots);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new {checkout = true});

@@ -1,11 +1,11 @@
-﻿@using Garage_2_Group_1.Models.ViewModels
-@model VehicleIndexViewModel
+﻿@model VehicleIndexViewModel
+@inject IParkingService service
 
 @{
     ViewData["Title"] = "Index1";
 }
 
-<h1>Parked Vehicles</h1>
+<h1>Parked Vehicles, @service.EmptyParkingSlotsCount available spots out of @service.Capacity</h1>
 
 
 <form asp-action="Filter">
