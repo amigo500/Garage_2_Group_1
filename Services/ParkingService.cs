@@ -62,46 +62,48 @@ namespace Garage_2_Group_1.Services
                 var firstSlot = slots.First();
                 var lastSlot = slots.Last();
 
-                // If we're trying to edit a vehicle to a smaller size
+                // Always possible to edit a vehicle to a smaller or same size
                 if (slots.Count >= size)
                 {
                     parkingSlots.result = true;
-                    parkingSlots.firstSlot = slots.First();
+                    parkingSlots.firstSlot = firstSlot;
                 }
 
                 // See if the neighbour slots after are unoccupied
-                else if (!parkingSlots.result && firstSlot + size <= EmptyParkingSlots.Length)
+                if (!parkingSlots.result && firstSlot + size - 1 < EmptyParkingSlots.Length)
                 {
                     var enoughSlots = true;
-                    for (int i = 1; i < size && (lastSlot + i) < EmptyParkingSlots.Length; i++)
+                    for (int i = 1; i <= (size - slots.Count) && (lastSlot + i) < EmptyParkingSlots.Length; i++)
                     {
                         if (!EmptyParkingSlots[lastSlot + i])
                         {
                             enoughSlots = false;
+                            break;
                         }
                     }
                     if (enoughSlots)
                     {
                         parkingSlots.result = true;
-                        parkingSlots.firstSlot = slots.First();
+                        parkingSlots.firstSlot = firstSlot;
                     }
                 }
 
                 // See if the neighbour slots before are unoccupied
-                else if (!parkingSlots.result && firstSlot - size >= 0)
+                if (!parkingSlots.result && firstSlot - (size - slots.Count) >= 0)
                 {
                     var enoughSlots = true;
-                    for (int i = 1; i < size && (firstSlot - i) >= 0; i++)
+                    for (int i = 1; i <= (size - slots.Count) && (firstSlot - i) >= 0; i++)
                     {
                         if (!EmptyParkingSlots[firstSlot - i])
                         {
                             enoughSlots = false;
+                            break;
                         }
                     }
                     if (enoughSlots)
                     {
                         parkingSlots.result = true;
-                        parkingSlots.firstSlot = slots.First() - size;
+                        parkingSlots.firstSlot = firstSlot - (size - slots.Count);
                     }
                 }
 
@@ -115,10 +117,10 @@ namespace Garage_2_Group_1.Services
                     if (EmptyParkingSlots[i])
                     {
                         var enoughSlots = true;
-                        // if we need more than 1 slot
 
                         if (i + size > EmptyParkingSlots.Length) enoughSlots = false;
 
+                        // if we need more than 1 slot check if the trailing slots are empty
                         for (int j = 1; j < size && i + j < EmptyParkingSlots.Length; j++)
                         {
                             if (!EmptyParkingSlots[i + j])
@@ -169,37 +171,6 @@ namespace Garage_2_Group_1.Services
                 EmptyParkingSlots[slotIndex] = false;
                 EmptyParkingSlotsCount--;
             }
-        }
-
-        private int GetVehicleSize(VehicleType? type)
-        {
-            if (type == null) return 0;
-
-            int size = 0;
-
-            switch (type)
-            {
-                case VehicleType.Bus:
-                    size = 2;
-                    break;
-                case VehicleType.Boat:
-                    size = 3;
-                    break;
-                case VehicleType.Airplane:
-                    size = 3;
-                    break;
-                case VehicleType.Car:
-                    size = 1;
-                    break;
-                case VehicleType.Motorcycle:
-                    size = 1;
-                    break;
-                default:
-                    size = 1;
-                    break;
-
-            }
-            return size;
         }
     }
 }
