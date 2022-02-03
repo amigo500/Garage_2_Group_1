@@ -19,19 +19,9 @@ namespace Garage_2_Group_1.Utils
             var price = 50 + (int)time.TotalHours * 15;
 
 
-            string printReceipt = $" <div id = \"receipt\" >< h4 > Receipt </ h4 >< hr />< dl class=\"row\">"
-                + $"<dt class = \"col-sm-2\">Regristration Number: </dt>"
-                + $"<dd class = \"col-sm-10\">{vehicle.RegNr}</dd>"
-                + $"<dt class = \"col-sm-2\">Arrival Time: </dt>" 
-                + $"<dd class = \"col-sm-10\">{vehicle.ArrivalTime}</dd>"
-                + $"<dt class = \"col-sm-2\">Time of Checkout: </dt>"
-                + $"<dd class = \"col - sm - 10\">{checkoutTime}</dd>"
-                + $"<dt class = \"col-sm-2\">Total parked time:</dt>"
-                + $"<dd class = \"col-sm-10\">{totalParkedTime}</dd>"
-                + $"<dt class = \"col-sm-2\">Price: </dt>"
-                + $"<dd class = \"col-sm-10\">{price}</dd></dl></div> ";
+            string receiptInfo = $"{vehicle.RegNr}^{vehicle.ArrivalTime}^{checkoutTime}^{totalParkedTime}^{price}";
 
-            return printReceipt;
+            return receiptInfo;
         }
 
 } }
