@@ -94,6 +94,11 @@ body {
     box-shadow: none;
     border-color: #382f41;
 }
+#parkedCars {
+    font-weight: 300;
+    box-sizing: content-box;
+    transform-box: border-box;
+}
 
 
 
