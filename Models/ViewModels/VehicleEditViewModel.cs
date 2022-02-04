@@ -3,22 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Garage_2_Group_1.Models.ViewModels
 {
-    public class VehicleParkViewModel
+    public class VehicleEditViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Registration Number")]
         [Required(ErrorMessage = "Please enter the registration number")]
         [StringLength(6, MinimumLength = 6, ErrorMessage = "Invalid registration number")]
-        [Remote(action: "CheckRegNr", controller: "Vehicles")]
+        [Remote(action: "CheckRegNr", controller: "Vehicles", AdditionalFields ="Id")]
         public string? RegNr { get; set; }
 
         [Display(Name = "Vehicle Type")]
-        [Required(ErrorMessage = "Please pick a vehicle type")]
-        public VehicleType? Type { get; set; }
-        public DateTime ArrivalTime { get; set; }
+        public VehicleType Type { get; set; }
 
         [Display(Name = "Color")]
-        [Required(ErrorMessage = "Please pick a color")]
-        public VehicleColor? Color { get; set; }
+        public VehicleColor Color { get; set; }
 
         [Required(ErrorMessage = "Please enter the make")]
         public string? Make { get; set; }
@@ -31,6 +30,8 @@ namespace Garage_2_Group_1.Models.ViewModels
         [Range(0, 10, ErrorMessage = "The wheel count must be between 0 and 10")]
         public int WheelCount { get; set; }
 
-        public bool? ParkedSuccesfully { get; set; }
+        public string ParkingSlots { get; set; }
+
+        public bool? EditedSuccesfully { get; set; }
     }
 }

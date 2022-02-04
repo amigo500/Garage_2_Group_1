@@ -7,18 +7,33 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Garage_2_Group_1.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@100;200;300&family=Libre+Franklin:ital,wght@0,200;0,500;0,700;1,200;1,500&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm border-bottom box-shadow mb-3">
+        <nav class="navbar mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Vehicles" asp-action="Index">
-                    Parkatron <div class="text-muted">The convenient WebGarage</div></a> 
-                   
-             
-               
-                
+                <div class="col-8 offset-2">
+                    <div>
+                        <a class="navbar-brand" asp-area="" asp-controller="Vehicles" asp-action="Index">
+                            Parkatron <div class="text-muted">The convenient WebGarage</div>
+                        </a>
+                    </div >
+                </div>
+                    <div class="col-2 align-content-lg-end">
+                        <a id="park" type="button" class="btn btn-success"asp-controller="Vehicles" asp-action="Park">Park</a>
+                    </div>
             </div>
+
+
+
+
+
+
+
+
         </nav>
     </header>
     <div class="container">

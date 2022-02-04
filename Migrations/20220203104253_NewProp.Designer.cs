@@ -4,6 +4,7 @@ using Garage_2_Group_1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage_2_Group_1.Migrations
 {
     [DbContext(typeof(Garage_2_Group_1Context))]
-    partial class Garage_2_Group_1ContextModelSnapshot : ModelSnapshot
+    [Migration("20220203104253_NewProp")]
+    partial class NewProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace Garage_2_Group_1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ParkedSuccesfully")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ParkingSlots")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -74,7 +73,6 @@ namespace Garage_2_Group_1.Migrations
                             Color = 0,
                             Make = "Boeing",
                             Model = "737",
-                            ParkedSuccesfully = false,
                             ParkingSlots = "0 1 2",
                             RegNr = "AIR001",
                             Type = 0,
@@ -88,7 +86,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "SAAB",
                             Model = "JAS 39",
                             ParkingSlots = "3 4 5",
-                            ParkedSuccesfully = false,
                             RegNr = "AIR00S",
                             Type = 0,
                             WheelCount = 4
@@ -101,7 +98,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Bertram",
                             Model = "35 Flybridge",
                             ParkingSlots = "6 7 8",
-                            ParkedSuccesfully = false,
                             RegNr = "WET001",
                             Type = 1,
                             WheelCount = 0
@@ -114,7 +110,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Viking Line",
                             Model = "Cinderella",
                             ParkingSlots = "9 10 11",
-                            ParkedSuccesfully = false,
                             RegNr = "WET00B",
                             Type = 1,
                             WheelCount = 0
@@ -127,7 +122,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Bridgestone",
                             Model = "U-AP 002",
                             ParkingSlots = "12 13",
-                            ParkedSuccesfully = false,
                             RegNr = "LNG420",
                             Type = 2,
                             WheelCount = 6
@@ -140,7 +134,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Goodyear",
                             Model = "CDOBQ",
                             ParkingSlots = "14 15",
-                            ParkedSuccesfully = false,
                             RegNr = "LNG404",
                             Type = 2,
                             WheelCount = 4
@@ -153,7 +146,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Toyota",
                             Model = "RAV4",
                             ParkingSlots = "16",
-                            ParkedSuccesfully = false,
                             RegNr = "FST00S",
                             Type = 3,
                             WheelCount = 4
@@ -166,7 +158,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Jeep",
                             Model = "Wrangler",
                             ParkingSlots = "17",
-                            ParkedSuccesfully = false,
                             RegNr = "FST00T",
                             Type = 3,
                             WheelCount = 4
@@ -179,7 +170,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Yamaha",
                             Model = "YZF R15 V4",
                             ParkingSlots = "18",
-                            ParkedSuccesfully = false,
                             RegNr = "SOL006",
                             Type = 4,
                             WheelCount = 2
@@ -192,7 +182,6 @@ namespace Garage_2_Group_1.Migrations
                             Make = "Triumph",
                             Model = "Speed Twin",
                             ParkingSlots = "19",
-                            ParkedSuccesfully = false,
                             RegNr = "SOL00P",
                             Type = 4,
                             WheelCount = 2

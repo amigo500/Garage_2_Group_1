@@ -28,7 +28,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now,
                         Make = "Boeing",
                         Model = "737",
-                        WheelCount = 6
+                        WheelCount = 6,
+                        ParkingSlots = "0 1 2"
                     },
                     new Vehicle
                     {
@@ -39,7 +40,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(1),
                         Make = "SAAB",
                         Model = "JAS 39",
-                        WheelCount = 4
+                        WheelCount = 4,
+                        ParkingSlots = "3 4 5"
                     },
                     new Vehicle
                     {
@@ -50,7 +52,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(2),
                         Make = "Bertram",
                         Model = "35 Flybridge",
-                        WheelCount = 0
+                        WheelCount = 0,
+                        ParkingSlots = "6 7 8"
                     },
                     new Vehicle
                     {
@@ -61,7 +64,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(3),
                         Make = "Viking Line",
                         Model = "Cinderella",
-                        WheelCount = 0
+                        WheelCount = 0,
+                        ParkingSlots = "9 10 11"
                     },
                     new Vehicle
                     {
@@ -72,7 +76,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(4),
                         Make = "Bridgestone",
                         Model = "U-AP 002",
-                        WheelCount = 6
+                        WheelCount = 6,
+                        ParkingSlots = "12 13"
                     },
                     new Vehicle
                     {
@@ -83,7 +88,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(5),
                         Make = "Goodyear",
                         Model = "CDOBQ",
-                        WheelCount = 4
+                        WheelCount = 4,
+                        ParkingSlots = "14 15"
                     },
                     new Vehicle
                     {
@@ -94,7 +100,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(6),
                         Make = "Toyota",
                         Model = "RAV4",
-                        WheelCount = 4
+                        WheelCount = 4,
+                        ParkingSlots = "16"
                     },
                     new Vehicle
                     {
@@ -105,7 +112,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(7),
                         Make = "Jeep",
                         Model = "Wrangler",
-                        WheelCount = 4
+                        WheelCount = 4,
+                        ParkingSlots = "17"
                     },
                     new Vehicle
                     {
@@ -116,7 +124,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(8),
                         Make = "Yamaha",
                         Model = "YZF R15 V4",
-                        WheelCount = 2
+                        WheelCount = 2,
+                        ParkingSlots = "18"
                     },
                     new Vehicle
                     {
@@ -127,7 +136,8 @@ namespace Garage_2_Group_1.Data
                         ArrivalTime = DateTime.Now.AddSeconds(9),
                         Make = "Triumph",
                         Model = "Speed Twin",
-                        WheelCount = 2
+                        WheelCount = 2,
+                        ParkingSlots = "19"
                     }
                 );
         }

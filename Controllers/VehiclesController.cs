@@ -2,32 +2,51 @@
 using Garage_2_Group_1.Data;
 using Garage_2_Group_1.Models;
 using Garage_2_Group_1.Models.ViewModels;
+using Garage_2_Group_1.Services;
 using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
     {
         private readonly Garage_2_Group_1Context _context;
+        private readonly IParkingService ps;
 
-        public VehiclesController(Garage_2_Group_1Context context)
+        public VehiclesController(Garage_2_Group_1Context context, IParkingService parkingService)
         {
             _context = context;
+            ps = parkingService;
         }
 
 
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? receiptInfo)
         {
+            if (!string.IsNullOrWhiteSpace(receiptInfo))
+            {
+                string[] split = receiptInfo.Split('^');
+
+                TempData["RegId"] = split[0];
+                TempData["ArrivalTime"] = split[1];
+                TempData["CheckoutTime"] = split[2];
+                TempData["ParkedTime"] = split[3];
+                TempData["Price"] = split[4];
+
+            }
+
+
             var model = new VehicleIndexViewModel()
             {
                 Vehicles = await _context.Vehicle.ToListAsync(),
                 Types = await GetTypesAsync()
             };
+
+            if (receiptInfo != null) model.Checkout = true;
 
             return View(model);
         }
@@ -89,12 +108,23 @@ namespace Garage_2_Group_1.Controllers
                     WheelCount = viewModel.WheelCount
                 };
 
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
+                var size = vehicle.GetVehicleSize();
+                var parkingSlots = ps.GetParkingSlots(size);
+                vehicle.ParkingSlots = parkingSlots;
+                
+                if (parkingSlots == null)
+                {
+                    ModelState.AddModelError("Parking", $"No avaiable parking slot for size {size}");
+                }
 
-                ModelState.Clear();
-                viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+                if (ModelState.IsValid)
+                {
+                    _context.Add(vehicle);
+                    await _context.SaveChangesAsync();
 
+                    ModelState.Clear();
+                    viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+                }
             }
             return View(viewModel);
         }
@@ -112,7 +142,20 @@ namespace Garage_2_Group_1.Controllers
             {
                 return NotFound();
             }
-            return View(vehicle);
+
+            var viewModel = new VehicleEditViewModel
+            {
+                Id = (int)id,
+                RegNr = vehicle.RegNr,
+                Type = vehicle.Type,
+                Color = vehicle.Color,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                WheelCount = vehicle.WheelCount,
+                ParkingSlots = vehicle.ParkingSlots
+            };
+
+            return View(viewModel);
         }
 
         // POST: Vehicles/Edit/5
@@ -120,9 +163,9 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RegNr,Type,ArrivalTime,Color,Make,Model,WheelCount")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, VehicleEditViewModel viewModel)
         {
-            if (id != vehicle.Id)
+            if (id != viewModel.Id)
             {
                 return NotFound();
             }
@@ -131,12 +174,24 @@ namespace Garage_2_Group_1.Controllers
             {
                 try
                 {
+                    var vehicle = await _context.Vehicle.FindAsync(id);
+                    vehicle.RegNr = viewModel.RegNr;
+                    vehicle.Type = viewModel.Type;
+                    vehicle.Color = viewModel.Color;
+                    vehicle.Make = viewModel.Make;
+                    vehicle.Model = viewModel.Model;
+                    vehicle.WheelCount = viewModel.WheelCount;
+
+                    ps.FreeParkingSlots(vehicle.ParkingSlots);
+                    vehicle.ParkingSlots = ps.GetParkingSlots(vehicle.GetVehicleSize());
+
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
+                    viewModel.EditedSuccesfully = true;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicle.Id))
+                    if (!VehicleExists(viewModel.Id))
                     {
                         return NotFound();
                     }
@@ -145,9 +200,8 @@ namespace Garage_2_Group_1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Checkout/5
@@ -200,9 +254,11 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> CheckoutConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            ps.FreeParkingSlots(vehicle.ParkingSlots);
+            var receiptInfo = Receipt.PrintableReceipt(vehicle);
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { receiptInfo });
         }
 
         private bool VehicleExists(int id)
@@ -210,7 +266,7 @@ namespace Garage_2_Group_1.Controllers
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> CheckRegNr(string regnr)
+        public async Task<IActionResult> CheckRegNr(string regnr, int? id)
         {
             //check validation
             Validation val = new Validation();
@@ -218,14 +274,28 @@ namespace Garage_2_Group_1.Controllers
                 return Json("Invalid registration number");
 
             //check database
-            var dbResult = await _context.Vehicle
-                .FirstOrDefaultAsync(m => m.RegNr == regnr);
+            var dbResult = id == null ?
+                    await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regnr) :
+                    await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regnr && m.Id != id);
 
             if (dbResult != null)
                 return Json("The registration number has to be unique (already parked)");
 
             return Json(true);
         }
+
+        public IActionResult ValidateRegNr(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if (!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
+            return Json(true);
+        }
+
         public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
         {
             var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?

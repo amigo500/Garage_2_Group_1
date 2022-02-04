@@ -24,6 +24,36 @@ namespace Garage_2_Group_1.Models
         public string Model { get; set; }
         public int WheelCount { get; set; }
 
+        public string ParkingSlots { get; set; }
+
+        public int GetVehicleSize()
+        {
+            int size = 0;
+            switch (Type)
+            {
+                case VehicleType.Bus:
+                    size = 2;
+                    break;
+                case VehicleType.Boat:
+                    size = 3;
+                    break;
+                case VehicleType.Airplane:
+                    size = 3;
+                    break;
+                case VehicleType.Car:
+                    size = 1;
+                    break;
+                case VehicleType.Motorcycle:
+                    size = 1;
+                    break;
+                default:
+                    size = 1;
+                    break;
+
+            }return size;
+        }
+
+        
         public bool ParkedSuccesfully { get; set; }
     }
          
