@@ -12,6 +12,8 @@ Vehicle Types are different sizes and all require different amount of slots in t
 
 Finally, you can Checkout your vehicle, optionally print or save a receipt in PDF form. 
 
+Known Issues:
+Changing the Capacity value in appsettings.json below 20 will cause a ArrayIndexOutOfBounds Exception.
 
 Devs: 
 Ville Granfors
