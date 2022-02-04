@@ -116,11 +116,14 @@ body {
 }
 
 .red {
-    background-color: red;
+    background-color: #382f41;
+    color: #fff;
+    text-align: center;
 }
 
 .green {
-    background-color: green;
+    background-color: yellowgreen;
+    text-align: center;
 }
 h6 {
     font-weight: 400;
