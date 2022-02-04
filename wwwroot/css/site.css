@@ -122,3 +122,8 @@ body {
 .green {
     background-color: green;
 }
+h6 {
+    font-weight: 400;
+    font-style: italic;
+    color: #7d7382;
+}
