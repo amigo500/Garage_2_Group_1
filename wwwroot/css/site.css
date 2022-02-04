@@ -1,5 +1,6 @@
 html {
-  font-size: 14px;
+   
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -12,9 +13,17 @@ html {
   position: relative;
   min-height: 100%;
 }
+.col {
+    
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Gluten', cursive !important;
+    font-family: 'Libre Franklin', sans-serif !important;
+    margin-bottom: 60px;
 }
 #park {
     margin-bottom: 1.5rem;
@@ -37,14 +46,6 @@ body {
     font-size: 0.8rem;
     height: 1rem;
 }
-.btn-success:active {
-    background-color: #7d7382;
-    border-color: #573058;
-}
-.btn-primary:active {
-    background-color: #573058;
-    border-color: #573058;
-}
 .btn-success:hover {
     background-color: #7d7382;
     border-color: #573058;
@@ -52,6 +53,39 @@ body {
 .btn-primary:hover {
     background-color: #573058;
     border-color: #573058;
+}
+.btn.btn-success.active,
+.btn.btn-success:active {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+.btn.btn-primary.focus,
+.btn.btn-primary:focus {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+.btn.btn-success.focus,
+.btn.btn-success:focus {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.btn.btn-primary.active,
+.btn.btn-primary:active {
+    color: #fff;
+    background-color: #7d7382;
+    border-color: #7d7382;
+    outline: none !important;
+    box-shadow: none;
 }
 
 .btn-primary {
@@ -62,4 +96,37 @@ body {
     background-color: #573058;
     border-color: #7d7382;
 }
+.inputField.active, .inputField.focus, .inputField:active, .inputField:focus {
+    box-shadow: none;
+    border-color: #382f41;
+}
 
+
+
+.box {
+    float: left;
+    height: 40px;
+    width: 40px;
+    margin-bottom: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    border: 1px solid black;
+    clear: both;
+}
+
+.red {
+    background-color: #382f41;
+    color: #fff;
+    text-align: center;
+}
+
+.green {
+    background-color: yellowgreen;
+    text-align: center;
+}
+h6 {
+    font-weight: 400;
+    font-style: italic;
+    color: #7d7382;
+}

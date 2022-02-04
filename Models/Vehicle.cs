@@ -24,6 +24,8 @@ namespace Garage_2_Group_1.Models
         public string Model { get; set; }
         public int WheelCount { get; set; }
 
+        public string ParkingSlots { get; set; }
+
         public int GetVehicleSize()
         {
             int size = 0;
