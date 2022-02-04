@@ -314,5 +314,42 @@ namespace Garage_2_Group_1.Controllers
 
             return View(nameof(Index), model);
         }
-    }
+
+        public async Task<IActionResult> ParkingStats()
+        {
+            var vehicles = await _context.Vehicle.ToListAsync();
+            double totalhours = 0;
+
+            foreach (var v in vehicles)
+            {
+                double vehicleHours = (DateTime.Now - v.ArrivalTime).TotalHours;
+                vehicleHours += (DateTime.Now - v.ArrivalTime).TotalDays / 24;
+                totalhours += vehicleHours;
+            }
+
+            var model = new ParkingStatsViewModel
+            {
+                VehicleTypesData = Enum.GetValues(typeof(VehicleType))
+                                       .Cast<VehicleType>()
+                                       .ToDictionary(type => type.ToString(), type => vehicles
+                                                                                        .Where(v => v.Type == type)
+                                                                                        .Count()),
+
+                WheelCount = vehicles
+                                    .Where(v => v.ParkedSuccesfully = true)
+                                    .Select(v => v.WheelCount)
+                                    .Sum(),
+
+
+                TotalRevenue = 50 + (int)totalhours * 15
+            };
+            
+
+
+        
+            return View(model);
+        }
+    
+
+}
 }

@@ -4,6 +4,7 @@ using Garage_2_Group_1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage_2_Group_1.Migrations
 {
     [DbContext(typeof(Garage_2_Group_1Context))]
-    partial class Garage_2_Group_1ContextModelSnapshot : ModelSnapshot
+    [Migration("20220203233107_ParkedS")]
+    partial class ParkedS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,10 +49,6 @@ namespace Garage_2_Group_1.Migrations
                     b.Property<bool>("ParkedSuccesfully")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ParkingSlots")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RegNr")
                         .IsRequired()
                         .HasMaxLength(6)
@@ -70,12 +68,11 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 52, 844, DateTimeKind.Local).AddTicks(897),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 6, 428, DateTimeKind.Local).AddTicks(5282),
                             Color = 0,
                             Make = "Boeing",
                             Model = "737",
                             ParkedSuccesfully = false,
-                            ParkingSlots = "0 1 2",
                             RegNr = "AIR001",
                             Type = 0,
                             WheelCount = 6
@@ -83,11 +80,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 53, 844, DateTimeKind.Local).AddTicks(934),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 7, 428, DateTimeKind.Local).AddTicks(5430),
                             Color = 1,
                             Make = "SAAB",
                             Model = "JAS 39",
-                            ParkingSlots = "3 4 5",
                             ParkedSuccesfully = false,
                             RegNr = "AIR00S",
                             Type = 0,
@@ -96,11 +92,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 3,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 54, 844, DateTimeKind.Local).AddTicks(937),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 8, 428, DateTimeKind.Local).AddTicks(5451),
                             Color = 2,
                             Make = "Bertram",
                             Model = "35 Flybridge",
-                            ParkingSlots = "6 7 8",
                             ParkedSuccesfully = false,
                             RegNr = "WET001",
                             Type = 1,
@@ -109,11 +104,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 4,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 55, 844, DateTimeKind.Local).AddTicks(942),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 9, 428, DateTimeKind.Local).AddTicks(5471),
                             Color = 3,
                             Make = "Viking Line",
                             Model = "Cinderella",
-                            ParkingSlots = "9 10 11",
                             ParkedSuccesfully = false,
                             RegNr = "WET00B",
                             Type = 1,
@@ -122,11 +116,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 5,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 56, 844, DateTimeKind.Local).AddTicks(946),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 10, 428, DateTimeKind.Local).AddTicks(5487),
                             Color = 4,
                             Make = "Bridgestone",
                             Model = "U-AP 002",
-                            ParkingSlots = "12 13",
                             ParkedSuccesfully = false,
                             RegNr = "LNG420",
                             Type = 2,
@@ -135,11 +128,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 6,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 57, 844, DateTimeKind.Local).AddTicks(949),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 11, 428, DateTimeKind.Local).AddTicks(5502),
                             Color = 5,
                             Make = "Goodyear",
                             Model = "CDOBQ",
-                            ParkingSlots = "14 15",
                             ParkedSuccesfully = false,
                             RegNr = "LNG404",
                             Type = 2,
@@ -148,11 +140,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 7,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 58, 844, DateTimeKind.Local).AddTicks(952),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 12, 428, DateTimeKind.Local).AddTicks(5518),
                             Color = 6,
                             Make = "Toyota",
                             Model = "RAV4",
-                            ParkingSlots = "16",
                             ParkedSuccesfully = false,
                             RegNr = "FST00S",
                             Type = 3,
@@ -161,11 +152,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 8,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 42, 59, 844, DateTimeKind.Local).AddTicks(956),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 13, 428, DateTimeKind.Local).AddTicks(5533),
                             Color = 7,
                             Make = "Jeep",
                             Model = "Wrangler",
-                            ParkingSlots = "17",
                             ParkedSuccesfully = false,
                             RegNr = "FST00T",
                             Type = 3,
@@ -174,11 +164,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 9,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 43, 0, 844, DateTimeKind.Local).AddTicks(958),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 14, 428, DateTimeKind.Local).AddTicks(5553),
                             Color = 8,
                             Make = "Yamaha",
                             Model = "YZF R15 V4",
-                            ParkingSlots = "18",
                             ParkedSuccesfully = false,
                             RegNr = "SOL006",
                             Type = 4,
@@ -187,11 +176,10 @@ namespace Garage_2_Group_1.Migrations
                         new
                         {
                             Id = 10,
-                            ArrivalTime = new DateTime(2022, 2, 3, 11, 43, 1, 844, DateTimeKind.Local).AddTicks(961),
+                            ArrivalTime = new DateTime(2022, 2, 4, 0, 31, 15, 428, DateTimeKind.Local).AddTicks(5569),
                             Color = 9,
                             Make = "Triumph",
                             Model = "Speed Twin",
-                            ParkingSlots = "19",
                             ParkedSuccesfully = false,
                             RegNr = "SOL00P",
                             Type = 4,
