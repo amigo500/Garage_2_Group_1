@@ -5,9 +5,20 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit(@service.EmptyParkingSlotsCount available spots out of @service.Capacity)</h1>
+<div class="container my-3">
+    <div class="row">
+        @for (var i = 0; i < service.Capacity; i++)
+        {
+           var color = service.EmptyParkingSlots[i] ? "green" : "red";
+           <span class="box @color">@i</span>
+        }
+        
+        @*@for (var i = )*@
+    </div>
+</div>
 
-<h4>Vehicle</h4>
+<h4>Vehicle(Currently occupying slot: @Model.ParkingSlots)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

@@ -5,7 +5,17 @@
     ViewData["Title"] = "Park";
 }
 
-<h1>Park your vehicle</h1>
+<h1>Park your vehicle(@service.EmptyParkingSlotsCount available spots out of @service.Capacity)</h1>
+
+<div class="container my-3">
+    <div class="row">
+        @for (var i = 0; i < service.Capacity; i++)
+        {
+           var color = service.EmptyParkingSlots[i] ? "green" : "red";
+           <span class="box @color">@i</span>
+        }
+    </div>
+</div>
 
 <h4>Vehicle</h4>
 <hr />
