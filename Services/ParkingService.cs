@@ -17,8 +17,8 @@ namespace Garage_2_Group_1.Services
             _db = context;
             _config = gc;
 
-            EmptyParkingSlots = Enumerable.Repeat(true, _config.Capacity).ToArray();
-            Capacity = _config.Capacity;
+            Capacity = GetCapacity(_config.Capacity);
+            EmptyParkingSlots = Enumerable.Repeat(true, Capacity).ToArray();
             EmptyParkingSlotsCount = Capacity;
 
             _db.Vehicle.Select(v => v.ParkingSlots).ToList().ForEach(s => ParkInSlots(s));
@@ -159,6 +159,19 @@ namespace Garage_2_Group_1.Services
             }
 
             return maxSize;
+        }
+
+        // The capacity has to be at least the size of the last parking slot of the seeded vehicles
+        private int GetCapacity(int sizeFromSettings)
+        {
+            int capacity = sizeFromSettings;
+            List<List<int>> slots = new();
+
+            var slotLists = _db.Vehicle.Select(v => v.ParkingSlots).ToList();
+            slotLists.ForEach(slotString => slots.Add(ParseSlotString(slotString)));
+            capacity = Math.Max(capacity, slots.SelectMany(x => x).Max() + 1);
+
+            return capacity;
         }
 
         private List<int> ParseSlotString(string slots) => slots.Split(' ').Select(int.Parse).ToList();
