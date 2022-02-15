@@ -19,4 +19,8 @@
     <Folder Include="Views\Vehicles\images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Garage.Entities\Garage.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

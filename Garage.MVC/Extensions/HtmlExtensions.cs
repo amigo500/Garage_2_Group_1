@@ -1,8 +1,4 @@
-﻿using Garage_2_Group_1.Models;
-using Garage_2_Group_1.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Garage_2_Group_1.Extensions
 {
@@ -20,7 +16,7 @@ namespace Garage_2_Group_1.Extensions
                     }), "Value", "Text");
             var selected = list.Where(x => x.Value == selectedValue).First();
             selected.Selected = true;
-            if(typeof(TEnum) == typeof(VehicleType))
+            if (typeof(TEnum) == typeof(VehicleType))
             {
                 list.Where(x =>
                         GetVehicleSize((VehicleType)Enum.Parse(typeof(VehicleType), x.Text, true)) > maxSize)
@@ -49,32 +45,32 @@ namespace Garage_2_Group_1.Extensions
             return list;
         }
 
-        private static int GetVehicleSize(VehicleType type)
-        {
-            int size = 0;
-            switch (type)
-            {
-                case VehicleType.Bus:
-                    size = 2;
-                    break;
-                case VehicleType.Boat:
-                    size = 3;
-                    break;
-                case VehicleType.Airplane:
-                    size = 3;
-                    break;
-                case VehicleType.Car:
-                    size = 1;
-                    break;
-                case VehicleType.Motorcycle:
-                    size = 1;
-                    break;
-                default:
-                    size = 1;
-                    break;
+        //private static int GetVehicleSize(VehicleType type)
+        //{
+        //    int size = 0;
+        //    switch (type)
+        //    {
+        //        case VehicleType.Bus:
+        //            size = 2;
+        //            break;
+        //        case VehicleType.Boat:
+        //            size = 3;
+        //            break;
+        //        case VehicleType.Airplane:
+        //            size = 3;
+        //            break;
+        //        case VehicleType.Car:
+        //            size = 1;
+        //            break;
+        //        case VehicleType.Motorcycle:
+        //            size = 1;
+        //            break;
+        //        default:
+        //            size = 1;
+        //            break;
 
-            }
-            return size;
-        }
+        //    }
+        //    return size;
     }
+}
 }
