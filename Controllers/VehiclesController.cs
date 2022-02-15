@@ -1,6 +1,5 @@
 ﻿#nullable disable
 using Garage_2_Group_1.Data;
-using Garage_2_Group_1.Models;
 using Garage_2_Group_1.Models.ViewModels;
 using Garage_2_Group_1.Services;
 using Garage_2_Group_1.Utils;
@@ -13,17 +12,14 @@ namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly Garage_2_Group_1Context _context;
+        private readonly GarageContext _context;
         private readonly IParkingService ps;
 
-        public VehiclesController(Garage_2_Group_1Context context, IParkingService parkingService)
+        public VehiclesController(GarageContext context, IParkingService parkingService)
         {
             _context = context;
             ps = parkingService;
         }
-
-
-
 
         public async Task<IActionResult> Index(string? receiptInfo)
         {

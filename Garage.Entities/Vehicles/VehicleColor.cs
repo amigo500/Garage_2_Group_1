@@ -1,4 +1,4 @@
-﻿namespace Garage_2_Group_1.Models
+﻿namespace Garage.Entities.Vehicles
 {
     public enum VehicleColor
     {

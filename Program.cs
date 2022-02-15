@@ -6,8 +6,8 @@ using Garage_2_Group_1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<Garage_2_Group_1Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Garage_2_Group_1Context")));
+builder.Services.AddDbContext<GarageContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GarageContext")));
 
 builder.Services.AddSingleton(builder.Configuration.GetSection("Garage").Get<GarageConfiguration>());
 builder.Services.AddScoped<IParkingService, ParkingService>();
