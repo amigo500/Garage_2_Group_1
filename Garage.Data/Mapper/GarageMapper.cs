@@ -11,12 +11,6 @@ namespace Garage.Data.Mapper
     {
         //public GarageMappedThings()
         //{
-
-            
-
         //}
-
-
-
     }
 }
