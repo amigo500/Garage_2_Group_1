@@ -1,5 +1,6 @@
 ﻿#nullable disable
-using Garage_2_Group_1.Data;
+
+using Garage.Entities.Vehicles;
 using Garage_2_Group_1.Models.ViewModels;
 using Garage_2_Group_1.Services;
 using Garage_2_Group_1.Utils;
@@ -50,7 +51,7 @@ namespace Garage_2_Group_1.Controllers
         private async Task<IEnumerable<SelectListItem>> GetTypesAsync()
         {
             return await dB.Vehicle
-                           .Select(v => v.Type)
+                           .Select(v => v.VehicleType)
                            .Distinct()
                            .Select(t => new SelectListItem
                            {
@@ -69,7 +70,7 @@ namespace Garage_2_Group_1.Controllers
             }
 
             var vehicle = await dB.Vehicle
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.RegNr == id);
             if (vehicle == null)
             {
                 return NotFound();

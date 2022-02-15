@@ -1,6 +1,4 @@
-﻿using Garage_2_Group_1.Models;
-
-namespace Garage_2_Group_1.Services
+﻿namespace Garage_2_Group_1.Services
 {
     public interface IParkingService
     {

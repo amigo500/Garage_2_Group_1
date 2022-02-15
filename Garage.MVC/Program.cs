@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Garage_2_Group_1;
 using Garage_2_Group_1.Data;
-using Garage_2_Group_1;
-using Garage_2_Group_1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

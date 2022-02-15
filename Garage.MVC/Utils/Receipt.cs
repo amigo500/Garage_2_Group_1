@@ -1,6 +1,4 @@
-﻿using Garage_2_Group_1.Models;
-
-namespace Garage_2_Group_1.Utils
+﻿namespace Garage_2_Group_1.Utils
 {
     public static class Receipt
     {
@@ -24,4 +22,5 @@ namespace Garage_2_Group_1.Utils
             return receiptInfo;
         }
 
-} }
+    }
+}
