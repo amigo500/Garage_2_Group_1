@@ -2,7 +2,8 @@
 {
     public class RandomLicencePlate
     {
-   
+      //Some way to generate a random unique RegId for the seed.
+       
 
     }
 }
