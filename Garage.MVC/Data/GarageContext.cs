@@ -29,6 +29,41 @@ namespace Garage_2_Group_1.Data
                         .HasOne(v => v.VehicleType)
                         .WithMany(t => t.Vehicles)
                         .HasForeignKey(v => v.VehicleTypeID);
+
+            modelBuilder.Entity<VehicleType>()
+                .HasData(new VehicleType
+                {
+                    Id = 1,
+                    Name = "Airplane",
+                    Size = 3,
+                }, 
+                new VehicleType
+                {
+                    Id = 2,
+                    Name = "Boat",
+                    Size = 3,
+                }, 
+                new VehicleType
+                {
+                    Id = 3,
+                    Name = "Bus",
+                    Size = 2,
+                }, 
+                new VehicleType
+                {
+                    Id = 4,
+                    Name = "Car",
+                    Size = 1,
+                }, 
+                new VehicleType
+                {
+                    Id = 5,
+                    Name = "Motorcycle",
+                    Size = 1,
+                });
+
+            
+            
               
         }
     }
