@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\OldVehiclesController.cs" />
     <Compile Remove="Controllers\VehiclesController.cs" />
     <Compile Remove="Services\IParkingService.cs" />
     <Compile Remove="Services\ParkingService.cs" />

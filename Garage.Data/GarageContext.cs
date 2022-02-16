@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Garage.Entities.Vehicles;
 using Garage.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Garage.Data
 {
@@ -15,6 +16,12 @@ namespace Garage.Data
         public DbSet<Vehicle> Vehicle { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<VehicleType> VehicleType { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
