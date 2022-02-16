@@ -1,10 +1,13 @@
 ﻿using Garage.Data;
 using Garage_2_Group_1;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<GarageContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("GarageContext")));
+builder.Services.AddDbContext<GarageContext2>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GarageContext2")));
 
 builder.Services.AddSingleton(builder.Configuration.GetSection("Garage").Get<GarageConfiguration>());
 //builder.Services.AddScoped<IParkingService, ParkingService>();

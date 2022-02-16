@@ -13,12 +13,12 @@ namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly GarageContext dB;
+        private readonly GarageContext db;
         private readonly IParkingService ps;
 
         public VehiclesController(GarageContext context, IParkingService parkingService)
         {
-            dB = context;
+            db = context;
             ps = parkingService;
         }
 
@@ -39,7 +39,7 @@ namespace Garage_2_Group_1.Controllers
 
             var model = new VehicleIndexViewModel()
             {
-                Vehicles = await dB.Vehicle.ToListAsync(),
+                Vehicles = await db.Vehicle.ToListAsync(),
                 Types = await GetTypesAsync()
             };
 
@@ -50,7 +50,7 @@ namespace Garage_2_Group_1.Controllers
 
         private async Task<IEnumerable<SelectListItem>> GetTypesAsync()
         {
-            return await dB.Vehicle
+            return await db.Vehicle
                            .Select(v => v.VehicleType)
                            .Distinct()
                            .Select(t => new SelectListItem
@@ -69,7 +69,7 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await dB.Vehicle
+            var vehicle = await db.Vehicle
                 .FirstOrDefaultAsync(m => m.RegNr == id);
             if (vehicle == null)
             {
@@ -116,8 +116,8 @@ namespace Garage_2_Group_1.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    dB.Add(vehicle);
-                    await dB.SaveChangesAsync();
+                    db.Add(vehicle);
+                    await db.SaveChangesAsync();
 
                     ModelState.Clear();
                     viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
@@ -134,7 +134,7 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await dB.Vehicle.FindAsync(id);
+            var vehicle = await db.Vehicle.FindAsync(id);
             if (vehicle == null)
             {
                 return NotFound();
@@ -171,7 +171,7 @@ namespace Garage_2_Group_1.Controllers
             {
                 try
                 {
-                    var vehicle = await dB.Vehicle.FindAsync(id);
+                    var vehicle = await db.Vehicle.FindAsync(id);
                     vehicle.RegNr = viewModel.RegNr;
                     vehicle.Type = viewModel.Type;
                     vehicle.Color = viewModel.Color;
@@ -182,8 +182,8 @@ namespace Garage_2_Group_1.Controllers
                     ps.FreeParkingSlots(vehicle.ParkingSlots);
                     vehicle.ParkingSlots = ps.GetParkingSlots(vehicle.GetVehicleSize());
 
-                    dB.Update(vehicle);
-                    await dB.SaveChangesAsync();
+                    db.Update(vehicle);
+                    await db.SaveChangesAsync();
                     viewModel.EditedSuccesfully = true;
                 }
                 catch (DbUpdateConcurrencyException)
@@ -209,7 +209,7 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await dB.Vehicle
+            var vehicle = await db.Vehicle
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -250,17 +250,17 @@ namespace Garage_2_Group_1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckoutConfirmed(int id)
         {
-            var vehicle = await dB.Vehicle.FindAsync(id);
+            var vehicle = await db.Vehicle.FindAsync(id);
             ps.FreeParkingSlots(vehicle.ParkingSlots);
             var receiptInfo = Receipt.PrintableReceipt(vehicle);
-            dB.Vehicle.Remove(vehicle);
-            await dB.SaveChangesAsync();
+            db.Vehicle.Remove(vehicle);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { receiptInfo });
         }
 
         private bool VehicleExists(int id)
         {
-            return dB.Vehicle.Any(e => e.Id == id);
+            return db.Vehicle.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> CheckRegNr(string regnr, int? id)
@@ -272,9 +272,9 @@ namespace Garage_2_Group_1.Controllers
 
             //check database
             var dbResult = id == null ?
-                    await dB.Vehicle
+                    await db.Vehicle
                     .FirstOrDefaultAsync(m => m.RegNr == regnr) :
-                    await dB.Vehicle
+                    await db.Vehicle
                     .FirstOrDefaultAsync(m => m.RegNr == regnr && m.Id != id);
 
             if (dbResult != null)
@@ -296,8 +296,8 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
         {
             var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?
-                                    dB.Vehicle :
-                                    dB.Vehicle.Where(m => m.RegNr.StartsWith(viewModel.RegNr));
+                                    db.Vehicle :
+                                    db.Vehicle.Where(m => m.RegNr.StartsWith(viewModel.RegNr));
 
             vehicles = viewModel.Type == null ?
                              vehicles :
@@ -314,7 +314,7 @@ namespace Garage_2_Group_1.Controllers
 
         public async Task<IActionResult> ParkingStats()
         {
-            var vehicles = await dB.Vehicle.ToListAsync();
+            var vehicles = await db.Vehicle.ToListAsync();
             double totalhours = 0;
 
             foreach (var v in vehicles)

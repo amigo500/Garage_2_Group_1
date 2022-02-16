@@ -11,7 +11,7 @@ namespace Garage.Data
         private static Faker faker = null!;
         static readonly Random rando = new Random();
 
-        public static async Task InitAsync(GarageContext db)
+        public static async Task InitAsync(GarageContext2 db)
         {
             if (await db.Vehicle.AnyAsync()) return;
 
