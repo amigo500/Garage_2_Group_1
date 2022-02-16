@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Compile Remove="Models\VehicleVeiwModels\**" />
+    <Compile Remove="Models\ViewModels\**" />
+    <Content Remove="Data\**" />
+    <Content Remove="Models\VehicleVeiwModels\**" />
+    <Content Remove="Models\ViewModels\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Models\VehicleVeiwModels\**" />
+    <EmbeddedResource Remove="Models\ViewModels\**" />
+    <None Remove="Data\**" />
+    <None Remove="Models\VehicleVeiwModels\**" />
+    <None Remove="Models\ViewModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\VehiclesController.cs" />
+    <Compile Remove="Services\IParkingService.cs" />
+    <Compile Remove="Services\ParkingService.cs" />
+    <Compile Remove="Utils\Receipt.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Vehicles\Checkout.cshtml" />
+    <Content Remove="Views\Vehicles\Details.cshtml" />
+    <Content Remove="Views\Vehicles\Edit.cshtml" />
+    <Content Remove="Views\Vehicles\Index.cshtml" />
+    <Content Remove="Views\Vehicles\Park.cshtml" />
+    <Content Remove="Views\Vehicles\ParkingStats.cshtml" />
+    <Content Remove="Views\Vehicles\VehiclePartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Services\" />
+    <Folder Include="Views\Vehicles\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Garage.Data\Garage.Data.csproj" />
+    <ProjectReference Include="..\Garage.Entities\Garage.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
