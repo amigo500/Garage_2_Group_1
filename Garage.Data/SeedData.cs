@@ -27,11 +27,6 @@ namespace Garage.Data
             await db.AddRangeAsync(vehicles);
 
 
-
-
-
-
-
             await db.SaveChangesAsync();
         }
 
@@ -54,6 +49,7 @@ namespace Garage.Data
 
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users)
         {
+
             var vehicles = new List<Vehicle>();
             foreach (var user in users)
             {
@@ -68,6 +64,7 @@ namespace Garage.Data
                         Make = faker.Vehicle.Manufacturer(),
                         User = user,
                         // ToDo: Add a random VehicleType, it'll be null now.
+                        //VehicleType = 
                         WheelCount = faker.Random.Int(0, 4),
                         Color = RandomEnumValue<VehicleColor>()
 
