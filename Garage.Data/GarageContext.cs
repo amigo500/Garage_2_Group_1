@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Garage.Entities.Vehicles;
 using Garage.Entities;
 
-namespace Garage_2_Group_1.Data
+namespace Garage.Data
 {
     public class GarageContext : DbContext
     {
@@ -14,7 +14,7 @@ namespace Garage_2_Group_1.Data
 
         public DbSet<Vehicle> Vehicle { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<VehicleType> VehicleType { get; set;}
+        public DbSet<VehicleType> VehicleType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,25 +36,25 @@ namespace Garage_2_Group_1.Data
                     Id = 1,
                     Name = "Airplane",
                     Size = 3,
-                }, 
+                },
                 new VehicleType
                 {
                     Id = 2,
                     Name = "Boat",
                     Size = 3,
-                }, 
+                },
                 new VehicleType
                 {
                     Id = 3,
                     Name = "Bus",
                     Size = 2,
-                }, 
+                },
                 new VehicleType
                 {
                     Id = 4,
                     Name = "Car",
                     Size = 1,
-                }, 
+                },
                 new VehicleType
                 {
                     Id = 5,
@@ -62,9 +62,9 @@ namespace Garage_2_Group_1.Data
                     Size = 1,
                 });
 
-            
-            
-              
+
+
+
         }
     }
 }

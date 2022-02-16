@@ -8,13 +8,24 @@
 
   <ItemGroup>
     <Compile Remove="Data\**" />
+    <Compile Remove="Models\VehicleVeiwModels\**" />
+    <Compile Remove="Views\Vehicles\**" />
     <Content Remove="Data\**" />
+    <Content Remove="Models\VehicleVeiwModels\**" />
+    <Content Remove="Views\Vehicles\**" />
     <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Models\VehicleVeiwModels\**" />
+    <EmbeddedResource Remove="Views\Vehicles\**" />
     <None Remove="Data\**" />
+    <None Remove="Models\VehicleVeiwModels\**" />
+    <None Remove="Views\Vehicles\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\VehiclesController.cs" />
+    <Compile Remove="Services\IParkingService.cs" />
+    <Compile Remove="Services\ParkingService.cs" />
+    <Compile Remove="Utils\Receipt.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Views\Vehicles\images\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

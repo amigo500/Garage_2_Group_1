@@ -1,5 +1,5 @@
-﻿using Garage_2_Group_1;
-using Garage_2_Group_1.Data;
+﻿using Garage.Data;
+using Garage_2_Group_1;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ builder.Services.AddDbContext<GarageContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GarageContext")));
 
 builder.Services.AddSingleton(builder.Configuration.GetSection("Garage").Get<GarageConfiguration>());
-builder.Services.AddScoped<IParkingService, ParkingService>();
+//builder.Services.AddScoped<IParkingService, ParkingService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

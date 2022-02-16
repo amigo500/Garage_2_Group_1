@@ -16,13 +16,13 @@ namespace Garage_2_Group_1.Extensions
                     }), "Value", "Text");
             var selected = list.Where(x => x.Value == selectedValue).First();
             selected.Selected = true;
-            if (typeof(TEnum) == typeof(VehicleType))
-            {
-                list.Where(x =>
-                        GetVehicleSize((VehicleType)Enum.Parse(typeof(VehicleType), x.Text, true)) > maxSize)
-                    .ToList()
-                    .ForEach(x => x.Disabled = true);
-            }
+            //if (typeof(TEnum) == typeof(VehicleType))
+            //{
+            //    list.Where(x =>
+            //            GetVehicleSize((VehicleType)Enum.Parse(typeof(VehicleType), x.Text, true)) > maxSize)
+            //        .ToList()
+            //        .ForEach(x => x.Disabled = true);
+            //}
             return list;
         }
 
@@ -35,13 +35,13 @@ namespace Garage_2_Group_1.Extensions
                         Text = x.ToString(),
                         Value = x.ToString()
                     }), "Value", "Text");
-            if (typeof(TEnum) == typeof(VehicleType))
-            {
-                list.Where(x =>
-                        GetVehicleSize((VehicleType)Enum.Parse(typeof(VehicleType), x.Text, true)) > maxSize)
-                    .ToList()
-                    .ForEach(x => x.Disabled = true);
-            }
+            //if (typeof(TEnum) == typeof(VehicleType))
+            //{
+            //    list.Where(x =>
+            //            GetVehicleSize((VehicleType)Enum.Parse(typeof(VehicleType), x.Text, true)) > maxSize)
+            //        .ToList()
+            //        .ForEach(x => x.Disabled = true);
+            //}
             return list;
         }
 
@@ -73,4 +73,4 @@ namespace Garage_2_Group_1.Extensions
         //    return size;
     }
 }
-}
+

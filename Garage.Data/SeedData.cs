@@ -4,7 +4,7 @@ using Garage.Entities;
 using Garage.Entities.Vehicles;
 using Microsoft.EntityFrameworkCore;
 
-namespace Garage_2_Group_1.Data
+namespace Garage.Data
 {
     public class SeedData
     {
@@ -13,7 +13,7 @@ namespace Garage_2_Group_1.Data
 
         public static async Task InitAsync(GarageContext db)
         {
-            if(await db.Vehicle.AnyAsync()) return;
+            if (await db.Vehicle.AnyAsync()) return;
 
             faker = new Faker("en");
 
@@ -96,7 +96,7 @@ namespace Garage_2_Group_1.Data
 
             return stringBuilder.ToString();
 
-            
+
 
         }
     }

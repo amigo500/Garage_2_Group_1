@@ -1,4 +1,4 @@
-﻿using Garage_2_Group_1.Data;
+﻿using Garage.Data;
 using Garage_2_Group_1.Models;
 
 namespace Garage_2_Group_1.Services

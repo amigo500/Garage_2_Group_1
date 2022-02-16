@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Garage_2_Group_1.Models.ViewModels
+namespace Garage_2_Group_1.Models.VehicleVeiwModels
 {
     public class VehicleEditViewModel
     {
@@ -10,7 +10,7 @@ namespace Garage_2_Group_1.Models.ViewModels
         [Display(Name = "Registration Number")]
         [Required(ErrorMessage = "Please enter the registration number")]
         [StringLength(6, MinimumLength = 6, ErrorMessage = "Invalid registration number")]
-        [Remote(action: "CheckRegNr", controller: "Vehicles", AdditionalFields ="Id")]
+        [Remote(action: "CheckRegNr", controller: "Vehicles", AdditionalFields = "Id")]
         public string? RegNr { get; set; }
 
         [Display(Name = "Vehicle Type")]

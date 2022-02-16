@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Garage_2_Group_1.Models.ViewModels
+namespace Garage_2_Group_1.Models.VehicleVeiwModels
 {
     public class VehicleCheckoutViewModel
     {
