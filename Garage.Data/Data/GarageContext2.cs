@@ -14,9 +14,10 @@ using Garage.Entities.Vehicles;
         {
         }
 
-        public DbSet<Garage.Entities.User> User { get; set; }
-
-        public DbSet<Garage.Entities.Vehicles.Vehicle> Vehicle { get; set; }
+    public DbSet<Vehicle> Vehicle { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<VehicleType> VehicleType { get; set; }
+    public DbSet<ParkingSlot> ParkingSlot { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,35 +34,13 @@ using Garage.Entities.Vehicles;
         //            .HasForeignKey(v => v.VehicleTypeID);
 
         modelBuilder.Entity<VehicleType>()
-            .HasData(new VehicleType
-            {
-                Id = 1,
-                Name = "Airplane",
-                Size = 3,
-            },
-            new VehicleType
-            {
-                Id = 2,
-                Name = "Boat",
-                Size = 3,
-            },
-            new VehicleType
-            {
-                Id = 3,
-                Name = "Bus",
-                Size = 2,
-            },
-            new VehicleType
-            {
-                Id = 4,
-                Name = "Car",
-                Size = 1,
-            },
-            new VehicleType
-            {
-                Id = 5,
-                Name = "Motorcycle",
-                Size = 1,
-            });
+            .HasData
+                (
+                    new VehicleType(1, "Airplane", 3),
+                    new VehicleType(2, "Boat", 3),
+                    new VehicleType(3, "Bus", 2),
+                    new VehicleType(4, "Car", 1),
+                    new VehicleType(5, "Motorcycle", 1)
+                );
     }
 }
