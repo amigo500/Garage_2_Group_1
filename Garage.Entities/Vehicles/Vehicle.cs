@@ -26,7 +26,7 @@ namespace Garage.Entities.Vehicles
 
         [Required]
         public int VehicleTypeID { get; set; }
-        public VehicleType VehicleType { get; set; } = new VehicleType();
+        public VehicleType VehicleType { get; set; }
 
         private Vehicle()
         {
@@ -34,14 +34,16 @@ namespace Garage.Entities.Vehicles
             Model = null!;
             RegNr = null!;
             User = null!;
+            VehicleType = null!;
         }
 
-        public Vehicle(string make, string model, string regNr, User user)
+        public Vehicle(string make, string model, string regNr, User user, VehicleType vehicleType)
         {
             Make = make;
             Model = model;
             RegNr = regNr;
             User = user;
+            VehicleType = vehicleType; 
         }
     }
 }

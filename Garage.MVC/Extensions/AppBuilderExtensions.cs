@@ -11,6 +11,9 @@ namespace Garage_2_Group_1.Extensions
                 var serviceProvider = scope.ServiceProvider;
                 var db = serviceProvider.GetRequiredService<GarageContext2>();
 
+                db.Database.EnsureDeleted();
+                db.Database.Migrate();
+
                 try
                 {
                     await SeedData.InitAsync(db);
