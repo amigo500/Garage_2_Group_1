@@ -51,6 +51,7 @@ namespace Garage.Data
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
         {
 
+            List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
             var vehicles = new List<Vehicle>();
             foreach (var user in users)
             {
@@ -60,10 +61,9 @@ namespace Garage.Data
                     
                        var model = faker.Vehicle.Model();
                        var make = faker.Vehicle.Manufacturer();
-                     List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
                     
 
-                    var ran = faker.Random.Int(0,vT.Count);
+                    var ran = faker.Random.Int(0,vT.Count -1);
                     var wheelCount = faker.Random.Int(0, 4);
                     var vehicleType = vT[ran];
                     var color = RandomEnumValue<VehicleColor>();
