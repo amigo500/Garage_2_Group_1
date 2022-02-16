@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\VehiclesController.cs" />
-    <Compile Remove="Services\IParkingService.cs" />
-    <Compile Remove="Services\ParkingService.cs" />
     <Compile Remove="Utils\Receipt.cs" />
   </ItemGroup>
 
@@ -40,7 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace Garage.Entities
         public string Membership { get; } = "Basic";
         public ICollection<Vehicle> Vehicles { get; } = new List<Vehicle>();
 
-        public User()
+        private User()
         {
             LastName = null!;
             FirstName = null!;

@@ -20,7 +20,7 @@ namespace Garage.Entities.Vehicles
         [Required]
         public int UserSSN { get; set; }
         [Required]
-        public User User { get; set; } = new User();
+        public User User { get; set; }
 
         public ICollection<ParkingSlot> ParkingSlots { get; set; } = new List<ParkingSlot>();
 
@@ -28,18 +28,20 @@ namespace Garage.Entities.Vehicles
         public int VehicleTypeID { get; set; }
         public VehicleType VehicleType { get; set; } = new VehicleType();
 
-        public Vehicle()
+        private Vehicle()
         {
             Make = null!;
             Model = null!;
             RegNr = null!;
+            User = null!;
         }
 
-        public Vehicle(string make, string model, string regNr)
+        public Vehicle(string make, string model, string regNr, User user)
         {
             Make = make;
             Model = model;
             RegNr = regNr;
+            User = user;
         }
     }
 }

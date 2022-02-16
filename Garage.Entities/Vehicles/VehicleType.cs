@@ -13,14 +13,16 @@ namespace Garage.Entities.Vehicles
 
         public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
-        public VehicleType()
+        private VehicleType()
         {
             Name = null!;
         }
 
-        public VehicleType(string name)
+        public VehicleType(int id, string name, int size)
         {
+            Id = id;
             Name = name;
+            Size = size;
         }
 
     }

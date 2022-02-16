@@ -1,11 +1,12 @@
 ﻿using Garage.Data;
+using Garage.Entities;
 using Garage_2_Group_1.Models;
 
 namespace Garage_2_Group_1.Services
 {
     public class ParkingService : IParkingService
     {
-        public bool[] EmptyParkingSlots { get; }
+        public string[] EmptyParkingSlots { get; }
         public int EmptyParkingSlotsCount { get; set; }
         public int Capacity { get; }
 
@@ -17,53 +18,62 @@ namespace Garage_2_Group_1.Services
             _db = context;
             _config = gc;
 
-            EmptyParkingSlots = Enumerable.Repeat(true, _config.Capacity).ToArray();
+            EmptyParkingSlots = Enumerable.Repeat("", _config.Capacity).ToArray();
             Capacity = _config.Capacity;
             EmptyParkingSlotsCount = Capacity;
 
-            _db.Vehicle.Select(v => v.ParkingSlots).ToList().ForEach(s => ParkInSlots(s));
+            _db.Vehicle.Select(v => v.ParkingSlots).ToList()
+                .ForEach(slots => slots.ToList()
+                .ForEach(s => 
+                    {
+                        EmptyParkingSlots[s.Id] = s.VehicleRegNr!;
+                        EmptyParkingSlotsCount--;
+                    })
+                );
         }
 
-        public void FreeParkingSlots(string slots)
+        public async Task FreeParkingSlotsAsync(List<ParkingSlot> parkingSlots)
         {
-            var parkedSlots = ParseSlotString(slots);
-            foreach (var slotIndex in parkedSlots)
-            {
-                EmptyParkingSlots[slotIndex] = true;
-                EmptyParkingSlotsCount++;
-            }
+            var tasks = new List<Task>();
+            parkingSlots.ForEach(slot => tasks.Add(FreeParkingSlotAsync(slot)));
+            await Task.WhenAll(tasks);
         }
 
-        public string? GetParkingSlots(int size)
+        public async Task ParkInSlotsAsync(List<ParkingSlot> parkingSlots)
+        {
+            var tasks = new List<Task>();
+            parkingSlots.ForEach(slot => tasks.Add(ParkInSlotAsync(slot)));
+            await Task.WhenAll(tasks);
+        }
+
+        public ICollection<ParkingSlot>? GetParkingSlots(int size, string regNr)
         {
             var parkingSlots = HasParkingSlots(size);
             
             if (!parkingSlots.result) return null;
             else
             {
-                var slots = "";               
-                for (int i = 0; i < size; i++) {
-                    slots += (parkingSlots.firstSlot + i) + " ";
+                var slots = new List<ParkingSlot>();
+                for (int i = 0; i < size; i++)
+                {
+                    slots.Add(new ParkingSlot(parkingSlots.firstSlot + i, regNr));
                 }
-                slots = slots.Trim();
-                ParkInSlots(slots);
                 return slots;
             }
         }
 
-        public (bool result, int firstSlot) HasParkingSlots(int size, string currentSlots = "")
+        public (bool result, int firstSlot) HasParkingSlots(int size, ICollection<ParkingSlot>? currentSlots = null)
         {
             var parkingSlots = (result: false, firstSlot: -1);
 
             // If the vehicle already has one or more parking slots assigned
-            if (!String.IsNullOrEmpty(currentSlots))
+            if (currentSlots != null)
             {
-                var slots = ParseSlotString(currentSlots);
-                var firstSlot = slots.First();
-                var lastSlot = slots.Last();
+                var firstSlot = currentSlots.First().Id;
+                var lastSlot = currentSlots.Last().Id;
 
                 // Always possible to edit a vehicle to a smaller or same size
-                if (slots.Count >= size)
+                if (currentSlots.Count >= size)
                 {
                     parkingSlots.result = true;
                     parkingSlots.firstSlot = firstSlot;
@@ -73,9 +83,9 @@ namespace Garage_2_Group_1.Services
                 if (!parkingSlots.result && firstSlot + size - 1 < EmptyParkingSlots.Length)
                 {
                     var enoughSlots = true;
-                    for (int i = 1; i <= (size - slots.Count) && (lastSlot + i) < EmptyParkingSlots.Length; i++)
+                    for (int i = 1; i <= (size - currentSlots.Count) && (lastSlot + i) < EmptyParkingSlots.Length; i++)
                     {
-                        if (!EmptyParkingSlots[lastSlot + i])
+                        if (!IsEmpty(lastSlot + i))
                         {
                             enoughSlots = false;
                             break;
@@ -89,12 +99,12 @@ namespace Garage_2_Group_1.Services
                 }
 
                 // See if the neighbour slots before are unoccupied
-                if (!parkingSlots.result && firstSlot - (size - slots.Count) >= 0)
+                if (!parkingSlots.result && firstSlot - (size - currentSlots.Count) >= 0)
                 {
                     var enoughSlots = true;
-                    for (int i = 1; i <= (size - slots.Count) && (firstSlot - i) >= 0; i++)
+                    for (int i = 1; i <= (size - currentSlots.Count) && (firstSlot - i) >= 0; i++)
                     {
-                        if (!EmptyParkingSlots[firstSlot - i])
+                        if (!IsEmpty(firstSlot - i))
                         {
                             enoughSlots = false;
                             break;
@@ -103,7 +113,7 @@ namespace Garage_2_Group_1.Services
                     if (enoughSlots)
                     {
                         parkingSlots.result = true;
-                        parkingSlots.firstSlot = firstSlot - (size - slots.Count);
+                        parkingSlots.firstSlot = firstSlot - (size - currentSlots.Count);
                     }
                 }
 
@@ -111,19 +121,19 @@ namespace Garage_2_Group_1.Services
 
             if(!parkingSlots.result)
             {
-                for (int i = 0; i < EmptyParkingSlots.Length; i++)
+                for (int i = 0; i < Capacity; i++)
                 {
                     // found an empty slot
-                    if (EmptyParkingSlots[i])
+                    if (IsEmpty(i))
                     {
                         var enoughSlots = true;
 
-                        if (i + size > EmptyParkingSlots.Length) enoughSlots = false;
+                        if (i + size > Capacity) enoughSlots = false;
 
                         // if we need more than 1 slot check if the trailing slots are empty
-                        for (int j = 1; j < size && i + j < EmptyParkingSlots.Length; j++)
+                        for (int j = 1; j < size && i + j < Capacity; j++)
                         {
-                            if (!EmptyParkingSlots[i + j])
+                            if (!IsEmpty(i + j))
                             {
                                 enoughSlots = false;
                                 break;
@@ -145,7 +155,7 @@ namespace Garage_2_Group_1.Services
             return parkingSlots;
         }
 
-        public int FindMaxSize(string currentSlots = "")
+        public int FindMaxSize(ICollection<ParkingSlot>? currentSlots = null)
         {
             int maxSize = 0;
             for (int i = 3; i > 0; i--)
@@ -161,16 +171,25 @@ namespace Garage_2_Group_1.Services
             return maxSize;
         }
 
-        private List<int> ParseSlotString(string slots) => slots.Split(' ').Select(int.Parse).ToList();
+        private bool IsEmpty(int index) => EmptyParkingSlots[index] == "";
 
-        private void ParkInSlots(string slots)
+        private async Task FreeParkingSlotAsync(ParkingSlot slot)
         {
-            var parkedSlots = ParseSlotString(slots);
-            foreach (var slotIndex in parkedSlots)
-            {
-                EmptyParkingSlots[slotIndex] = false;
-                EmptyParkingSlotsCount--;
-            }
+            slot.VehicleRegNr = null;
+            _db.ParkingSlot.Update(slot);
+            await _db.SaveChangesAsync();
+
+            EmptyParkingSlots[slot.Id] = "";
+            EmptyParkingSlotsCount++;
+        }
+
+        private async Task ParkInSlotAsync(ParkingSlot slot)
+        {
+            _db.ParkingSlot.Update(slot);
+            await _db.SaveChangesAsync();
+
+            EmptyParkingSlots[slot.Id] = slot.VehicleRegNr!;
+            EmptyParkingSlotsCount--;
         }
     }
 }
