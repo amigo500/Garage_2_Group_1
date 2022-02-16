@@ -1,5 +1,6 @@
 ﻿using Garage.Data;
 using Garage_2_Group_1;
+using Garage_2_Group_1.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,8 @@ builder.Services.AddSingleton(builder.Configuration.GetSection("Garage").Get<Gar
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+app.SeedDataAsync().GetAwaiter().GetResult();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
