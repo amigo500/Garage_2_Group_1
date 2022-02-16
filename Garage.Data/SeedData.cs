@@ -8,7 +8,7 @@ namespace Garage.Data
 {
     public class SeedData
     {
-
+        
         private static Faker faker = null!;
         static readonly Random rando = new Random();
 
@@ -17,14 +17,14 @@ namespace Garage.Data
             if (await db.User.AnyAsync()) return;
 
             faker = new Faker("en");
-
-
+            
+            
 
             var users = GetUsers();
             await db.AddRangeAsync(users);
 
 
-            var vehicles = GetVehicles(users, db);
+            var vehicles = GetVehicles(users ,db);
             await db.AddRangeAsync(vehicles);
 
 
@@ -51,19 +51,19 @@ namespace Garage.Data
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
         {
 
+            List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
             var vehicles = new List<Vehicle>();
             foreach (var user in users)
             {
 
                 if (faker.Random.Int(0, 3) == 0)
                 {
+                    
+                       var model = faker.Vehicle.Model();
+                       var make = faker.Vehicle.Manufacturer();
+                    
 
-                    var model = faker.Vehicle.Model();
-                    var make = faker.Vehicle.Manufacturer();
-                    List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
-
-
-                    var ran = faker.Random.Int(0, vT.Count);
+                    var ran = faker.Random.Int(0,vT.Count -1);
                     var wheelCount = faker.Random.Int(0, 4);
                     var vehicleType = vT[ran];
                     var color = RandomEnumValue<VehicleColor>();

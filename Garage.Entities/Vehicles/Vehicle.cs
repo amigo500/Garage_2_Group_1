@@ -43,7 +43,7 @@ namespace Garage.Entities.Vehicles
             Model = model;
             RegNr = regNr;
             User = user;
-            VehicleType = vehicleType;
+            VehicleType = vehicleType; 
         }
     }
 }

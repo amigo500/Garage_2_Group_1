@@ -1,6 +1,9 @@
 ﻿using Garage_2_Group_1;
+using Garage_2_Group_1.Extensions;
 using Garage_2_Group_1.Automapper;
 using Garage_2_Group_1.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,8 @@ builder.Services.AddScoped<IParkingService, ParkingService>();
 builder.Services.AddAutoMapper(typeof(GarageMappings));
 
 var app = builder.Build();
+
+app.SeedDataAsync().GetAwaiter().GetResult();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
