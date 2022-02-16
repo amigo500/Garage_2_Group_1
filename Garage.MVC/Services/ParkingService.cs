@@ -11,9 +11,9 @@ namespace Garage_2_Group_1.Services
         public int Capacity { get; }
 
         private readonly GarageConfiguration _config;
-        private readonly GarageContext _db;
+        private readonly GarageContext2 _db;
 
-        public ParkingService(GarageContext context, GarageConfiguration gc)
+        public ParkingService(GarageContext2 context, GarageConfiguration gc)
         {
             _db = context;
             _config = gc;

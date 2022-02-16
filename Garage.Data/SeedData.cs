@@ -8,12 +8,13 @@ namespace Garage.Data
 {
     public class SeedData
     {
+
         private static Faker faker = null!;
         static readonly Random rando = new Random();
 
         public static async Task InitAsync(GarageContext2 db)
         {
-            if (await db.Vehicle.AnyAsync()) return;
+            if (await db.User.AnyAsync()) return;
 
             faker = new Faker("en");
 
@@ -23,7 +24,7 @@ namespace Garage.Data
             await db.AddRangeAsync(users);
 
 
-            var vehicles = GetVehicles(users);
+            var vehicles = GetVehicles(users, db);
             await db.AddRangeAsync(vehicles);
 
 
@@ -47,7 +48,7 @@ namespace Garage.Data
 
         }
 
-        private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users)
+        private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
         {
 
             var vehicles = new List<Vehicle>();
@@ -56,19 +57,18 @@ namespace Garage.Data
 
                 if (faker.Random.Int(0, 3) == 0)
                 {
-                    var regId = GetRegId();
-                    var Vehicle = new Vehicle()
-                    {
-                        RegNr = regId,
-                        Model = faker.Vehicle.Model(),
-                        Make = faker.Vehicle.Manufacturer(),
-                        User = user,
-                        // ToDo: Add a random VehicleType, it'll be null now.
-                        //VehicleType = 
-                        WheelCount = faker.Random.Int(0, 4),
-                        Color = RandomEnumValue<VehicleColor>()
 
-                    };
+                    var model = faker.Vehicle.Model();
+                    var make = faker.Vehicle.Manufacturer();
+                    List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
+
+
+                    var ran = faker.Random.Int(0, vT.Count);
+                    var wheelCount = faker.Random.Int(0, 4);
+                    var vehicleType = vT[ran];
+                    var color = RandomEnumValue<VehicleColor>();
+                    var regId = GetRegId();
+                    var Vehicle = new Vehicle(make, model, regId, user, vehicleType);
                     vehicles.Add(Vehicle);
                 }
             }

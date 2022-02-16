@@ -19,12 +19,15 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\OldVehiclesController.cs" />
-    <Compile Remove="Services\IParkingService.cs" />
-    <Compile Remove="Services\ParkingService.cs" />
     <Compile Remove="Utils\Receipt.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Models\VehicleVeiwModels\VehicleCreateViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Bogus" Version="34.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
@@ -32,10 +35,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

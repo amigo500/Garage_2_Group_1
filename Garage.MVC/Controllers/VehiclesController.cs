@@ -1,22 +1,19 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Garage.Entities.Vehicles;
 
 namespace Garage_2_Group_1.Controllers
 {
     public class VehiclesController : Controller
     {
         private readonly GarageContext2 _context;
+        private readonly IMapper _mapper;
 
-        public VehiclesController(GarageContext2 context)
+        public VehiclesController(GarageContext2 context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Vehicles
@@ -49,8 +46,8 @@ namespace Garage_2_Group_1.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar");
-            ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name");
+            //ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar");
+            //ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name");
             return View();
         }
 
