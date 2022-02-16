@@ -11,7 +11,7 @@ namespace Garage.Data
         private static Faker faker = null!;
         static readonly Random rando = new Random();
 
-        public static async Task InitAsync(GarageContext db)
+        public static async Task InitAsync(GarageContext2 db)
         {
             if (await db.Vehicle.AnyAsync()) return;
 
@@ -25,11 +25,6 @@ namespace Garage.Data
 
             var vehicles = GetVehicles(users);
             await db.AddRangeAsync(vehicles);
-
-
-
-
-
 
 
             await db.SaveChangesAsync();
@@ -54,6 +49,7 @@ namespace Garage.Data
 
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users)
         {
+
             var vehicles = new List<Vehicle>();
             foreach (var user in users)
             {
@@ -68,6 +64,7 @@ namespace Garage.Data
                         Make = faker.Vehicle.Manufacturer(),
                         User = user,
                         // ToDo: Add a random VehicleType, it'll be null now.
+                        //VehicleType = 
                         WheelCount = faker.Random.Int(0, 4),
                         Color = RandomEnumValue<VehicleColor>()
 
