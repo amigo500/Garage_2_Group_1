@@ -82,6 +82,9 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        $(document).ready(function () {
+            $('select[name="UserSSN"]').val('');
+        });
         $('select[name="UserSSN"]').on('change', function () {
             $('#UserValidation').html("");
             $(".hidden").removeClass("hidden");
