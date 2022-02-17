@@ -3,7 +3,7 @@
 
 namespace Garage_2_Group_1.Models.UserViewModels
 {
-    public class UserCreateViewModel
+    public class UserEditViewModel
     {
         [Required]
         [Display(Name = "Social Security Number")]
@@ -12,7 +12,5 @@ namespace Garage_2_Group_1.Models.UserViewModels
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        
-
     }
 }

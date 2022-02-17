@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Garage.Entities.User>
+﻿@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,13 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Avatar)
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Membership)
             </th>
             <th></th>
         </tr>
@@ -29,18 +35,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.SSN)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Avatar)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.SSN">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SSN">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SSN">Delete</a>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Membership)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id= item.SSN }) |
+                @Html.ActionLink("Details", "Details", new { id=item.SSN }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.SSN })
             </td>
         </tr>
 }
