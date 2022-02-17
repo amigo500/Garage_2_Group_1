@@ -1,62 +1,121 @@
-﻿@model Garage.Entities.Vehicles.Vehicle
+﻿@model Garage_2_Group_1.Models.VehicleViewModels.VehicleCreateViewModel
+@inject Garage_2_Group_1.Services.IParkingService service
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Add Vehicle";
 }
 
-<h1>Create</h1>
+<h1>Add a vehicle</h1>
 
-<h4>Vehicle</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="VehicleForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="UserSSN" class="control-label"></label>
+                <select class="form-control inputField" name="UserSSN" asp-items="@Model.Users">
+                    <option selected="selected" disabled value="">Please select</option>
+                </select>
+                <span asp-validation-for="UserSSN" id="UserValidation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
-                <input asp-for="RegNr" class="form-control" />
+                <input asp-for="RegNr" class="form-control inputField" style="text-transform:uppercase"/>
                 <span asp-validation-for="RegNr" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="VehicleTypeID" class="control-label"></label>
+                <select class="form-control inputField" name="VehicleTypeID" asp-items="@Model.VehicleTypes">
+                    <option selected="selected" disabled value="">Please select</option>
+                </select>
+                <span asp-validation-for="VehicleTypeID" id="TypeValidation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <select asp-for="Color" class="form-control"></select>
-                <span asp-validation-for="Color" class="text-danger"></span>
+                <select class="form-control inputField" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
+                    <option selected="selected" disabled value="">Please select</option>
+                </select>
+                <span asp-validation-for="Color" id="ColorValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Make" class="control-label"></label>
-                <input asp-for="Make" class="form-control" />
+                <input asp-for="Make" class="form-control inputField" />
                 <span asp-validation-for="Make" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
+                <input asp-for="Model" class="form-control inputField" />
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="WheelCount" class="control-label"></label>
-                <input asp-for="WheelCount" class="form-control" />
+                <input asp-for="WheelCount" class="form-control inputField" />
                 <span asp-validation-for="WheelCount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserSSN" class="control-label"></label>
-                <select asp-for="UserSSN" class ="form-control" asp-items="ViewBag.UserSSN"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select asp-for="VehicleTypeID" class ="form-control" asp-items="ViewBag.VehicleTypeID"></select>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="modal fade" id="VehicleModal" tabindex="-1" aria-labelledby="VehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="VehicleModalLabel">Added Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your vehicle has been successfully added!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $('select[name="UserSSN"]').on('change', function() {
+            $('#UserValidation').html("");
+        });
+        $('select[name="VehicleTypeID"]').on('change', function() {
+            $('#TypeValidation').html("");
+        });
+        $('select[name="Color"]').on('change', function() {
+            $('#ColorValidation').html("");
+        });
+        $('#VehicleForm').submit(function(e) {
+            let selectedUser = $('select[name="UserSSN"]').find(":selected").val();
+            let selectedType = $('select[name="VehicleTypeID"]').find(":selected").val();
+            let selectedColor = $('select[name="Color"]').find(":selected").val();
+            if (selectedUser == "") {
+                e.preventDefault();
+                $('#UserValidation').html("Please pick a user");
+            }
+            if (selectedType == ""){
+                e.preventDefault();
+                $('#TypeValidation').html("Please pick a vehicle type");
+            }
+            if (selectedColor == ""){
+                e.preventDefault();
+                $('#ColorValidation').html("Please pick a color");
+            }
+        });
+    </script>
+
+    @if (Model?.CreatedSuccesfully == true)
+    {
+        <script type="text/javascript">
+        $(function () {
+            $("#parkModal").modal('show');
+            $('form')[0].reset();
+        });
+        </script>
+    }
 }

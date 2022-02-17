@@ -7,29 +7,29 @@ namespace Garage_2_Group_1.Services
     public class ParkingService : IParkingService
     {
         public string[] EmptyParkingSlots { get; }
-        public int EmptyParkingSlotsCount { get; set; }
+        public int EmptyParkingSlotsCount { get; private set; }
         public int Capacity { get; }
 
-        private readonly GarageConfiguration _config;
         private readonly GarageContext2 _db;
 
-        public ParkingService(GarageContext2 context, GarageConfiguration gc)
+        public ParkingService(GarageContext2 context)
         {
             _db = context;
-            _config = gc;
 
-            EmptyParkingSlots = Enumerable.Repeat("", _config.Capacity).ToArray();
-            Capacity = _config.Capacity;
+            var parkingSlots = _db.Vehicle.Select(v => v.ParkingSlots).ToList();
+
+            Capacity = parkingSlots.Count;
             EmptyParkingSlotsCount = Capacity;
 
-            _db.Vehicle.Select(v => v.ParkingSlots).ToList()
-                .ForEach(slots => slots.ToList()
-                .ForEach(s => 
-                    {
-                        EmptyParkingSlots[s.Id] = s.VehicleRegNr!;
-                        EmptyParkingSlotsCount--;
-                    })
-                );
+            EmptyParkingSlots = Enumerable.Repeat("", Capacity).ToArray();
+
+            parkingSlots.ForEach(slots => slots.ToList()
+            .ForEach(s => 
+                {
+                    EmptyParkingSlots[s.Id] = s.VehicleRegNr!;
+                    EmptyParkingSlotsCount--;
+                })
+            );
         }
 
         public async Task FreeParkingSlotsAsync(List<ParkingSlot> parkingSlots)
@@ -48,7 +48,7 @@ namespace Garage_2_Group_1.Services
 
         public ICollection<ParkingSlot>? GetParkingSlots(int size, string regNr)
         {
-            var parkingSlots = HasParkingSlots(size);
+            var parkingSlots = HasParkingSlotsForSize(size);
             
             if (!parkingSlots.result) return null;
             else
@@ -62,105 +62,79 @@ namespace Garage_2_Group_1.Services
             }
         }
 
-        public (bool result, int firstSlot) HasParkingSlots(int size, ICollection<ParkingSlot>? currentSlots = null)
+        /// <summary>
+        /// Check if the garage has slots for a vechicle.
+        /// </summary>
+        /// <param name="size">The size of the vehicle.</param>
+        /// <returns></returns>
+        public (bool result, int firstSlot) HasParkingSlotsForSize(int size)
         {
             var parkingSlots = (result: false, firstSlot: -1);
 
-            // If the vehicle already has one or more parking slots assigned
-            if (currentSlots != null)
+            for (int i = 0; i < Capacity; i++)
             {
-                var firstSlot = currentSlots.First().Id;
-                var lastSlot = currentSlots.Last().Id;
-
-                // Always possible to edit a vehicle to a smaller or same size
-                if (currentSlots.Count >= size)
+                if (VehicleFitsAt(i, size))
                 {
                     parkingSlots.result = true;
-                    parkingSlots.firstSlot = firstSlot;
+                    parkingSlots.firstSlot = i;
                 }
-
-                // See if the neighbour slots after are unoccupied
-                if (!parkingSlots.result && firstSlot + size - 1 < EmptyParkingSlots.Length)
-                {
-                    var enoughSlots = true;
-                    for (int i = 1; i <= (size - currentSlots.Count) && (lastSlot + i) < EmptyParkingSlots.Length; i++)
-                    {
-                        if (!IsEmpty(lastSlot + i))
-                        {
-                            enoughSlots = false;
-                            break;
-                        }
-                    }
-                    if (enoughSlots)
-                    {
-                        parkingSlots.result = true;
-                        parkingSlots.firstSlot = firstSlot;
-                    }
-                }
-
-                // See if the neighbour slots before are unoccupied
-                if (!parkingSlots.result && firstSlot - (size - currentSlots.Count) >= 0)
-                {
-                    var enoughSlots = true;
-                    for (int i = 1; i <= (size - currentSlots.Count) && (firstSlot - i) >= 0; i++)
-                    {
-                        if (!IsEmpty(firstSlot - i))
-                        {
-                            enoughSlots = false;
-                            break;
-                        }
-                    }
-                    if (enoughSlots)
-                    {
-                        parkingSlots.result = true;
-                        parkingSlots.firstSlot = firstSlot - (size - currentSlots.Count);
-                    }
-                }
-
             }
 
+            return parkingSlots;
+        }
+
+        /// <summary>
+        /// Check if the garage has slots for a vechicle.
+        /// </summary>
+        /// <param name="size">The size of the vehicle.</param>
+        /// <param name="currentParking">Adds additonal slots as avialable for parking,
+        ///     useful when editing a vehicle type to another size.</param>
+        /// <returns></returns>
+        public (bool result, int firstSlot) HasParkingSlotsForSize(int size, ICollection<ParkingSlot> currentParking)
+        {
+            var parkingSlots = (result: false, firstSlot: -1);
+            var firstSlot = currentParking.First().Id;
+            var lastSlot = currentParking.Last().Id;
+
+            // Check if the current parking can be used
+            for (int i = lastSlot - size; i <= firstSlot + size; i++)
+            {
+                if (VehicleFitsAt(i, size, currentParking))
+                {
+                    parkingSlots.result = true;
+                    parkingSlots.firstSlot = i;
+                }
+            }
+
+            // Otherwise check the rest of the garage 
             if(!parkingSlots.result)
             {
-                for (int i = 0; i < Capacity; i++)
-                {
-                    // found an empty slot
-                    if (IsEmpty(i))
-                    {
-                        var enoughSlots = true;
-
-                        if (i + size > Capacity) enoughSlots = false;
-
-                        // if we need more than 1 slot check if the trailing slots are empty
-                        for (int j = 1; j < size && i + j < Capacity; j++)
-                        {
-                            if (!IsEmpty(i + j))
-                            {
-                                enoughSlots = false;
-                                break;
-                            }
-                        }
-                        if (enoughSlots)
-                        {
-                            parkingSlots.result = true;
-                            parkingSlots.firstSlot = i;
-                            break;
-                        }
-                        else
-                        {
-                            i += size;
-                        }
-                    }
-                }
+                parkingSlots = HasParkingSlotsForSize(size);
             }
             return parkingSlots;
         }
 
-        public int FindMaxSize(ICollection<ParkingSlot>? currentSlots = null)
+        public int FindMaxSize()
         {
             int maxSize = 0;
             for (int i = 3; i > 0; i--)
             {
-                var check = HasParkingSlots(i, currentSlots);
+                var (result, _) = HasParkingSlotsForSize(i);
+                if (result)
+                {
+                    maxSize = i;
+                    break;
+                }
+            }
+
+            return maxSize;
+        }
+        public int FindMaxSize(ICollection<ParkingSlot> currentParking)
+        {
+            int maxSize = 0;
+            for (int i = 3; i > 0; i--)
+            {
+                var check = HasParkingSlotsForSize(i, currentParking);
                 if (check.result)
                 {
                     maxSize = i;
@@ -171,7 +145,7 @@ namespace Garage_2_Group_1.Services
             return maxSize;
         }
 
-        private bool IsEmpty(int index) => EmptyParkingSlots[index] == "";
+        public bool IsEmpty(int index) => EmptyParkingSlots[index] == "";
 
         private async Task FreeParkingSlotAsync(ParkingSlot slot)
         {
@@ -190,6 +164,38 @@ namespace Garage_2_Group_1.Services
 
             EmptyParkingSlots[slot.Id] = slot.VehicleRegNr!;
             EmptyParkingSlotsCount--;
+        }
+
+        private bool VehicleFitsAt(int index, int size)
+        {
+            if (index - size < 0 || index + size >= Capacity) return false;
+
+            var fits = true;
+            for (int i = 0; i < size; i++)
+            {
+                if (!IsEmpty(index + i))
+                {
+                    fits = false;
+                    break;
+                }
+            }
+            return fits;
+        }
+
+        private bool VehicleFitsAt(int index, int size, ICollection<ParkingSlot> currentParking)
+        {
+            if (index - size < 0 || index + size >= Capacity) return false;
+
+            var fits = true;
+            for (int i = 0; i < size; i++)
+            {
+                if (!IsEmpty(index + i) && !currentParking.Any(p => p.Id == index + i))
+                {
+                    fits = false;
+                    break;
+                }
+            }
+            return fits;
         }
     }
 }

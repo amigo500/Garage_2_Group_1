@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\VehicleVeiwModels\**" />
+    <Compile Remove="Models\VehicleViewModels\**" />
     <Compile Remove="Views\Vehicles\**" />
-    <Content Remove="Models\VehicleVeiwModels\**" />
+    <Content Remove="Models\VehicleViewModels\**" />
     <Content Remove="Views\Vehicles\**" />
-    <EmbeddedResource Remove="Models\VehicleVeiwModels\**" />
+    <EmbeddedResource Remove="Models\VehicleViewModels\**" />
     <EmbeddedResource Remove="Views\Vehicles\**" />
-    <None Remove="Models\VehicleVeiwModels\**" />
+    <None Remove="Models\VehicleViewModels\**" />
     <None Remove="Views\Vehicles\**" />
   </ItemGroup>
 
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Models\VehicleVeiwModels\VehicleCreateViewModel.cs" />
+    <Compile Include="Models\VehicleViewModels\VehicleCreateViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Vehicles\Create.cshtml" />
+    <Content Include="Views\Vehicles\Create.cshtml" />
     <None Include="Views\Vehicles\Delete.cshtml" />
     <None Include="Views\Vehicles\Details.cshtml" />
     <None Include="Views\Vehicles\Edit.cshtml" />
