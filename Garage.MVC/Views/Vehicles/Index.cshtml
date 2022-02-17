@@ -8,29 +8,29 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Register Your Vehicle</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Color)
+                Parking Data
+                <th>
+                @Html.DisplayNameFor(model => model.User.Avatar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WheelCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model.Membership)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VehicleType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSlots)
+            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -38,23 +38,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WheelCount)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.User.Avatar)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleType.Name)
+             <td>
+                @Html.DisplayFor(modelItem => item.VehicleType)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegNr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParkingSlots)
+            </td>
+           
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RegNr">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.RegNr">Details</a> |
