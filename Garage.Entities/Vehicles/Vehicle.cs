@@ -37,13 +37,15 @@ namespace Garage.Entities.Vehicles
             VehicleType = null!;
         }
 
-        public Vehicle(string make, string model, string regNr, User user, VehicleType vehicleType)
+        public Vehicle(string make, string model, string regNr, User user, VehicleType vehicleType, VehicleColor color, int wheelCount)
         {
             Make = make;
             Model = model;
             RegNr = regNr;
             User = user;
-            VehicleType = vehicleType; 
+            VehicleType = vehicleType;
+            Color = color;
+            WheelCount = wheelCount;
         }
     }
 }
