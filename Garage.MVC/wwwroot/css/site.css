@@ -130,3 +130,7 @@ h6 {
     font-style: italic;
     color: #7d7382;
 }
+
+.hidden {
+    display: none;
+}
