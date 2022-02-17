@@ -18,7 +18,7 @@ namespace Garage.Entities.Vehicles
         [Required]
         public int WheelCount { get; set; }
         [Required]
-        public int UserSSN { get; set; }
+        public long UserSSN { get; set; }
         [Required]
         public User User { get; set; }
 

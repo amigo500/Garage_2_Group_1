@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage.Data.Migrations
 {
     [DbContext(typeof(GarageContext2))]
-    [Migration("20220217105609_init")]
+    [Migration("20220217121301_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,10 +80,7 @@ namespace Garage.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserSSN")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserSSN1")
+                    b.Property<long>("UserSSN")
                         .HasColumnType("bigint");
 
                     b.Property<int>("VehicleTypeID")
@@ -94,7 +91,7 @@ namespace Garage.Data.Migrations
 
                     b.HasKey("RegNr");
 
-                    b.HasIndex("UserSSN1");
+                    b.HasIndex("UserSSN");
 
                     b.HasIndex("VehicleTypeID");
 
@@ -168,7 +165,7 @@ namespace Garage.Data.Migrations
                 {
                     b.HasOne("Garage.Entities.User", "User")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserSSN1")
+                        .HasForeignKey("UserSSN")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
