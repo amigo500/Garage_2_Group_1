@@ -32,6 +32,8 @@ using Garage.Entities.Vehicles;
         //            .HasOne(v => v.VehicleType)
         //            .WithMany(t => t.Vehicles)
         //            .HasForeignKey(v => v.VehicleTypeID);
+        
+        modelBuilder.Entity<ParkingSlot>().Property(p => p.VehicleRegNr).IsRequired(false);
 
         modelBuilder.Entity<VehicleType>()
             .HasData
