@@ -78,10 +78,7 @@ namespace Garage.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserSSN")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserSSN1")
+                    b.Property<long>("UserSSN")
                         .HasColumnType("bigint");
 
                     b.Property<int>("VehicleTypeID")
@@ -92,7 +89,7 @@ namespace Garage.Data.Migrations
 
                     b.HasKey("RegNr");
 
-                    b.HasIndex("UserSSN1");
+                    b.HasIndex("UserSSN");
 
                     b.HasIndex("VehicleTypeID");
 
@@ -166,7 +163,7 @@ namespace Garage.Data.Migrations
                 {
                     b.HasOne("Garage.Entities.User", "User")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserSSN1")
+                        .HasForeignKey("UserSSN")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

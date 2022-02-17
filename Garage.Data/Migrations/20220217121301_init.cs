@@ -45,16 +45,15 @@ namespace Garage.Data.Migrations
                     Make = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WheelCount = table.Column<int>(type: "int", nullable: false),
-                    UserSSN = table.Column<int>(type: "int", nullable: false),
-                    UserSSN1 = table.Column<long>(type: "bigint", nullable: false),
+                    UserSSN = table.Column<long>(type: "bigint", nullable: false),
                     VehicleTypeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicle", x => x.RegNr);
                     table.ForeignKey(
-                        name: "FK_Vehicle_User_UserSSN1",
-                        column: x => x.UserSSN1,
+                        name: "FK_Vehicle_User_UserSSN",
+                        column: x => x.UserSSN,
                         principalTable: "User",
                         principalColumn: "SSN",
                         onDelete: ReferentialAction.Cascade);
@@ -103,9 +102,9 @@ namespace Garage.Data.Migrations
                 column: "VehicleRegNr");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicle_UserSSN1",
+                name: "IX_Vehicle_UserSSN",
                 table: "Vehicle",
-                column: "UserSSN1");
+                column: "UserSSN");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicle_VehicleTypeID",

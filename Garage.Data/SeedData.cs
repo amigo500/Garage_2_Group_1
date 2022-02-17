@@ -130,7 +130,16 @@ namespace Garage.Data
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(faker.Random.String2(3, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-            stringBuilder.Append(faker.Random.Number(100, 999));
+            stringBuilder.Append(faker.Random.Number(10, 99));
+
+            if (faker.Random.Int(0, 2) != 0)
+            {
+                stringBuilder.Append(faker.Random.String2(1, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+            }
+            else
+            {
+                stringBuilder.Append(faker.Random.Number(0, 9));
+            }
 
             return stringBuilder.ToString();
 
