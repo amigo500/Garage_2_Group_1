@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage.Data.Migrations
 {
     [DbContext(typeof(GarageContext2))]
-    [Migration("20220216095505_init")]
+    [Migration("20220217105609_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,7 @@ namespace Garage.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("VehicleRegNr")
+                        .IsRequired()
                         .HasColumnType("nvarchar(6)");
 
                     b.HasKey("Id");
@@ -42,11 +43,8 @@ namespace Garage.Data.Migrations
 
             modelBuilder.Entity("Garage.Entities.User", b =>
                 {
-                    b.Property<int>("SSN")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SSN"), 1L, 1);
+                    b.Property<long>("SSN")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Avatar")
                         .IsRequired()
@@ -85,6 +83,9 @@ namespace Garage.Data.Migrations
                     b.Property<int>("UserSSN")
                         .HasColumnType("int");
 
+                    b.Property<long>("UserSSN1")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("VehicleTypeID")
                         .HasColumnType("int");
 
@@ -93,7 +94,7 @@ namespace Garage.Data.Migrations
 
                     b.HasKey("RegNr");
 
-                    b.HasIndex("UserSSN");
+                    b.HasIndex("UserSSN1");
 
                     b.HasIndex("VehicleTypeID");
 
@@ -156,7 +157,9 @@ namespace Garage.Data.Migrations
                 {
                     b.HasOne("Garage.Entities.Vehicles.Vehicle", "Vehicle")
                         .WithMany("ParkingSlots")
-                        .HasForeignKey("VehicleRegNr");
+                        .HasForeignKey("VehicleRegNr")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Vehicle");
                 });
@@ -165,7 +168,7 @@ namespace Garage.Data.Migrations
                 {
                     b.HasOne("Garage.Entities.User", "User")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserSSN")
+                        .HasForeignKey("UserSSN1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

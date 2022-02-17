@@ -1,14 +1,16 @@
 ﻿
 using Garage.Entities.Vehicles;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Garage.Entities
 
 {
     public class User
     {
-        [Key]
-        public int SSN { get; set; } //Social Security Number
+        [Key, Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long SSN { get; set; } //Social Security Number
         [Required]
         public string LastName { get; set; }
         [Required]
@@ -23,11 +25,12 @@ namespace Garage.Entities
             FirstName = null!;
             Avatar = null!;
         }
-        public User(string lastName, string firstName, string avatar)
+        public User(string lastName, string firstName, string avatar, long sSN)
         {
             LastName = lastName;
             FirstName = firstName;
             Avatar = avatar;
+            SSN = sSN;
         }
 
     }

@@ -8,6 +8,7 @@ namespace Garage.Data
 {
     public class SeedData
     {
+         
         
         private static Faker faker = null!;
         static readonly Random rando = new Random();
@@ -37,19 +38,65 @@ namespace Garage.Data
 
             for (int i = 0; i < 20; i++)
             {
+                var sSN = GetUserSSN();
                 var firstName = faker.Name.FirstName();
                 var lastName = faker.Name.LastName();
                 var avatar = faker.Internet.Avatar();
 
-                var user = new User(lastName, firstName, avatar);
+                var user = new User(lastName, firstName, avatar, sSN);
                 users.Add(user);
             }
             return users;
 
         }
 
+        private static long GetUserSSN()
+        {
+            long month = faker.Random.Number(01, 12);
+            long day = faker.Random.Number(01, 28);
+
+            StringBuilder stringToParse = new StringBuilder();
+            stringToParse.Append(faker.Random.Number(1920, 2003));
+
+            if (month < 10)
+            {
+                stringToParse.Append(0);
+                stringToParse.Append(month);
+
+            }
+            else
+            {
+                stringToParse.Append(month);
+            }
+
+            if (day < 10)
+            {
+                stringToParse.Append(0);
+                stringToParse.Append(day);
+            }
+            else
+            {
+                stringToParse.Append(day);
+            }
+
+            stringToParse.Append(faker.Random.Number(1000, 9999));
+
+
+
+            if (long.TryParse(stringToParse.ToString(), out long sSN))
+            {
+                return sSN;
+            }
+            else
+            {
+                throw new Exception("Error Parsing SSN");
+            }
+        }
+
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
         {
+            var max = Enum.GetNames(typeof(VehicleColor)).Length;
+            
 
             List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
             var vehicles = new List<Vehicle>();
@@ -59,27 +106,21 @@ namespace Garage.Data
                 if (faker.Random.Int(0, 3) == 0)
                 {
                     
-                       var model = faker.Vehicle.Model();
-                       var make = faker.Vehicle.Manufacturer();
-                    
-
+                    var model = faker.Vehicle.Model();
+                    var make = faker.Vehicle.Manufacturer();
+                    var color = (VehicleColor)faker.Random.Int(0, max -1);
                     var ran = faker.Random.Int(0,vT.Count -1);
                     var wheelCount = faker.Random.Int(0, 4);
                     var vehicleType = vT[ran];
-                    var color = RandomEnumValue<VehicleColor>();
                     var regId = GetRegId();
-                    var Vehicle = new Vehicle(make, model, regId, user, vehicleType);
+                    var Vehicle = new Vehicle(make, model, regId, user, vehicleType, color, wheelCount);
                     vehicles.Add(Vehicle);
                 }
             }
             return vehicles;
         }
 
-        static T RandomEnumValue<T>()
-        {
-            var v = Enum.GetValues(typeof(T));
-            return (T)v.GetValue(rando.Next(v.Length))!;
-        }
+       
 
         private static string GetRegId()
         {
@@ -96,5 +137,6 @@ namespace Garage.Data
 
 
         }
+
     }
 }

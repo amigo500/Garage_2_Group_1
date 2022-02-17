@@ -41,11 +41,8 @@ namespace Garage.Data.Migrations
 
             modelBuilder.Entity("Garage.Entities.User", b =>
                 {
-                    b.Property<int>("SSN")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SSN"), 1L, 1);
+                    b.Property<long>("SSN")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Avatar")
                         .IsRequired()
@@ -84,6 +81,9 @@ namespace Garage.Data.Migrations
                     b.Property<int>("UserSSN")
                         .HasColumnType("int");
 
+                    b.Property<long>("UserSSN1")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("VehicleTypeID")
                         .HasColumnType("int");
 
@@ -92,7 +92,7 @@ namespace Garage.Data.Migrations
 
                     b.HasKey("RegNr");
 
-                    b.HasIndex("UserSSN");
+                    b.HasIndex("UserSSN1");
 
                     b.HasIndex("VehicleTypeID");
 
@@ -166,7 +166,7 @@ namespace Garage.Data.Migrations
                 {
                     b.HasOne("Garage.Entities.User", "User")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserSSN")
+                        .HasForeignKey("UserSSN1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

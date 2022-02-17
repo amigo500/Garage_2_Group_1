@@ -10,10 +10,10 @@ namespace Garage_2_Group_1.Extensions
             {
                 var serviceProvider = scope.ServiceProvider;
                 var db = serviceProvider.GetRequiredService<GarageContext2>();
-
-                //db.Database.EnsureDeleted(); //Comment these unless you want to reseed and delete your database every run.
-
-                //db.Database.Migrate();
+                //Comment these unless you want to reseed and delete your database every run.
+                
+                db.Database.EnsureDeleted(); 
+                db.Database.Migrate();
 
                 try
                 {

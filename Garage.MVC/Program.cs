@@ -5,6 +5,7 @@ using Garage_2_Group_1.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<GarageContext2>(options =>

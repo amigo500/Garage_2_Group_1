@@ -12,8 +12,7 @@ namespace Garage.Data.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    SSN = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SSN = table.Column<long>(type: "bigint", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -47,14 +46,15 @@ namespace Garage.Data.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WheelCount = table.Column<int>(type: "int", nullable: false),
                     UserSSN = table.Column<int>(type: "int", nullable: false),
+                    UserSSN1 = table.Column<long>(type: "bigint", nullable: false),
                     VehicleTypeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicle", x => x.RegNr);
                     table.ForeignKey(
-                        name: "FK_Vehicle_User_UserSSN",
-                        column: x => x.UserSSN,
+                        name: "FK_Vehicle_User_UserSSN1",
+                        column: x => x.UserSSN1,
                         principalTable: "User",
                         principalColumn: "SSN",
                         onDelete: ReferentialAction.Cascade);
@@ -72,7 +72,7 @@ namespace Garage.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VehicleRegNr = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                    VehicleRegNr = table.Column<string>(type: "nvarchar(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,7 +81,8 @@ namespace Garage.Data.Migrations
                         name: "FK_ParkingSlot_Vehicle_VehicleRegNr",
                         column: x => x.VehicleRegNr,
                         principalTable: "Vehicle",
-                        principalColumn: "RegNr");
+                        principalColumn: "RegNr",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -102,9 +103,9 @@ namespace Garage.Data.Migrations
                 column: "VehicleRegNr");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicle_UserSSN",
+                name: "IX_Vehicle_UserSSN1",
                 table: "Vehicle",
-                column: "UserSSN");
+                column: "UserSSN1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicle_VehicleTypeID",
