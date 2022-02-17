@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Garage.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace Garage_2_Group_1.Models.VehicleVeiwModels
+namespace Garage_2_Group_1.Models.VehicleViewModels
 {
     public class VehicleCreateViewModel
     {
@@ -13,8 +15,15 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
 
         [Display(Name = "Vehicle Type")]
         [Required(ErrorMessage = "Please pick a vehicle type")]
-        public VehicleType? Type { get; set; }
+        public int? VehicleTypeID { get; set; }
+
         //public DateTime ArrivalTime { get; set; }
+        public List<SelectListItem> VehicleTypes { get; set; } = new List<SelectListItem>();
+
+        [Display(Name = "Target User")]
+        [Required(ErrorMessage = "Please pick a user")]
+        public int? UserSSN { get; set; }
+        public List<SelectListItem> Users { get; set; } = new List<SelectListItem>();
 
         [Display(Name = "Color")]
         [Required(ErrorMessage = "Please pick a color")]
@@ -31,6 +40,6 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
         [Range(0, 10, ErrorMessage = "The wheel count must be between 0 and 10")]
         public int WheelCount { get; set; }
 
-        //public bool? ParkedSuccesfully { get; set; }
+        public bool? CreatedSuccesfully { get; set; }
     }
 }
