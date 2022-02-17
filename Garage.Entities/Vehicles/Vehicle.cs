@@ -18,7 +18,7 @@ namespace Garage.Entities.Vehicles
         [Required]
         public int WheelCount { get; set; }
         [Required]
-        public int UserSSN { get; set; }
+        public long UserSSN { get; set; }
         public User User { get; set; }
 
         public ICollection<ParkingSlot> ParkingSlots { get; set; } = new List<ParkingSlot>();

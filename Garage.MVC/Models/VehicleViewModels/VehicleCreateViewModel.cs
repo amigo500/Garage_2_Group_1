@@ -18,12 +18,10 @@ namespace Garage_2_Group_1.Models.VehicleViewModels
         public int? VehicleTypeID { get; set; }
 
         //public DateTime ArrivalTime { get; set; }
-        public List<SelectListItem> VehicleTypes { get; set; } = new List<SelectListItem>();
 
         [Display(Name = "Target User")]
         [Required(ErrorMessage = "Please pick a user")]
-        public int? UserSSN { get; set; }
-        public List<SelectListItem> Users { get; set; } = new List<SelectListItem>();
+        public long? UserSSN { get; set; }
 
         [Display(Name = "Color")]
         [Required(ErrorMessage = "Please pick a color")]

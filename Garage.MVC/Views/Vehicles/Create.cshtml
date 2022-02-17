@@ -1,5 +1,6 @@
-﻿@model Garage_2_Group_1.Models.VehicleViewModels.VehicleCreateViewModel
-@inject Garage_2_Group_1.Services.IParkingService service
+﻿@model VehicleCreateViewModel
+@inject IVehicleTypeSelectListService typeListService
+@inject IUserSelectListService userListService
 
 @{
     ViewData["Title"] = "Add Vehicle";
@@ -13,19 +14,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserSSN" class="control-label"></label>
-                <select class="form-control inputField" name="UserSSN" asp-items="@Model.Users">
+                <select class="form-control inputField" name="UserSSN" asp-items="@await userListService.GetSelectListAsync()">
                     <option selected="selected" disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="UserSSN" id="UserValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
-                <input asp-for="RegNr" class="form-control inputField" style="text-transform:uppercase"/>
+                <input asp-for="RegNr" class="form-control inputField" style="text-transform:uppercase" />
                 <span asp-validation-for="RegNr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select class="form-control inputField" name="VehicleTypeID" asp-items="@Model.VehicleTypes">
+                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync()">
                     <option selected="selected" disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="VehicleTypeID" id="TypeValidation" class="text-danger"></span>
@@ -81,16 +82,16 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $('select[name="UserSSN"]').on('change', function() {
+        $('select[name="UserSSN"]').on('change', function () {
             $('#UserValidation').html("");
         });
-        $('select[name="VehicleTypeID"]').on('change', function() {
+        $('select[name="VehicleTypeID"]').on('change', function () {
             $('#TypeValidation').html("");
         });
-        $('select[name="Color"]').on('change', function() {
+        $('select[name="Color"]').on('change', function () {
             $('#ColorValidation').html("");
         });
-        $('#VehicleForm').submit(function(e) {
+        $('#VehicleForm').submit(function (e) {
             let selectedUser = $('select[name="UserSSN"]').find(":selected").val();
             let selectedType = $('select[name="VehicleTypeID"]').find(":selected").val();
             let selectedColor = $('select[name="Color"]').find(":selected").val();
@@ -98,11 +99,11 @@
                 e.preventDefault();
                 $('#UserValidation').html("Please pick a user");
             }
-            if (selectedType == ""){
+            if (selectedType == "") {
                 e.preventDefault();
                 $('#TypeValidation').html("Please pick a vehicle type");
             }
-            if (selectedColor == ""){
+            if (selectedColor == "") {
                 e.preventDefault();
                 $('#ColorValidation').html("Please pick a color");
             }
@@ -111,11 +112,11 @@
 
     @if (Model?.CreatedSuccesfully == true)
     {
-        <script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
             $("#parkModal").modal('show');
             $('form')[0].reset();
         });
-        </script>
+    </script>
     }
 }

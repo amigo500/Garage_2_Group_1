@@ -46,20 +46,9 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Vehicles/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var viewModel = new VehicleCreateViewModel();
-            var types = await _context.VehicleType.ToListAsync();
-            var users = await _context.User.OrderBy(u => u.FirstName).ToListAsync();
-
-            types.ForEach(type => viewModel.VehicleTypes.Add(
-                new SelectListItem { Text = type.Name, Value = type.Id.ToString() }
-            ));
-            users.ForEach(user => viewModel.Users.Add(
-                new SelectListItem { Text = $"{user.FirstName} {user.LastName}" , Value = user.SSN.ToString() }
-            ));
-
-            return View(viewModel);
+            return View();
         }
 
         // POST: Vehicles/Create
