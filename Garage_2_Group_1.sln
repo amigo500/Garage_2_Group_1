@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garage_2_Group_1", "Garage.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garage.Entities", "Garage.Entities\Garage.Entities.csproj", "{7A22E9E4-711C-4D40-BB7D-3BB541985291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garage.Data", "Garage.Data\Garage.Data.csproj", "{6C5F3CC7-DED9-45A4-9CC3-0C4801549AB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garage.Data", "Garage.Data\Garage.Data.csproj", "{6C5F3CC7-DED9-45A4-9CC3-0C4801549AB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

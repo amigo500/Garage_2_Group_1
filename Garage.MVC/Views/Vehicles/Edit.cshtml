@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
-<h1>Edit</h1>
+<h1>Edit Your Vehicle</h1>
 
 <h4>Vehicle</h4>
 <hr />
@@ -40,20 +40,55 @@
                 <span asp-validation-for="UserSSN" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select asp-for="VehicleTypeID" class="form-control" asp-items="ViewBag.VehicleTypeID"></select>
-                <span asp-validation-for="VehicleTypeID" class="text-danger"></span>
+                <label asp-for="RegNr" class="control-label"></label>
+                <select asp-for="RegNr" class="form-control" asp-items="ViewBag.RegNr"></select>
+                <span asp-validation-for="RegNr" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-</div>
+            
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+ @*<div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>*@
+
+  @*Button trigger modal*@ 
+            <button id="submit-button" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Save
+            </button>
+            <a asp-action="Index" class="btn btn-primary ml-2">Back to parking lot</a>
+
+             @*Modal*@ 
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Saving Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to save your changes?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button asp-action="Edit" id="submit-button" type="submit" class="btn btn-danger">Confirm/Save</button>
+                        </div>
+                    </div>
+                </div>
+             </div>
+       </form>
+    </div>
+    </div>
+ 
+
+
+@*<div>
+    <a asp-action="Index">Back to Parking Garage</a>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

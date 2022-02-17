@@ -1,5 +1,4 @@
-﻿
-using Garage.Entities.Vehicles;
+﻿using Garage.Entities.Vehicles;
 using System.ComponentModel.DataAnnotations;
 
 namespace Garage.Entities
