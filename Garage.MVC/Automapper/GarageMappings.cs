@@ -7,7 +7,7 @@ namespace Garage_2_Group_1.Automapper
     {
         public GarageMappings()
         {
-            CreateMap<Vehicle, VehicleCreateViewModel>();
+            CreateMap<Vehicle, VehicleCreateViewModel>().ReverseMap();
         }
     }
 }
