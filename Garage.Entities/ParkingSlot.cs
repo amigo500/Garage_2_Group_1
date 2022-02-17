@@ -10,7 +10,7 @@ namespace Garage.Entities
         public string? VehicleRegNr { get; set; }
         public Vehicle Vehicle { get; set; }
 
-        private ParkingSlot()
+        public ParkingSlot()
         {
             Vehicle = null!;
         }

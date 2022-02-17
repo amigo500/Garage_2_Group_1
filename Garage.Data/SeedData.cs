@@ -3,23 +3,26 @@ using Bogus;
 using Garage.Entities;
 using Garage.Entities.Vehicles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Garage.Data
 {
     public class SeedData
     {
-         
-        
+
         private static Faker faker = null!;
         static readonly Random rando = new Random();
 
-        public static async Task InitAsync(GarageContext2 db)
+        public static async Task InitAsync(GarageContext2 db, IConfiguration config)
         {
+
+            int cap = int.Parse(config.GetSection("Garage:Capacity").Value);
             if (await db.User.AnyAsync()) return;
 
             faker = new Faker("en");
-            
-            
+
+            var parkingSlots = GenerateParkingSlots(cap);
+            await db.AddRangeAsync(parkingSlots);
 
             var users = GetUsers();
             await db.AddRangeAsync(users);
@@ -30,6 +33,20 @@ namespace Garage.Data
 
 
             await db.SaveChangesAsync();
+        }
+
+        private static IEnumerable<ParkingSlot> GenerateParkingSlots(int cap)
+        {
+            
+            var parkingSlot = new List<ParkingSlot>();
+
+            for (int i = 0; i < cap; i++)
+            {
+                var slot = new ParkingSlot();
+                parkingSlot.Add(slot);
+            }
+
+            return parkingSlot;
         }
 
         private static IEnumerable<User> GetUsers()
@@ -124,8 +141,6 @@ namespace Garage.Data
 
         private static string GetRegId()
         {
-
-
             // ToDo: Make a Do-While !UniqueRegId on this to make sure all the random generated regId's are Unique.
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -142,9 +157,6 @@ namespace Garage.Data
             }
 
             return stringBuilder.ToString();
-
-
-
         }
 
     }
