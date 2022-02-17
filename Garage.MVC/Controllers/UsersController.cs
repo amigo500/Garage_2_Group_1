@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage.Entities;
 
+
 namespace Garage_2_Group_1.Controllers
 {
     public class UsersController : Controller
@@ -26,7 +27,7 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
             {
@@ -66,7 +67,7 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
             {
@@ -86,7 +87,7 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SSN,LastName,FirstName,Avatar")] User user)
+        public async Task<IActionResult> Edit(long id, [Bind("SSN,LastName,FirstName,Avatar")] User user)
         {
             if (id != user.SSN)
             {
@@ -117,7 +118,7 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
             {
@@ -137,7 +138,7 @@ namespace Garage_2_Group_1.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
@@ -145,7 +146,7 @@ namespace Garage_2_Group_1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(long id)
         {
             return _context.User.Any(e => e.SSN == id);
         }

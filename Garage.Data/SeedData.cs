@@ -38,15 +38,59 @@ namespace Garage.Data
 
             for (int i = 0; i < 20; i++)
             {
+                var sSN = GetUserSSN();
                 var firstName = faker.Name.FirstName();
                 var lastName = faker.Name.LastName();
                 var avatar = faker.Internet.Avatar();
 
-                var user = new User(lastName, firstName, avatar);
+                var user = new User(lastName, firstName, avatar, sSN);
                 users.Add(user);
             }
             return users;
 
+        }
+
+        private static long GetUserSSN()
+        {
+            long month = faker.Random.Number(01, 12);
+            long day = faker.Random.Number(01, 28);
+
+            StringBuilder stringToParse = new StringBuilder();
+            stringToParse.Append(faker.Random.Number(1920, 2003));
+
+            if (month < 10)
+            {
+                stringToParse.Append(0);
+                stringToParse.Append(month);
+
+            }
+            else
+            {
+                stringToParse.Append(month);
+            }
+
+            if (day < 10)
+            {
+                stringToParse.Append(0);
+                stringToParse.Append(day);
+            }
+            else
+            {
+                stringToParse.Append(day);
+            }
+
+            stringToParse.Append(faker.Random.Number(1000, 9999));
+
+
+
+            if (long.TryParse(stringToParse.ToString(), out long sSN))
+            {
+                return sSN;
+            }
+            else
+            {
+                throw new Exception("Error Parsing SSN");
+            }
         }
 
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
@@ -93,5 +137,6 @@ namespace Garage.Data
 
 
         }
+
     }
 }
