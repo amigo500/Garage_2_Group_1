@@ -1,8 +1,7 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
+using Garage_2_Group_1.Models.VehicleViewModels;
+using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -47,11 +46,20 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Vehicles/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar");
-            ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name");
-            return View();
+            var viewModel = new VehicleCreateViewModel();
+            var types = await _context.VehicleType.ToListAsync();
+            var users = await _context.User.OrderBy(u => u.FirstName).ToListAsync();
+
+            types.ForEach(type => viewModel.VehicleTypes.Add(
+                new SelectListItem { Text = type.Name, Value = type.Id.ToString() }
+            ));
+            users.ForEach(user => viewModel.Users.Add(
+                new SelectListItem { Text = $"{user.FirstName} {user.LastName}" , Value = user.SSN.ToString() }
+            ));
+
+            return View(viewModel);
         }
 
         // POST: Vehicles/Create
@@ -59,17 +67,18 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RegNr,Color,Make,Model,WheelCount,UserSSN,VehicleTypeID")] Vehicle vehicle)
+        public async Task<IActionResult> Create(VehicleCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var vehicle = _mapper.Map<Vehicle>(viewModel);
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                ModelState.Clear();
+                viewModel = new VehicleCreateViewModel { CreatedSuccesfully = true };
             }
-            ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar", vehicle.UserSSN);
-            ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name", vehicle.VehicleTypeID);
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Edit/5
@@ -161,6 +170,22 @@ namespace Garage_2_Group_1.Controllers
         private bool VehicleExists(string id)
         {
             return _context.Vehicle.Any(e => e.RegNr == id);
+        }
+
+        public async Task<IActionResult> CheckRegNr(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if (!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
+            //check database
+            var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
+                    
+            if (dbResult != null)
+                return Json("The registration number has to be unique (already parked)");
+
+            return Json(true);
         }
     }
 }
