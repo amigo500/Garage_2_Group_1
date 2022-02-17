@@ -42,7 +42,7 @@ namespace Garage.Data
 
             for (int i = 0; i < cap; i++)
             {
-                var slot = new ParkingSlot();
+                var slot = new ParkingSlot(null);
                 parkingSlot.Add(slot);
             }
 

@@ -16,20 +16,21 @@ namespace Garage_2_Group_1.Services
         {
             _db = context;
 
-            var parkingSlots = _db.Vehicle.Select(v => v.ParkingSlots).ToList();
+            var parkingSlots = _db.ParkingSlot.ToList();
 
             Capacity = parkingSlots.Count;
             EmptyParkingSlotsCount = Capacity;
 
-            EmptyParkingSlots = Enumerable.Repeat("", Capacity).ToArray();
+            EmptyParkingSlots = Enumerable.Repeat("", Capacity + 1).ToArray();
 
-            parkingSlots.ForEach(slots => slots.ToList()
-            .ForEach(s => 
+            parkingSlots.ForEach(s =>
+            {
+                if (s.VehicleRegNr != null)
                 {
                     EmptyParkingSlots[s.Id] = s.VehicleRegNr!;
                     EmptyParkingSlotsCount--;
-                })
-            );
+                }
+            });
         }
 
         public async Task FreeParkingSlotsAsync(List<ParkingSlot> parkingSlots)
@@ -41,9 +42,10 @@ namespace Garage_2_Group_1.Services
 
         public async Task ParkInSlotsAsync(List<ParkingSlot> parkingSlots)
         {
-            var tasks = new List<Task>();
-            parkingSlots.ForEach(slot => tasks.Add(ParkInSlotAsync(slot)));
-            await Task.WhenAll(tasks);
+            foreach (var slot in parkingSlots)
+            {
+                await ParkInSlotAsync(slot);
+            }
         }
 
         public ICollection<ParkingSlot>? GetParkingSlots(int size, string regNr)
@@ -71,12 +73,13 @@ namespace Garage_2_Group_1.Services
         {
             var parkingSlots = (result: false, firstSlot: -1);
 
-            for (int i = 0; i < Capacity; i++)
+            for (int i = 1; i < Capacity; i++)
             {
                 if (VehicleFitsAt(i, size))
                 {
                     parkingSlots.result = true;
                     parkingSlots.firstSlot = i;
+                    break;
                 }
             }
 
@@ -103,6 +106,7 @@ namespace Garage_2_Group_1.Services
                 {
                     parkingSlots.result = true;
                     parkingSlots.firstSlot = i;
+                    break;
                 }
             }
 
@@ -159,6 +163,7 @@ namespace Garage_2_Group_1.Services
 
         private async Task ParkInSlotAsync(ParkingSlot slot)
         {
+            _db.ChangeTracker.Clear();
             _db.ParkingSlot.Update(slot);
             await _db.SaveChangesAsync();
 
@@ -168,7 +173,7 @@ namespace Garage_2_Group_1.Services
 
         private bool VehicleFitsAt(int index, int size)
         {
-            if (index - size < 0 || index + size >= Capacity) return false;
+            if (index < 1 || index + size >= Capacity) return false;
 
             var fits = true;
             for (int i = 0; i < size; i++)
@@ -184,7 +189,7 @@ namespace Garage_2_Group_1.Services
 
         private bool VehicleFitsAt(int index, int size, ICollection<ParkingSlot> currentParking)
         {
-            if (index - size < 0 || index + size >= Capacity) return false;
+            if (index - size < 1 || index + size >= Capacity) return false;
 
             var fits = true;
             for (int i = 0; i < size; i++)

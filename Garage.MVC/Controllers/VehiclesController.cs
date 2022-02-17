@@ -11,11 +11,13 @@ namespace Garage_2_Group_1.Controllers
     {
         private readonly GarageContext2 _context;
         private readonly IMapper _mapper;
+        private readonly IParkingService _ps;
 
-        public VehiclesController(GarageContext2 context, IMapper mapper)
+        public VehiclesController(GarageContext2 context, IMapper mapper, IParkingService ps)
         {
             _context = context;
             _mapper = mapper;
+            _ps = ps;
         }
 
         // GET: Vehicles
@@ -66,6 +68,47 @@ namespace Garage_2_Group_1.Controllers
 
                 ModelState.Clear();
                 viewModel = new VehicleCreateViewModel { CreatedSuccesfully = true };
+            }
+            return View(viewModel);
+        }
+
+        // GET: Vehicles/Park
+        public IActionResult Park(long? ssn)
+        {
+            if (ssn == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new VehicleParkViewModel { UserSSN = (long) ssn };
+            return View(viewModel);
+        }
+
+        // POST: Vehicles/Park
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Park(VehicleParkViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var vehicle = await _context.Vehicle
+                    .Include(v => v.VehicleType)
+                    .FirstOrDefaultAsync(m => m.RegNr == viewModel.RegNr);
+
+                var parkingSlots = _ps.GetParkingSlots(vehicle.VehicleType.Size, viewModel.RegNr);
+                
+                if (parkingSlots == null)
+                {
+                    viewModel = new VehicleParkViewModel { ParkedSuccesfully = false };
+                }
+
+                else
+                {
+                    await _ps.ParkInSlotsAsync(parkingSlots.ToList());
+                    viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
+                }
             }
             return View(viewModel);
         }

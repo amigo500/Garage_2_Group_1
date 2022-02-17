@@ -22,18 +22,12 @@ using Garage.Entities.Vehicles;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        //modelBuilder.Entity<Vehicle>()
-        //            .HasOne(v => v.User)
-        //            .WithMany(u => u.Vehicles)
-        //            .HasForeignKey(u => u.UserSSN);
-
-        //modelBuilder.Entity<Vehicle>()
-        //            .HasOne(v => v.VehicleType)
-        //            .WithMany(t => t.Vehicles)
-        //            .HasForeignKey(v => v.VehicleTypeID);
         
         modelBuilder.Entity<ParkingSlot>().Property(p => p.VehicleRegNr).IsRequired(false);
+
+        //modelBuilder.Entity<ParkingSlot>()
+        //    .Property(p => p.Id)
+        //    .UseIdentityColumn(seed: 0, increment: 1);
 
         modelBuilder.Entity<VehicleType>()
             .HasData

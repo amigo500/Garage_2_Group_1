@@ -1,75 +1,43 @@
 ﻿@model VehicleParkViewModel
-@inject IParkingService service
+@inject IParkingService parkingService
+@inject IUserSelectListService userListService
 
-@{
-    ViewData["Title"] = "Park";
-}
-
-<h1>Park your vehicle(@service.EmptyParkingSlotsCount available spots out of @service.Capacity)</h1>
+<h1>Park your vehicle(@parkingService.EmptyParkingSlotsCount available spots out of @parkingService.Capacity)</h1>
 
 <div class="container my-3">
     <div class="row">
-        @for (var i = 0; i < service.Capacity; i++)
+        @for (var i = 1; i <= parkingService.Capacity; i++)
         {
-           var color = service.EmptyParkingSlots[i] ? "green" : "red";
+           var color = parkingService.EmptyParkingSlots[i] == "" ? "green" : "red";
            <span class="box @color">@i</span>
         }
     </div>
 </div>
 
-<h4>Vehicle</h4><h6>Note: Cars and Motorcycles need 1 slot, Busses need 2 slots while Boats and Airplane needs 3 slots.</h6>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Park" id="ParkForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
-                <input asp-for="RegNr" class="form-control inputField" style="text-transform:uppercase"/>
-                <span asp-validation-for="RegNr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select class="form-control inputField" name="Type" asp-items="Html.GetEnumValueSelectList<VehicleType>(service.FindMaxSize())">
+                <select class="form-control inputField" name="RegNr" asp-items="@await userListService.GetVehicleSelectListAsync(Model!.UserSSN)">
                     <option selected="selected" disabled value="">Please select</option>
                 </select>
-                <span asp-validation-for="Type" id="TypeValidation" class="text-danger"></span>
+                <span asp-validation-for="RegNr" id="RegNrValidation" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Color" class="control-label"></label>
-                <select class="form-control inputField" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
-                    <option selected="selected" disabled value="">Please select</option>
-                </select>
-                <span asp-validation-for="Color" id="ColorValidation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Make" class="control-label"></label>
-                <input asp-for="Make" class="form-control inputField" />
-                <span asp-validation-for="Make" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control inputField" />
-                <span asp-validation-for="Model" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WheelCount" class="control-label"></label>
-                <input asp-for="WheelCount" class="form-control inputField" />
-                <span asp-validation-for="WheelCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mt-3">
+                <input type="submit" value="Park" class="btn btn-primary hidden" />
                 <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div class="modal fade" id="parkModal" tabindex="-1" aria-labelledby="parkModalLabel" aria-hidden="true">
+<div class="modal fade" id="VehicleModal" tabindex="-1" aria-labelledby="VehicleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="parkModalLabel">Parking results</h5>
+                <h5 class="modal-title" id="VehicleModalLabel">Park Vehicle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -86,35 +54,22 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $('select[name="Type"]').on('change', function() {
-            $('#TypeValidation').html("");
+        $(document).ready(function () {
+            $('select[name="RegNr"]').val('');
         });
-        $('select[name="Color"]').on('change', function() {
-            $('#ColorValidation').html("");
-        });
-        $('#ParkForm').submit(function(e) {
-            let selectedType = $('select[name="Type"]').find(":selected").val();
-            let selectedColor = $('select[name="Color"]').find(":selected").val();
-            if (selectedType == "") {
-                e.preventDefault();
-                $('#TypeValidation').html("Please pick a vehicle type");
-            }
-            if (selectedColor == ""){
-                e.preventDefault();
-                $('#ColorValidation').html("Please pick a color");
-            }
+        $('select[name="RegNr"]').on('change', function () {
+            $('#RegNrValidation').html("");
+            $(".hidden").removeClass("hidden");
         });
     </script>
 
     @if (Model?.ParkedSuccesfully == true)
     {
-        <script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
-            $("#parkModal").modal('show');
+            $("#VehicleModal").modal('show');
             $('form')[0].reset();
         });
-        </script>
+    </script>
     }
 }
-
-
