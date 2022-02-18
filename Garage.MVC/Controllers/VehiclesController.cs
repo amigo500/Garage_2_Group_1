@@ -225,9 +225,9 @@ namespace Garage_2_Group_1.Controllers
             var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
 
             if (dbResult == null)
-                return Json("Vehicle not registered, register?");
+                return Json("Vehicle not registered, register a new vehicle?");
 
-            return Json("Vehicle ready for parking!");
+            return Json(true);
         }
     }
 }

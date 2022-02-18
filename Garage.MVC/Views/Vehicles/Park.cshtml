@@ -22,8 +22,8 @@
                 <label asp-for="RegNr" class="control-label"></label>
                 <div class="input-group">
                     <input type="text" class="form-control" asp-for="RegNr" style="text-transform:uppercase" />
-                    <button class="btn btn-primary hidden" id="RegisterButton">Register</button>
-                    <input type="submit" value="Park" id="ParkButton" class="btn btn-primary hidden" />
+                    <a asp-action="Create" class="btn btn-primary hidden" id="RegisterButton">Register</a>
+                    <input type="submit" value="Park" id="ParkButton" class="btn btn-primary" />
                 </div>
                 <span asp-validation-for="RegNr" id="RegNrValidation" class="text-danger"></span>
             </div>
@@ -66,14 +66,14 @@
                     $('#RegisterButton').removeClass("hidden");
                     $('#ParkButton').addClass("hidden");
                 }
-                else if (previousVal.includes('parking')){
-                    $('#ParkButton').removeClass("hidden");
-                    $('#RegisterButton').addClass("hidden");
-                }
-                else 
+                else if(previousVal != "")
                 {
                     $('#RegisterButton').addClass("hidden");
                     $('#ParkButton').addClass("hidden");
+                }
+                else {
+                    $('#RegisterButton').addClass("hidden");
+                    $('#ParkButton').removeClass("hidden");
                 }
                
             });
