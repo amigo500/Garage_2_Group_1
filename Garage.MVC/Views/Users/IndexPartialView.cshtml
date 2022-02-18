@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserIndexViewModel>
+﻿@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserDetailsViewModel>
 
 @{
     
@@ -13,10 +13,10 @@
             {
 
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card mb-4" style="width: 18rem;">
                         <img src="@item.Avatar" class="card-img-top" alt="Profile Picture">
-                        <div class="card-header">@Html.DisplayNameFor(model => model.FirstName): @Html.DisplayFor(modelItem => item.FirstName )</div>
-                        <div class="card-header">@Html.DisplayNameFor(model => model.LastName): @Html.DisplayFor(modelItem => item.LastName)</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.FullName): @Html.DisplayFor(modelItem => item.FullName )</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.RegisteredVehiclesAmount): @Html.DisplayFor(modelItem => item.RegisteredVehiclesAmount)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.SSN): @Html.DisplayFor(modelItem => item.SSN)</div>
                         <div class="card-body">
 
