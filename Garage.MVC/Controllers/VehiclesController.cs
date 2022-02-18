@@ -73,15 +73,9 @@ namespace Garage_2_Group_1.Controllers
         }
 
         // GET: Vehicles/Park
-        public IActionResult Park(long? ssn)
+        public IActionResult Park()
         {
-            if (ssn == null)
-            {
-                return NotFound();
-            }
-
-            var viewModel = new VehicleParkViewModel { UserSSN = (long) ssn };
-            return View(viewModel);
+            return View();
         }
 
         // POST: Vehicles/Park
@@ -218,6 +212,22 @@ namespace Garage_2_Group_1.Controllers
                 return Json("The registration number has to be unique (already parked)");
 
             return Json(true);
+        }
+
+        public async Task<IActionResult> Parkable(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if (!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
+
+            //check database
+            var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
+
+            if (dbResult == null)
+                return Json("Vehicle not registered, register?");
+
+            return Json("Vehicle ready for parking!");
         }
     }
 }
