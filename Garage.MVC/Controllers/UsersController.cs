@@ -30,8 +30,6 @@ namespace Garage_2_Group_1.Controllers
         public async Task<IActionResult> Index()
         {
             var model = mapper.ProjectTo<UserIndexViewModel>(db.User);
-                              
-                             
 
             return View(await model.ToListAsync());
         }

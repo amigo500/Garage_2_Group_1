@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Bogus;
+﻿using Bogus;
 using Garage.Entities;
 using Garage.Entities.Vehicles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace Garage.Data
 {
@@ -28,7 +28,7 @@ namespace Garage.Data
             await db.AddRangeAsync(users);
 
 
-            var vehicles = GetVehicles(users ,db);
+            var vehicles = GetVehicles(users, db);
             await db.AddRangeAsync(vehicles);
 
 
@@ -37,7 +37,7 @@ namespace Garage.Data
 
         private static IEnumerable<ParkingSlot> GenerateParkingSlots(int cap)
         {
-            
+
             var parkingSlot = new List<ParkingSlot>();
 
             for (int i = 0; i < cap; i++)
@@ -113,31 +113,35 @@ namespace Garage.Data
         private static IEnumerable<Vehicle> GetVehicles(IEnumerable<User> users, GarageContext2 db)
         {
             var max = Enum.GetNames(typeof(VehicleColor)).Length;
-            
+
 
             List<VehicleType> vT = db.VehicleType.Select(x => x).ToList();
             var vehicles = new List<Vehicle>();
             foreach (var user in users)
             {
 
-                if (faker.Random.Int(0, 3) == 0)
+                if (faker.Random.Int(0, 2) != 0)
                 {
-                    
-                    var model = faker.Vehicle.Model();
-                    var make = faker.Vehicle.Manufacturer();
-                    var color = (VehicleColor)faker.Random.Int(0, max -1);
-                    var ran = faker.Random.Int(0,vT.Count -1);
-                    var wheelCount = faker.Random.Int(0, 4);
-                    var vehicleType = vT[ran];
-                    var regId = GetRegId();
-                    var Vehicle = new Vehicle(make, model, regId, user, vehicleType, color, wheelCount);
-                    vehicles.Add(Vehicle);
+                    for (int i = 0; i < faker.Random.Int(1, 3); i++)
+                    {
+
+                        var model = faker.Vehicle.Model();
+                        var make = faker.Vehicle.Manufacturer();
+                        var color = (VehicleColor)faker.Random.Int(0, max - 1);
+                        var ran = faker.Random.Int(0, vT.Count - 1);
+                        var wheelCount = faker.Random.Int(0, 4);
+                        var vehicleType = vT[ran];
+                        var regId = GetRegId();
+                        var Vehicle = new Vehicle(make, model, regId, user, vehicleType, color, wheelCount);
+                        vehicles.Add(Vehicle);
+                    }
+
                 }
             }
             return vehicles;
         }
 
-       
+
 
         private static string GetRegId()
         {
