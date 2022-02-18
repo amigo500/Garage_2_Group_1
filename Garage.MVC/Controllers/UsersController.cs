@@ -7,39 +7,43 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage.Entities;
-
+using Bogus;
+using AutoMapper;
+using Garage_2_Group_1.Models.UserViewModels;
 
 namespace Garage_2_Group_1.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly GarageContext2 _context;
+        private readonly Faker faker;
+        private readonly GarageContext2 db;
+        private readonly IMapper mapper;
 
-        public UsersController(GarageContext2 context)
+        public UsersController(GarageContext2 context, IMapper mapper)
         {
-            _context = context;
+            this.mapper = mapper;
+            db = context;
+            faker = new Faker("en");
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            var model = mapper.ProjectTo<UserIndexViewModel>(db.User);
+                              
+                             
+
+            return View(await model.ToListAsync());
         }
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            
 
-            var user = await _context.User
+            var user = await mapper.ProjectTo<UserDetailsViewModel>(db.User)
                 .FirstOrDefaultAsync(m => m.SSN == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            
 
             return View(user);
         }
@@ -47,7 +51,9 @@ namespace Garage_2_Group_1.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            var user = new UserCreateViewModel();
+
+            return View(user);
         }
 
         // POST: Users/Create
@@ -55,15 +61,15 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SSN,LastName,FirstName,Avatar")] User user)
+        public async Task<IActionResult> Create(UserCreateViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(user);
+            var user = mapper.Map<User>(viewModel);
+            user.Avatar = faker.Internet.Avatar();
+
+            db.Add(user);
+            await db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Users/Edit/5
@@ -74,7 +80,8 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
+            var user = await mapper.ProjectTo<UserEditViewModel>(db.User)
+                                   .FirstOrDefaultAsync(u => u.SSN == id);
             if (user == null)
             {
                 return NotFound();
@@ -87,9 +94,9 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("SSN,LastName,FirstName,Avatar")] User user)
+        public async Task<IActionResult> Edit(long id, UserEditViewModel viewModel)
         {
-            if (id != user.SSN)
+            if (id != viewModel.SSN)
             {
                 return NotFound();
             }
@@ -98,12 +105,15 @@ namespace Garage_2_Group_1.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    var user = await db.User.FirstOrDefaultAsync(u => u.SSN == id);
+
+                    mapper.Map(viewModel, user);
+                    db.Update(user);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.SSN))
+                    if (!UserExists(viewModel.SSN))
                     {
                         return NotFound();
                     }
@@ -114,41 +124,12 @@ namespace Garage_2_Group_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
-        }
-
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.SSN == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(viewModel);
         }
 
         private bool UserExists(long id)
         {
-            return _context.User.Any(e => e.SSN == id);
+            return db.User.Any(e => e.SSN == id);
         }
     }
 }
