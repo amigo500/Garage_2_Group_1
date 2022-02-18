@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@100;200;300&family=Libre+Franklin:ital,wght@0,200;0,500;0,700;1,200;1,500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+@*    <header>
         <nav class="navbar mb-3">
             <div class="container">
                 <div class="col-8 offset-2">
@@ -26,6 +26,21 @@
                         <a id="park" type="button" class="btn btn-success"asp-controller="Vehicles" asp-action="Park">Park</a>
                     </div>
             </div>
+            <header role="banner">*@
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-default mb-3 navbar-fixed-top">
+  <div class="navbar-header">
+    <img class="mx-3" src="~/images/Parkatron_Logo.png" height="120" alt="Parkatron Logo" />
+  </div>
+  <div id="resNav">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a asp-controller="Home" asp-action="Index" class="btn btn-success">Home</a></li>
+      <li><a asp-controller="Users" asp-action="Index" class="btn btn-success">Users</a></li>
+      <li><a asp-controller="Vehicles" asp-action="Index" class="btn btn-success">Vehicles</a></li>
+    </ul>
+  </div>
+</nav>  <!-- End of Navigation Bar -->
 
 
 

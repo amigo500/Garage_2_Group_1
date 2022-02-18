@@ -1,59 +1,62 @@
-html {
-   
+/*html {
     font-size: 14px;
-}
-
+}*/
+/*
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
+    html {
+        font-size: 16px;
+    }
+}*/
+/*
 html {
-  position: relative;
-  min-height: 100%;
-}
+    position: relative;
+    min-height: 100%;
+}*/
+/*
 .col {
-    
     display: flex;
     align-content: center;
     justify-content: center;
+}*/
+
+
+.navbar {
+    padding: 20px 10px 20px 0px !important;
+    background-color: #382f41 !important;
+    transition: all ease 0.4s !important;
 }
+
+.navbar-brand {
+    font-size: 22px !important;
+    color: white !important;
+}
+
+.navbar .navbar-nav li a {
+    font-size: 16px !important;
+    color: white !important;
+}
+
 
 body {
     font-family: 'Gluten', cursive !important;
     font-family: 'Libre Franklin', sans-serif !important;
     margin-bottom: 60px;
 }
+
 #park {
     margin-bottom: 1.5rem;
 }
 
-.navbar {
-    background-color: #382f41 !important;
-    text-align: center;
-    height: 5.4rem;
-}
-.navbar-brand {
-    font-size:1.8rem;
-    font-weight:700;
-    color: #ffff !important;
-    
-   
-}
-.text-muted {
-    font-weight:500;
-    font-size: 0.8rem;
-    height: 1rem;
-}
 .btn-success:hover {
     background-color: #7d7382;
     border-color: #573058;
 }
+
 .btn-primary:hover {
     background-color: #573058;
     border-color: #573058;
 }
+
 .btn.btn-success.active,
 .btn.btn-success:active {
     color: #fff;
@@ -62,6 +65,7 @@ body {
     outline: none !important;
     box-shadow: none;
 }
+
 .btn.btn-primary.focus,
 .btn.btn-primary:focus {
     color: #fff;
@@ -70,6 +74,7 @@ body {
     outline: none !important;
     box-shadow: none;
 }
+
 .btn.btn-success.focus,
 .btn.btn-success:focus {
     color: #fff;
@@ -92,10 +97,12 @@ body {
     background-color: #382f41;
     border-color: #382f41;
 }
+
 .btn-success {
     background-color: #573058;
     border-color: #7d7382;
 }
+
 .inputField.active, .inputField.focus, .inputField:active, .inputField:focus {
     box-shadow: none;
     border-color: #382f41;
@@ -125,6 +132,7 @@ body {
     background-color: yellowgreen;
     text-align: center;
 }
+
 h6 {
     font-weight: 400;
     font-style: italic;
