@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using AutoMapper;
-using Garage_2_Group_1.Models.VehicleViewModels;
+using Garage_2_Group_1.Models.VehicleVeiwModels;
+
 using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,8 +24,8 @@ namespace Garage_2_Group_1.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var garageContext2 = _context.Vehicle.Include(v => v.User).Include(v => v.VehicleType);
-            return View(await garageContext2.ToListAsync());
+            var model = _mapper.ProjectTo<VehicleIndexViewModel>(_context.Vehicle);
+            return View(await model.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
