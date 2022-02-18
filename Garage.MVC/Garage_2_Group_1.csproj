@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Models\VehicleViewModels\VehicleEditViewModel1.cs" />
     <Compile Include="Models\VehicleViewModels\VehicleCreateViewModel.cs" />
+    <Compile Include="Models\VehicleViewModels\VehicleIndexViewModel1.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,8 +43,8 @@
     <Content Include="Views\Vehicles\Create.cshtml" />
     <None Include="Views\Vehicles\Delete.cshtml" />
     <None Include="Views\Vehicles\Details.cshtml" />
-    <None Include="Views\Vehicles\Edit.cshtml" />
-    <None Include="Views\Vehicles\Index.cshtml" />
+    <Content Include="Views\Vehicles\Edit.cshtml" />
+    <Content Include="Views\Vehicles\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

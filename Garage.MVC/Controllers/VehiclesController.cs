@@ -18,11 +18,30 @@ namespace Garage_2_Group_1.Controllers
             _mapper = mapper;
         }
 
-        // GET: Vehicles
-        public async Task<IActionResult> Index()
+        // GET: Vehicles/Index
+        public IActionResult Index()
         {
-            var garageContext2 = _context.Vehicle.Include(v => v.User).Include(v => v.VehicleType);
-            return View(await garageContext2.ToListAsync());
+            return View();
+        }
+
+
+        // POST: Vehicles/Cre
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(VehicleCreateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var vehicle = _mapper.Map<Vehicle>(viewModel);
+                _context.Add(vehicle);
+                await _context.SaveChangesAsync();
+
+                ModelState.Clear();
+                viewModel = new VehicleCreateViewModel { CreatedSuccesfully = true };
+            }
+            return View(viewModel);
         }
 
         // GET: Vehicles/Details/5

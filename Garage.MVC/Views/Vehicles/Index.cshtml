@@ -1,35 +1,41 @@
-﻿@model IEnumerable<Garage.Entities.Vehicles.Vehicle>
+﻿@model IEnumerable<Garage_2_Group_1.Models.VehicleViewModels.VehicleIndexViewModel1>
+@inject IVehicleTypeSelectListService typeListService
+@inject IUserSelectListService userListService
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "All Vehicles";
 }
 
-<h1>Index</h1>
+<h1>All Registered Vehicles</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Register new vehicle</a>
 </p>
+<form asp-action="Filter">
+    <div class="input-group mb-4">
+        <input type="text" class="form-control" name="licenseNrContains" placeholder="Search licence number" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WheelCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.VehicleType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenceNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -38,29 +44,42 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Color)
+                <icon vehicle-type="@item.VehicleType"></icon>
+                @Html.DisplayFor(modelItem => item.VehicleType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Make)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Model)
+                @Html.DisplayFor(modelItem => item.LicenceNr)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WheelCount)
+                @if (!item.Status)
+                {
+                    <a>-</a>;
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.ParkedHours) <a>hour(s)</a>;
+                }
+
+                @*@Html.DisplayFor(modelItem => item.ParkedHours) hour(s)*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Avatar)
+                <picon status="@item.Status"></picon>
+                @*@Html.DisplayFor(modelItem => item.Status)*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleType.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RegNr">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RegNr">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RegNr">Delete</a>
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Receipt" asp-route-id="@item.Id">Unpark</a>*@
+                <parkingstatus controller="Vehicles" status="item.Status" key="item.Id"></parkingstatus>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<p id="parknew">
+    <a asp-action="Create"><img src="/img/plus.svg" alt="Park new vehicle" style="width:50px;height:50px;"></a>
+</p>
