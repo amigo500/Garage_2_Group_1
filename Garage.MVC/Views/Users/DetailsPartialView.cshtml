@@ -1,4 +1,5 @@
 ﻿@model Garage_2_Group_1.Models.UserViewModels.UserDetailsViewModel
+@inject IParkingService parkingService
 
 <div id="parkedCars" class="container mt-5">
     <div class="row">
@@ -11,7 +12,7 @@
 
                 <div class="col">
                     <div class="card" style="width: 18rem;">
-                        <img src="/images/details.jpg" class="card-img-top" alt="Vehicle Data">
+                        <parked reg-nr=@item.RegNr></parked>
                         <div class="card-header">@Html.DisplayNameFor(model => model.RegNr): @Html.DisplayFor(modelItem => item.RegNr)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.VehicleType): @Html.DisplayFor(modelItem => item.VehicleType)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.Make): @Html.DisplayFor(modelItem => item.Make)</div>
