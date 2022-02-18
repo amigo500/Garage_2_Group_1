@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserIndexViewModel>
+﻿@using Garage_2_Group_1.Models.UserViewModels
+@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -32,29 +33,4 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SSN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Avatar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Membership)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id= item.SSN }) |
-                @Html.ActionLink("Details", "Details", new { id=item.SSN }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.SSN })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<partial name="IndexPartialView" />

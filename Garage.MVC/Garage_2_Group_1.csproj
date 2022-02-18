@@ -42,7 +42,7 @@
     <None Include="Views\Vehicles\Delete.cshtml" />
     <None Include="Views\Vehicles\Details.cshtml" />
     <None Include="Views\Vehicles\Edit.cshtml" />
-    <None Include="Views\Vehicles\Index.cshtml" />
+    <Content Include="Views\Vehicles\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
