@@ -8,6 +8,7 @@ namespace Garage_2_Group_1.Services
         int EmptyParkingSlotsCount { get; }
         int Capacity { get; }
         bool IsEmpty(int index);
+        bool IsParked(string regNr);
         int FindMaxSize(ICollection<ParkingSlot> currentSlots);
         (bool result, int firstSlot) HasParkingSlotsForSize(int size);
         (bool result, int firstSlot) HasParkingSlotsForSize(int size, ICollection<ParkingSlot> currentSlots);

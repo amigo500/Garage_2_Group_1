@@ -202,5 +202,10 @@ namespace Garage_2_Group_1.Services
             }
             return fits;
         }
+
+        public bool IsParked(string regNr)
+        {
+            return EmptyParkingSlots.Contains(regNr);
+        }
     }
 }
