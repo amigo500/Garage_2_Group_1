@@ -18,7 +18,7 @@ namespace Garage_2_Group_1.Models.UserViewModels
         public string Make { get; set; }
         public VehicleType VehicleType { get; set; }
         public string RegNr { get; set; }
-        public VehicleType Type { get; set; }
+        
 
 
     }
