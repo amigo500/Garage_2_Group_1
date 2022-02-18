@@ -39,17 +39,11 @@ namespace Garage_2_Group_1.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            
 
-            var user = await db.User
+            var user = await mapper.ProjectTo<UserDetailsViewModel>(db.User)
                 .FirstOrDefaultAsync(m => m.SSN == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            
 
             return View(user);
         }
