@@ -1,66 +1,15 @@
-﻿@model IEnumerable<Garage.Entities.Vehicles.Vehicle>
-
+﻿@using Garage_2_Group_1.Models.VehicleVeiwModels
+@model IEnumerable<VehicleIndexViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Registered Vehicles</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Register Vehicles</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WheelCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VehicleType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WheelCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Avatar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleType.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RegNr">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RegNr">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RegNr">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<partial name="IndexRegisteredVehiclesPartial" />
+
+  
