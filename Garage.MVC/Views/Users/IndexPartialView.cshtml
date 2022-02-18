@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Garage_2_Group_1.Models.UserViewModels.UserIndexViewModel>
+
+@{
+    
+}
+<div id="parkedCars" class="container mt-5">
+    <div class="row">
+        <div class="row">
+
+
+
+            @foreach (var item in Model)
+            {
+
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="@item.Avatar" class="card-img-top" alt="Profile Picture">
+                        <div class="card-header">@Html.DisplayNameFor(model => model.FirstName): @Html.DisplayFor(modelItem => item.FirstName )</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.LastName): @Html.DisplayFor(modelItem => item.LastName)</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.SSN): @Html.DisplayFor(modelItem => item.SSN)</div>
+                        <div class="card-body">
+
+
+
+
+
+
+                            <a asp-action="Edit" asp-route-id="@item.SSN" class="btn btn-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.SSN" class="btn btn-primary">Details</a>
+                           @* <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-danger">Checkout</a>*@
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
