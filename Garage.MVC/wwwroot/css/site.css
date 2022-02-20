@@ -139,6 +139,16 @@ body {
     text-align: center;
 }
 
+.slot-hover {
+    background-color: white !important;
+    text-align: center;
+}
+
+.slot-selected {
+    background-color: lightblue;
+    text-align: center;
+}
+
 h6 {
     font-weight: 400;
     font-style: italic;
@@ -147,4 +157,12 @@ h6 {
 
 .hidden {
     display: none;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

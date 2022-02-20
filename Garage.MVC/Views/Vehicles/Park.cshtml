@@ -2,7 +2,7 @@
 @inject IParkingService parkingService
 @inject IUserSelectListService userListService
 
-<h1>Park your vehicle(@parkingService.EmptyParkingSlotsCount available spots out of @parkingService.Capacity)</h1>
+<h1>Park a vehicle</h1>
 
 <div class="container my-3">
     <div class="row">
@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
                 <div class="input-group">
-                    <input type="text" class="form-control" asp-for="RegNr" style="text-transform:uppercase" />
+                    <input type="text" id="RegNr" class="form-control" asp-for="RegNr" style="text-transform:uppercase" />
                     <a asp-action="Create" class="btn btn-primary hidden" id="RegisterButton">Register</a>
                     <input type="submit" value="Park" id="ParkButton" class="btn btn-primary" />
                 </div>
@@ -35,7 +35,7 @@
 </div>
     
 
-<div class="modal fade" id="VehicleModal" tabindex="-1" aria-labelledby="VehicleModalLabel" aria-hidden="true">
+<div class="modal fade" id="VehicleModalSuccess" tabindex="-1" aria-labelledby="VehicleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -44,6 +44,23 @@
             </div>
             <div class="modal-body">
                 Your vehicle has been successfully parked!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="VehicleModalFailure" tabindex="-1" aria-labelledby="VehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="VehicleModalLabel">Park Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your vehicle couldn't be parked, no enough parking spots!
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
@@ -62,7 +79,8 @@
             $('input[name="RegNr"]').val('');
 
             $('#RegNrValidation').change(function(){
-                if (previousVal.includes('register')){
+                if (previousVal.includes('register'))
+                {
                     $('#RegisterButton').removeClass("hidden");
                     $('#ParkButton').addClass("hidden");
                 }
@@ -96,8 +114,18 @@
     {
     <script type="text/javascript">
         $(function () {
-            $("#VehicleModal").modal('show');
-            $('form')[0].reset();
+            $("#VehicleModalSuccess").modal('show');
+            $('#RegNr').val("")
+        });
+    </script>
+    }
+
+    @if (Model?.ParkedSuccesfully == false)
+    {
+    <script type="text/javascript">
+        $(function () {
+            $("#VehicleModalFailure").modal('show');
+            $('#RegNr').val("")
         });
     </script>
     }

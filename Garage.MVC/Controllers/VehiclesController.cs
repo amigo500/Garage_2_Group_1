@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using AutoMapper;
+using Garage.Entities;
 using Garage_2_Group_1.Models.VehicleVeiwModels;
 
 using Garage_2_Group_1.Utils;
@@ -92,6 +93,10 @@ namespace Garage_2_Group_1.Controllers
                     .Include(v => v.VehicleType)
                     .FirstOrDefaultAsync(m => m.RegNr == viewModel.RegNr);
 
+                // Vehicle is already parked (occurs on page refresh after successful parking)
+                if (vehicle.ParkingSlots.Count > 0)  
+                    return View(viewModel); 
+
                 var parkingSlots = _ps.GetParkingSlots(vehicle.VehicleType.Size, viewModel.RegNr);
                 
                 if (parkingSlots == null)
@@ -101,7 +106,12 @@ namespace Garage_2_Group_1.Controllers
 
                 else
                 {
-                    await _ps.ParkInSlotsAsync(parkingSlots.ToList());
+                    foreach (ParkingSlot slot in parkingSlots)
+                    {
+                        slot.VehicleRegNr = viewModel.RegNr;
+                        await _ps.ParkInSlotAsync(slot);
+                    }
+                    ModelState.Clear();
                     viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
                 }
             }
@@ -226,7 +236,29 @@ namespace Garage_2_Group_1.Controllers
             var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
 
             if (dbResult == null)
-                return Json("Vehicle not registered, register a new vehicle?");
+                return Json("Vehicle is not registered, register a new vehicle?");
+
+            if (dbResult.ParkingSlots.Count > 0)
+                return Json("Vehicle is already parked");
+
+            return Json(true);
+        }
+
+        public async Task<JsonResult> ParkInSelected([FromBody] SelectedParkingSlots dto)
+        {
+            var parkingSlots = new List<ParkingSlot>();
+
+            for (var i = 0; i < dto.selected.Length; i++)
+            {
+                var slot = await _context.ParkingSlot
+                    .FirstOrDefaultAsync(p => p.Id == Int32.Parse(dto.selected[i]));
+
+                if (slot == null) 
+                    return Json($"Parking slot not found for id {dto.selected[i]}");
+
+                slot.VehicleRegNr = dto.regnr;
+                await _ps.ParkInSlotAsync(slot);
+            }
 
             return Json(true);
         }

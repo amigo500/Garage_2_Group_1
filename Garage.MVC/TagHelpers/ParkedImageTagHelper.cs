@@ -8,7 +8,7 @@ namespace Garage_2_Group_1.TagHelpers
     [HtmlTargetElement("parked")]
     public class ParkedImageTagHelper : TagHelper
     {
-        public string? RegNr { get; set; }
+        public string RegNr { get; set; } = String.Empty;
 
         private readonly IParkingService _ps;
 
@@ -16,23 +16,22 @@ namespace Garage_2_Group_1.TagHelpers
         {
             _ps = ps;
         }
-        // <img src="~/images/details-empty.png" class="card-img-top" alt="Vehicle Data">
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "img";
             output.AddClass("parked", HtmlEncoder.Default);
+            output.AddClass("card-img-top", HtmlEncoder.Default);
 
             var parkedImg = "/images/details.jpg";
             var notParkedImg = "/images/details-empty.png";
 
-            var builder = new StringBuilder();
-
             if (_ps.IsParked(RegNr))
-                builder.Append($"<img src='{parkedImg}' class='card-img-top' alt='Vehicle Data'");
+                output.Attributes.SetAttribute("src", parkedImg);
             else
-                builder.Append($"<img src='{notParkedImg}' class='card-img-top' alt='Vehicle Data'");
+                output.Attributes.SetAttribute("src", notParkedImg);
 
-            output.Content.SetHtmlContent(builder.ToString());
+            output.Attributes.SetAttribute("alt", "Vehicle Parked/Unparked Image");
         }
     }
 }

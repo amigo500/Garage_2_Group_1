@@ -11,6 +11,7 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
 
         [Display(Name = "Vehicle Type")]
         public string VehicleTypeName { get; set; }
+        public int VehicleTypeId { get; set; }
         public VehicleType Type { get; set; }
 
         [Display(Name = "Owned By:")]
