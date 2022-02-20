@@ -21,6 +21,8 @@ namespace Garage_2_Group_1.Models.UserViewModels
         public long UserSSN { get; set; }
         public string Model { get; set; }
         public string Make { get; set; }
+        [Display(Name = "Vehicle Type")]
+        public string VehicleTypeName { get; set; }
         public VehicleType VehicleType { get; set; }
         public string RegNr { get; set; }
         

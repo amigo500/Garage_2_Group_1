@@ -14,7 +14,7 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
         public string VehicleTypeName { get; set; }
         public VehicleType Type { get; set; }
 
-        [Display(Name = "Owned By:")]
+        [Display(Name = "Owned By")]
         public string FullName { get; set; }
         public long? UserSSN { get; set; }
 
