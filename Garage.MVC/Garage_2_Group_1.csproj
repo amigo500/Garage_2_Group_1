@@ -42,10 +42,13 @@
   <ItemGroup>
     <Content Include="Views\Vehicles\Create.cshtml" />
     <Content Include="Views\Vehicles\Details.cshtml" />
-    <Content Include="Views\Vehicles\Edit.cshtml" />
     <Content Include="Views\Vehicles\IndexRegisteredVehiclesPartial.cshtml" />
     <Content Include="Views\Vehicles\Index.cshtml" />
     <Content Include="Views\Vehicles\Park.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Vehicles\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

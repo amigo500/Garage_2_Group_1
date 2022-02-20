@@ -1,22 +1,36 @@
-﻿@model Garage.Entities.Vehicles.Vehicle
+﻿@model VehicleCreateViewModel
+@inject IVehicleTypeSelectListService typeListService
+@inject IUserSelectListService userListService
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Edit</h1>
 
-<h4>Vehicle</h4>
+<h4>VehicleCreateViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RegNr" />
+            <div class="form-group">
+                <label asp-for="RegNr" class="control-label"></label>
+                <input asp-for="RegNr" class="form-control" />
+                <span asp-validation-for="RegNr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleTypeID" class="control-label"></label>
+                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync()">
+                    <option selected="selected" disabled value="">Please select</option>
+                </select>
+                <span asp-validation-for="VehicleTypeID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <select asp-for="Color" class="form-control"></select>
+                 <select class="form-control inputField" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
+                    <option selected="selected" disabled value="">Please select</option>
+                </select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,16 +49,6 @@
                 <span asp-validation-for="WheelCount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserSSN" class="control-label"></label>
-                <select asp-for="UserSSN" class="form-control" asp-items="ViewBag.UserSSN"></select>
-                <span asp-validation-for="UserSSN" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select asp-for="VehicleTypeID" class="form-control" asp-items="ViewBag.VehicleTypeID"></select>
-                <span asp-validation-for="VehicleTypeID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -58,3 +62,35 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+ <script>
+        $(document).ready(function () {
+            $('select[name="UserSSN"]').val('');
+        });
+        $('select[name="UserSSN"]').on('change', function () {
+            $('#UserValidation').html("");
+            $(".hidden").removeClass("hidden");
+        });
+        $('select[name="VehicleTypeID"]').on('change', function () {
+            $('#TypeValidation').html("");
+        });
+        $('select[name="Color"]').on('change', function () {
+            $('#ColorValidation').html("");
+        });
+        $('#VehicleForm').submit(function (e) {
+            let selectedUser = $('select[name="UserSSN"]').find(":selected").val();
+            let selectedType = $('select[name="VehicleTypeID"]').find(":selected").val();
+            let selectedColor = $('select[name="Color"]').find(":selected").val();
+            if (selectedUser == "") {
+                e.preventDefault();
+                $('#UserValidation').html("Please pick a user");
+            }
+            if (selectedType == "") {
+                e.preventDefault();
+                $('#TypeValidation').html("Please pick a vehicle type");
+            }
+            if (selectedColor == "") {
+                e.preventDefault();
+                $('#ColorValidation').html("Please pick a color");
+            }
+        });
+    </script>

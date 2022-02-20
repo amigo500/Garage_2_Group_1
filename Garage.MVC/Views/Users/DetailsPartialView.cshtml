@@ -24,9 +24,9 @@
 
 
 
-                            <a asp-action="Edit" asp-route-id="@item.RegNr" class="btn btn-primary">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.RegNr" class="btn btn-primary">Details</a>
-                            <a asp-action="Checkout" asp-route-id="@item.RegNr" class="btn btn-danger">Checkout</a>
+                            <a asp-controller="Vehicles" asp-action="Edit" asp-route-id="@item.RegNr" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@item.RegNr" class="btn btn-primary">Details</a>
+                            <a asp-controller="Vehicles" asp-action="Checkout" asp-route-id="@item.RegNr" class="btn btn-danger">Checkout</a>
 
                         </div>
                     </div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Garage.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Garage_2_Group_1.Models.VehicleVeiwModels
@@ -18,6 +19,7 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
         public long? UserSSN { get; set; }
 
         [Display(Name = "Color")]
+        public string VehicleColor { get; set; }
         public VehicleColor? Color { get; set; }
 
         public string Make { get; set; }
@@ -26,6 +28,7 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
         
         [Display(Name = "Wheel Count")]
         public int WheelCount { get; set; }
+        public ICollection<ParkingSlot> ParkingSlots { get; set; }
 
 
     }
