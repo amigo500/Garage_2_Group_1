@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Compile Include="Models\VehicleViewModels\VehicleCreateViewModel.cs" />
+    <Compile Include="Models\VehicleViewModels\VehicleEditViewModel.cs" />
     <Compile Include="Models\VehicleViewModels\VehicleIndexViewModel.cs" />
     <Compile Include="Models\VehicleViewModels\VehicleParkViewModel.cs" />
   </ItemGroup>
