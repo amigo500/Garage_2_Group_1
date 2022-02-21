@@ -16,8 +16,8 @@
                         <div class="card-header">@Html.DisplayNameFor(model => model.Make): @Html.DisplayFor(modelItem => item.Make)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.Model): @Html.DisplayFor(modelItem => item.Model)</div>
                         <div class="card-body text-center">
-                            <a asp-action="Edit" asp-route-id="@item.RegNr" class="btn btn-primary">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.RegNr" class="btn btn-primary">Details</a>
+                            <a asp-action="Edit" asp-controller="Vehicles" asp-route-id="@item.RegNr" class="btn btn-primary">Edit</a>
+                            <a asp-action="Details" asp-controller="Vehicles" asp-route-id="@item.RegNr" class="btn btn-primary">Details</a>
                             <poc reg-nr=@item.RegNr type-id=@item.VehicleTypeID></poc>
                         </div>
                     </div>
