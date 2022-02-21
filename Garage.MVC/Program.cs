@@ -17,6 +17,7 @@ builder.Services.AddSingleton(builder.Configuration.GetSection("Garage").Get<Gar
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IParkingService, ParkingService>();
+builder.Services.AddScoped<IReceiptService, ReceiptService>();
 builder.Services.AddScoped<IVehicleTypeSelectListService, VehicleTypeSelectListService>();
 builder.Services.AddScoped<IUserSelectListService, UserSelectListService>();
 builder.Services.AddAutoMapper(typeof(GarageMappings));
