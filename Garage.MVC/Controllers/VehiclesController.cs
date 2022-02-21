@@ -37,10 +37,9 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicle
-                .Include(v => v.User)
-                .Include(v => v.VehicleType)
-                .FirstOrDefaultAsync(m => m.RegNr == id);
+            var vehicle = await _mapper.ProjectTo<VehicleIndexViewModel>(_context.Vehicle)
+                                       .FirstOrDefaultAsync(v => v.RegNr == id);
+
             if (vehicle == null)
             {
                 return NotFound();
@@ -126,13 +125,13 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var vehicle = await _mapper.ProjectTo<VehicleCreateViewModel>(_context.Vehicle)
+                                       .FirstOrDefaultAsync(r => r.RegNr == id);
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar", vehicle.UserSSN);
-            ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name", vehicle.VehicleTypeID);
+           
             return View(vehicle);
         }
 
@@ -218,7 +217,7 @@ namespace Garage_2_Group_1.Controllers
 
             //check database
             var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
-                    
+
             if (dbResult != null)
                 return Json("The registration number has to be unique (already parked)");
 

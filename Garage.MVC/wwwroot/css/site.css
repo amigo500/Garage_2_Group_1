@@ -1,3 +1,4 @@
+
 html {
     font-size: 14px;
 }
@@ -7,14 +8,13 @@ html {
         font-size: 16px;
     }
 }
-
 html {
     position: relative;
     min-height: 100%;
 }
 
 .col {
-    display: flex;
+    
     align-content: center;
     justify-content: center;
 }
@@ -24,24 +24,21 @@ html {
     border-width: thick;
     border-color: #414042;
 }
+.naviPapa {
+    margin-left: 2rem;
+}
+
+.naviBaba {
+    list-style:none;
+    display: flex;
+    margin-right: 2rem;
+}
 
 
 .navbar {
     padding: 20px 10px 20px 0px !important;
     background-color: #382f41 !important;
-    transition: all ease 0.4s !important;
 }
-
-.navbar-brand {
-    font-size: 22px !important;
-    color: white !important;
-}
-
-.navbar .navbar-nav li a {
-    font-size: 16px !important;
-    color: white !important;
-}
-
 
 body {
     font-family: 'Gluten', cursive !important;
@@ -102,11 +99,15 @@ body {
 .btn-primary {
     background-color: #382f41;
     border-color: #382f41;
+    
 }
 
 .btn-success {
     background-color: #573058;
     border-color: #7d7382;
+    width:6rem;
+    margin-right: 1rem;
+    
 }
 
 .inputField.active, .inputField.focus, .inputField:active, .inputField:focus {
@@ -158,6 +159,7 @@ h6 {
 .hidden {
     display: none;
 }
+
 
 .noselect {
     -webkit-touch-callout: none;

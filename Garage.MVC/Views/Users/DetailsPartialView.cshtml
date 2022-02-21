@@ -12,7 +12,7 @@
                     <div class="card" style="width: 18rem;">
                         <parked reg-nr=@item.RegNr></parked>
                         <div class="card-header">@Html.DisplayNameFor(model => model.RegNr): @Html.DisplayFor(modelItem => item.RegNr)</div>
-                        <div class="card-header">@Html.DisplayNameFor(model => model.VehicleType): @Html.DisplayFor(modelItem => item.VehicleType)</div>
+                        <div class="card-header">@Html.DisplayNameFor(model => model.VehicleType): @Html.DisplayFor(modelItem => item.VehicleType.Name)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.Make): @Html.DisplayFor(modelItem => item.Make)</div>
                         <div class="card-header">@Html.DisplayNameFor(model => model.Model): @Html.DisplayFor(modelItem => item.Model)</div>
                         <div class="card-body text-center">
