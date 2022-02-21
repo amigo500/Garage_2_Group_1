@@ -7,7 +7,10 @@
 
         private readonly GarageContext2 db;
         public ReceiptService(GarageContext2 db) => this.db = db;
-
+        /// <summary>
+        /// Creates a Database Entry for this Vehicles Receipt. 
+        /// </summary>
+        /// <returns>Boolean for Success</returns>
         public bool CreateReceiptOnPark(Vehicle vehicle)
         {
             Receipt _receipt;
@@ -22,31 +25,37 @@
             db.SaveChanges();
             return true;
         }
-
+        /// <summary>
+        /// Updates the Vehicles Receipt at Checkout with information like Price, ParkingDuration and CheckoutTime.
+        /// </summary>
+        /// <returns>returns the Receipt Object Async.</returns>
         public async Task<Receipt?> GetCheckoutReceipt(string regNr)
         {
             var _receipt = await db.Receipt.FirstOrDefaultAsync(r => r.VehicleRegId == regNr);
-
 
             if (_receipt == null)
             {
                 return _receipt;
             }
+
+            var timeNow = DateTime.Now;
+            var timeThen = _receipt.ArrivalTime;
+            TimeSpan ts = timeNow - timeThen;
+
+            _receipt.ParkingDuration = ts;
             _receipt.Price = GetPriceTotal(_receipt);
 
             db.Update(_receipt);
             await db.SaveChangesAsync();
             return _receipt;
-            
         }
-
-        public int GetPriceTotal(Receipt _receipt)
+        private int GetPriceTotal(Receipt _receipt)
         {
             var _vehicle = _receipt.Vehicle;
             var finalPrice = 0;
             double totalHours = _receipt.ParkingDuration.TotalHours;
             int defaultPriceTotal = InitPrice + (int)totalHours * HourlyRate;
-            
+
 
             if (_vehicle.VehicleType.Size == 2)
             {
@@ -72,8 +81,6 @@
             }
 
             return finalPrice;
-
-            
         }
     }
 

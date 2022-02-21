@@ -16,12 +16,11 @@ namespace Garage.Entities
         {
             VehicleRegId = vehicleRegId;
             UserFullName = userFullName;
-            
         }
 
         [Key]
         public int Id { get; set; } 
-        public DateTime ArrivalTime { get; set; } = DateTime.Now;
+        public DateTime ArrivalTime { get; } = DateTime.Now;
         public DateTime? CheckOutTime { get; set; }
         public int Price { get; set; }
         public Vehicle Vehicle { get; set; }
