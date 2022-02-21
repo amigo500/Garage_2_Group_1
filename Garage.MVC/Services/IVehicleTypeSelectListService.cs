@@ -5,5 +5,6 @@ namespace Garage_2_Group_1.Services
     public interface IVehicleTypeSelectListService
     {
         Task<List<SelectListItem>> GetSelectListAsync();
+        Task<List<SelectListItem>> GetSelectListAsync(int id);
     }
 }

@@ -125,7 +125,7 @@ namespace Garage_2_Group_1.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _mapper.ProjectTo<VehicleCreateViewModel>(_context.Vehicle)
+            var vehicle = await _mapper.ProjectTo<VehicleEditViewModel>(_context.Vehicle)
                                        .FirstOrDefaultAsync(r => r.RegNr == id);
             if (vehicle == null)
             {
@@ -140,9 +140,9 @@ namespace Garage_2_Group_1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("RegNr,Color,Make,Model,WheelCount,UserSSN,VehicleTypeID")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(string regNr, VehicleEditViewModel viewModel)
         {
-            if (id != vehicle.RegNr)
+            if (regNr != viewModel.RegNr)
             {
                 return NotFound();
             }
@@ -151,12 +151,21 @@ namespace Garage_2_Group_1.Controllers
             {
                 try
                 {
+                    var vehicle = await _context.Vehicle.FindAsync(regNr);
+                    vehicle.RegNr = viewModel.RegNr;
+                    vehicle.VehicleTypeID = (int)viewModel.VehicleTypeID;
+                    vehicle.Color = (VehicleColor)viewModel.Color;
+                    vehicle.Make = viewModel.Make;
+                    vehicle.Model = viewModel.Model;
+                    vehicle.WheelCount = viewModel.WheelCount;
+
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
+                    viewModel.EditedSuccesfully = true;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicle.RegNr))
+                    if (!VehicleExists(viewModel.RegNr))
                     {
                         return NotFound();
                     }
@@ -165,11 +174,9 @@ namespace Garage_2_Group_1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["UserSSN"] = new SelectList(_context.User, "SSN", "Avatar", vehicle.UserSSN);
-            ViewData["VehicleTypeID"] = new SelectList(_context.Set<VehicleType>(), "Id", "Name", vehicle.VehicleTypeID);
-            return View(vehicle);
+
+            return View(viewModel);
         }
 
         // GET: Vehicles/Delete/5
@@ -220,6 +227,16 @@ namespace Garage_2_Group_1.Controllers
 
             if (dbResult != null)
                 return Json("The registration number has to be unique (already parked)");
+
+            return Json(true);
+        }
+
+        public IActionResult ValidateRegNr(string regnr)
+        {
+            //check validation
+            Validation val = new Validation();
+            if (!val.RegIdValidation(regnr))
+                return Json("Invalid registration number");
 
             return Json(true);
         }

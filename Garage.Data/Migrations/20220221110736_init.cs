@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -71,7 +72,7 @@ namespace Garage.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VehicleRegNr = table.Column<string>(type: "nvarchar(6)", nullable: false)
+                    VehicleRegNr = table.Column<string>(type: "nvarchar(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,8 +81,31 @@ namespace Garage.Data.Migrations
                         name: "FK_ParkingSlot_Vehicle_VehicleRegNr",
                         column: x => x.VehicleRegNr,
                         principalTable: "Vehicle",
-                        principalColumn: "RegNr",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RegNr");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Receipt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    VehicleRegNr = table.Column<string>(type: "nvarchar(6)", nullable: true),
+                    VehicleRegId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserFullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParkingDuration = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipt", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receipt_Vehicle_VehicleRegNr",
+                        column: x => x.VehicleRegNr,
+                        principalTable: "Vehicle",
+                        principalColumn: "RegNr");
                 });
 
             migrationBuilder.InsertData(
@@ -102,6 +126,11 @@ namespace Garage.Data.Migrations
                 column: "VehicleRegNr");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Receipt_VehicleRegNr",
+                table: "Receipt",
+                column: "VehicleRegNr");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicle_UserSSN",
                 table: "Vehicle",
                 column: "UserSSN");
@@ -116,6 +145,9 @@ namespace Garage.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ParkingSlot");
+
+            migrationBuilder.DropTable(
+                name: "Receipt");
 
             migrationBuilder.DropTable(
                 name: "Vehicle");

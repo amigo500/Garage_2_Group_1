@@ -11,7 +11,6 @@ namespace Garage_2_Group_1.Models.ViewModels
         public int NumberOfParkedVehicles { get; set; }
         public int NumberOfRegisteredVehicles { get; set; }
         public int NumberOfRegisteredUsers { get; set; }
-        public int ParkedVehicleGrossing { get; set; }
         public int EarnedTotals { get; set; }
         public int UsedParkingSlots { get; set; }
         public int TotalGarageSpace { get; set; }
