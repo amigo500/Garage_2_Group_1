@@ -1,6 +1,5 @@
 ﻿@model VehicleEditViewModel
 @inject IVehicleTypeSelectListService typeListService
-@inject IUserSelectListService userListService
 
 @{
     ViewData["Title"] = "Edit";
@@ -22,15 +21,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync()">
-                    <option selected="selected" disabled value="">Please select</option>
+                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync((int)Model!.VehicleTypeID!)">
+                    <option  disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="VehicleTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                 <select class="form-control inputField" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
-                    <option selected="selected" disabled value="">Please select</option>
+                 <select class="form-control inputField" name="Color" asp-items="Html.GetEnumValueSelectList<VehicleColor>(Model.Color)">
+                    <option disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
@@ -49,9 +48,9 @@
                 <input asp-for="WheelCount" class="form-control" />
                 <span asp-validation-for="WheelCount" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <input type="submit" value="Save" class="btn btn-primary"/>
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index" class="btn btn-primary">Back</a>
             </div>
         </form>
     </div>
