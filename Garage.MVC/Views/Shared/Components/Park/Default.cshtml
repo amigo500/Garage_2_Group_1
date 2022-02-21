@@ -1,0 +1,55 @@
+﻿@model ParkViewModel
+@inject IParkingService parkingService
+
+<div class="modal fade" id="@Model.RegNr" tabindex="-1" aria-labelledby="ParkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ParkModalLabel">Park Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container my-3">
+                    @{
+                        var maxSize = parkingService.FindMaxSize();
+                    }
+
+                    @if (maxSize >= @Model!.VehicleType!.Size)
+                    {
+                        @if (@Model!.VehicleType!.Size == 1)
+                        {
+                            <h5 class="fw-light" id="park-text">Your <b>@Model!.VehicleType!.Name</b>
+                            needs <b>@Model!.VehicleType!.Size</b> slot to park,
+                            please select it below.</h5>
+                        }
+                        @if (@Model!.VehicleType!.Size > 1)
+                        {
+                            <h5 class="fw-light" id="park-text">Your <b>@Model!.VehicleType!.Name</b>
+                            needs <b>@Model!.VehicleType!.Size</b> adjecent slots to park,
+                            please select them below.</h5>
+                        }
+                    }
+                    @if (maxSize < @Model!.VehicleType!.Size)
+                    {
+                        <h5 class="fw-light" id="park-text">The garage is to full to fit your <b>@Model!.VehicleType!.Name</b>
+                            at the moment, please try again later!</h5>
+                    }
+    
+                    <div class="row mt-3">
+                        @for (var i = 1; i <= parkingService.Capacity; i++)
+                        {
+                            var color = parkingService.EmptyParkingSlots[i] == "" ? "green" : "red";;
+                            var id = "id" + i;
+                            <span class="box noselect @color" id="@id" value="@i">@i</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger hidden" id="modal-park-btn">Park</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

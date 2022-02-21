@@ -1,4 +1,5 @@
 ﻿@model Garage_2_Group_1.Models.UserViewModels.UserDetailsViewModel
+@inject IParkingService parkingService
 
 @{
     ViewData["Title"] = "Details";
@@ -47,3 +48,48 @@
     <hr />
 </div>
 <partial name="DetailsPartialView" />
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript" src="~/js/park-component.js"></script>
+    
+    <script type="text/javascript">
+
+    let modal;
+    let regNr
+
+    $(".park-button").click(function() {
+        let parkingSlots = [];
+
+        @foreach (var s in parkingService.EmptyParkingSlots)
+        {
+            @:parkingSlots.push('@Html.Raw(s)');
+        }
+
+        regNr = $(this).attr("regNr");
+        let size = $(this).attr("size");
+        $(`#${regNr}`).modal('show');
+
+        modal = document.querySelector(`#${regNr}`);
+        const modalFooter = modal.querySelector(".modal-footer");
+        const parkButton = modalFooter.querySelector("#modal-park-btn");
+
+        parkViewComponent.init([size, parkingSlots, regNr, parkButton]);
+        parkViewComponent.selectParking();
+    });
+
+    $(document).on('click', '#modal-park-btn', function () {
+        parkViewComponent.parkInSelectedSlots().then(_ => {
+            const modalBody = modal.querySelector(".modal-body");
+            const parkText = modalBody.querySelector("#park-text");
+            parkText.innerHTML = "Your vehicle has been successfully parked, have a nice day!";
+        });
+    });
+
+    $('.modal').on('hide.bs.modal', function() {
+        window.location.reload();
+    });
+    </script>
+}

@@ -33,21 +33,6 @@ namespace Garage_2_Group_1.Services
             });
         }
 
-        public async Task FreeParkingSlotsAsync(List<ParkingSlot> parkingSlots)
-        {
-            var tasks = new List<Task>();
-            parkingSlots.ForEach(slot => tasks.Add(FreeParkingSlotAsync(slot)));
-            await Task.WhenAll(tasks);
-        }
-
-        public async Task ParkInSlotsAsync(List<ParkingSlot> parkingSlots)
-        {
-            foreach (var slot in parkingSlots)
-            {
-                await ParkInSlotAsync(slot);
-            }
-        }
-
         public ICollection<ParkingSlot>? GetParkingSlots(int size, string regNr)
         {
             var parkingSlots = HasParkingSlotsForSize(size);
@@ -151,7 +136,7 @@ namespace Garage_2_Group_1.Services
 
         public bool IsEmpty(int index) => EmptyParkingSlots[index] == "";
 
-        private async Task FreeParkingSlotAsync(ParkingSlot slot)
+        public async Task FreeParkingSlotAsync(ParkingSlot slot)
         {
             slot.VehicleRegNr = null;
             _db.ParkingSlot.Update(slot);
@@ -161,7 +146,7 @@ namespace Garage_2_Group_1.Services
             EmptyParkingSlotsCount++;
         }
 
-        private async Task ParkInSlotAsync(ParkingSlot slot)
+        public async Task ParkInSlotAsync(ParkingSlot slot)
         {
             _db.ChangeTracker.Clear();
             _db.ParkingSlot.Update(slot);
