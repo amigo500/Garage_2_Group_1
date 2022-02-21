@@ -21,36 +21,37 @@ namespace Garage_2_Group_1.Controllers
             _mapper = mapper;
             _ps = ps;
         }
-        
+
         //Get Statistics
-        public async Task<IActionResult> Index()
-        {
+        //public async Task<IActionResult> Index()
+        //{
 
-            var vehicles = await _context.Vehicle.ToListAsync();
-                        
-                var model = new ParkatronDetailsViewModel
-                {
-                RegisteredVehicleTypes = Enum.GetValues(typeof(VehicleType))
-                                           .Cast<VehicleType>()
-                                           .ToDictionary(type => type.ToString(), type => 
-                                                                                            .Where(v => v.Type == type)
-                                                                                            .Count()),
+        //    var vehicles = await _context.Vehicle.ToListAsync();
 
-                    WheelCount = vehicles
-                                        .Select(v => v.WheelCount)
-                                        .Sum(),
+        //        var model = new ParkatronDetailsViewModel
+        //        {
+        //        RegisteredVehicleTypes = Enum.GetValues(typeof(VehicleType))
+        //                                   .Cast<VehicleType>()
+        //                                   .ToDictionary(type => type.ToString(), type => 
+        //                                                                                    .Where(v => v.Type == type)
+        //                                                                                    .Count()),
 
-
-                };
+        //            WheelCount = vehicles
+        //                                .Select(v => v.WheelCount)
+        //                                .Sum(),
 
 
+        //        };
 
 
-                return View(model);
-            }
 
 
-        }
-    
+        //        return View(model);
+    }
+
+
+}
+
+
 
 
