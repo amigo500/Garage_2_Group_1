@@ -1,56 +1,100 @@
-﻿#nullable disable
-using AutoMapper;
-using Garage.Entities;
-using Garage_2_Group_1.Models.VehicleVeiwModels;
-
-using Garage_2_Group_1.Utils;
+﻿using AutoMapper;
+using Garage_2_Group_1.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Garage_2_Group_1.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly GarageContext2 _context;
-        private readonly IMapper _mapper;
-        private readonly IParkingService _ps;
+        
+        private readonly GarageContext2 _db;
+        private IMapper mapper;
+        private GarageContext2 db;
 
-        public HomeController(GarageContext2 context, IMapper mapper, IParkingService ps)
+        public HomeController(GarageContext2 context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
-            _ps = ps;
+            this.mapper = mapper;
+            db = context;
         }
 
-        //Get Statistics
-        // public async Task<IActionResult> Index()
-        //{
-
-        //    var vehicles = await _context.Vehicle.ToListAsync();
-
-        //        var model = new ParkatronDetailsViewModel
-        //        {
-        //        RegisteredVehicleTypes = Enum.GetValues(typeof(VehicleType))
-        //                                   .Cast<VehicleType>()
-        //                                   .ToDictionary(type => type.ToString(), type => 
-        //                                                                                    .Where(v => v.Type == type)
-        //                                                                                    .Count()),
-
-        //            WheelCount = vehicles
-        //                                .Select(v => v.WheelCount)
-        //                                .Sum(),
 
 
-        //        };
+        public async Task<IActionResult> Index()
+        {
+            var model = GetAllDataFromGarage();
+            return View(await model);
+        }
 
+        public async Task<ParkatronDetailsViewModel> GetAllDataFromGarage()
+        {
+           ParkatronDetailsViewModel _stats = new();
+           _stats.NumberOfRegisteredUsers = await _db.User.CountAsync();
+           _stats.RegisteredVehicleTypes = await GetVehicleTypeTuple();
+           _stats.NumberOfRegisteredVehicles = await GetRegisteredVehicles();
+           _stats.TotalWheels = await GetVehicleWheelCount();
+            _stats.NumberOfParkedVehicles = await GetNumberOfParkedVehicle();
+            _stats.EarnedTotals = await GetTotalEarnings();
+            _stats.UsedParkingSlots = await GetNumberOfUsedParkingSlots();
 
+            return _stats;
+        }
 
+        private async Task<int> GetNumberOfUsedParkingSlots()
+        {
+            var parkingSlots = await _db.ParkingSlot.ToListAsync();
+            var usedParkingSlots = parkingSlots.Where(s => s.Vehicle != null).Count();
+            return usedParkingSlots;
+        }
 
-        //       return View(model);
-        //   }
+        private async Task<int> GetTotalEarnings()
+        {
+            var receipts = await _db.Receipt.ToListAsync();
+            int total = 0;
+            foreach (var r in receipts)
+            {
+                total += r.Price;
+            }
+            return total;
+        }
 
+        private async Task<int> GetNumberOfParkedVehicle()
+        {
+            var vehicles = await _db.Vehicle.ToListAsync();
+            var parkedVehicles = vehicles.Where(v => v.ParkingSlots != null).Count();
 
+            return parkedVehicles;
+
+        }
+
+        private async Task<int> GetVehicleWheelCount()
+        {
+            var vehicles = await _db.Vehicle.ToListAsync();
+            var wheelCount = vehicles.Select(vehicle => vehicle.WheelCount).Sum();
+
+            return wheelCount;
+        }
+
+        private async Task<int> GetRegisteredVehicles()
+        {
+            var vehicles = await _db.Vehicle.ToListAsync();
+            return vehicles.Count();
+        }
+
+        public async Task<List<(string, int)>> GetVehicleTypeTuple()
+        {
+            var vehicles = await _db.Vehicle.ToListAsync();
+            var vehicleTypes = await _db.VehicleType.ToListAsync();
+            var vehicleTypeTuple = new List<(string, int)>();
+
+            foreach (var item in vehicleTypes)
+            {
+                var name = item.Name;
+                var count = vehicles.Where(t => t.VehicleType.Name == item.Name).Count();
+
+                vehicleTypeTuple.Add((name, count));
+            }
+
+            return vehicleTypeTuple;
+        }
     }
-
-
 }

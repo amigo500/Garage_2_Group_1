@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Automapper\HomeMappings.cs" />
     <Compile Remove="Controllers\OldVehiclesController.cs" />
     <Compile Remove="Controllers\StatsController.cs" />
     <Compile Remove="Models\ViewModels\ParkingStatsViewModel.cs" />
@@ -25,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\Index.cshtml" />
     <Content Remove="Views\StatsViewModel.cshtml" />
   </ItemGroup>
 
@@ -62,10 +62,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Garage.Data\Garage.Data.csproj" />
     <ProjectReference Include="..\Garage.Entities\Garage.Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Home\" />
   </ItemGroup>
 
 </Project>

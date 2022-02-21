@@ -23,6 +23,7 @@ builder.Services.AddScoped<IUserSelectListService, UserSelectListService>();
 builder.Services.AddAutoMapper(typeof(GarageMappings));
 builder.Services.AddAutoMapper(typeof(UserMappings));
 
+
 var app = builder.Build();
 
 app.SeedDataAsync().GetAwaiter().GetResult();
