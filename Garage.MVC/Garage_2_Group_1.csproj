@@ -18,8 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Automapper\HomeMappings.cs" />
     <Compile Remove="Controllers\OldVehiclesController.cs" />
+    <Compile Remove="Controllers\StatsController.cs" />
+    <Compile Remove="Models\ViewModels\ParkingStatsViewModel.cs" />
     <Compile Remove="Utils\Receipt.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\StatsViewModel.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

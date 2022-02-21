@@ -1,9 +1,6 @@
 ﻿using Garage_2_Group_1;
-using Garage_2_Group_1.Extensions;
 using Garage_2_Group_1.Automapper;
-using Garage_2_Group_1.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Garage_2_Group_1.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +19,7 @@ builder.Services.AddScoped<IVehicleTypeSelectListService, VehicleTypeSelectListS
 builder.Services.AddScoped<IUserSelectListService, UserSelectListService>();
 builder.Services.AddAutoMapper(typeof(GarageMappings));
 builder.Services.AddAutoMapper(typeof(UserMappings));
+
 
 var app = builder.Build();
 
