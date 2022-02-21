@@ -10,6 +10,7 @@ using Garage.Entities;
 using Bogus;
 using AutoMapper;
 using Garage_2_Group_1.Models.UserViewModels;
+using System.Text.RegularExpressions;
 
 namespace Garage_2_Group_1.Controllers
 {
@@ -129,5 +130,39 @@ namespace Garage_2_Group_1.Controllers
         {
             return db.User.Any(e => e.SSN == id);
         }
+
+        public IActionResult CheckSSN(long ssn)
+        {
+            var s = ssn.ToString();
+            var rx = new Regex("^(19|20)?[0-9]{2}[- ]?((0[0-9])|(10|11|12))[- ]?(([0-2][0-9])|(3[0-1])|(([7-8][0-9])|(6[1-9])|(9[0-1])))[- ]?[0-9]{4}$");
+
+            if (!rx.IsMatch(s))
+                return Json("Invalid Social Security number");
+
+            var ssnYear = Int32.Parse(s.Substring(0, 4));
+            var ssnMonth = Int32.Parse(s.Substring(4, 2));
+            var ssnDay = Int32.Parse(s.Substring(6, 2));
+
+            var birthday = new DateTime(ssnYear, ssnMonth, ssnDay);
+
+            if (birthday.CompareTo(DateTime.Now) > 0)
+            {
+                return Json("Sorry, no time travelers allowed (not born yet)");
+            }
+
+            return Json(true);
+        }
+        
+        public IActionResult CheckLastName(string firstname, string lastname)
+        {
+            if (firstname == lastname)
+            {
+                return Json("Invalid last name (has to different from your first name)");
+            }
+
+            return Json(true);
+        }
+
+
     }
 }

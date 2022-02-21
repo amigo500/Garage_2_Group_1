@@ -32,6 +32,28 @@
             }
         }
 
+        /// <summary>
+        /// Age validation for 18 years old using the ssn.
+        /// </summary>
+        /// <param name="ssn"></param>
+        /// <returns>true if the person with the ssn is at least 18 years old</returns>
+        public bool AgeValidation(long ssn)
+        {
+            var s = ssn.ToString();
+
+            var ssnYear = Int32.Parse(s.Substring(0, 4));
+            var ssnMonth = Int32.Parse(s.Substring(4, 2));
+            var ssnDay = Int32.Parse(s.Substring(6, 2));
+
+            var birthday = new DateTime(ssnYear, ssnMonth, ssnDay);
+
+            TimeSpan age = DateTime.Now - birthday;
+
+            var leapYearsAprox = 5;
+
+            return (age.TotalDays >= ((18 * 365) - leapYearsAprox));
+        }
+
         private static bool ThirdValidationRegId(string regID, char[] validChars)
         {
             bool valid6thChar;

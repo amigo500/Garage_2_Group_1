@@ -6,6 +6,7 @@
     let selectedParkingSlots;
     let hoveredParkingSlots;
     let parkButton;
+    let succesfullyParked;
     
     parkViewComponent.init = (args) => {
         size = args[0];
@@ -77,16 +78,24 @@
             type: "POST",
             data: JSON.stringify(dto),
             contentType: 'application/json',
-            success: function (parkingData) {
-                selectedParkingSlots.forEach(s => {
-                    $(s).toggleClass("red");
-                    $(s).toggleClass("green");
-                    $(s).toggleClass("slot-selected");
-                    disableParkButton();
-                });
+            success: function (reply) {
+                if (reply == true) {
+                    selectedParkingSlots.forEach(s => {
+                        $(s).toggleClass("red");
+                        $(s).toggleClass("green");
+                        $(s).toggleClass("slot-selected");
+                        disableParkButton();
+                    });
+                    succesfullyParked = true;
+                }
+                else {
+                    succesfullyParked = false;
+                }
             }
         });
     }
+
+    parkViewComponent.getParkingStatus = () => succesfullyParked;
 
     function getSelectedParking() {
         let parkingSlots = selectedParkingSlots.slice();

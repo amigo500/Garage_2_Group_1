@@ -251,6 +251,11 @@ namespace Garage_2_Group_1.Controllers
             //check database
             var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
 
+            if (!val.AgeValidation(dbResult.UserSSN))
+            {
+                return Json("The owner of this vehicle is not 18, can't be parked");
+            }
+
             if (dbResult == null)
                 return Json("Vehicle is not registered, register a new vehicle?");
 
@@ -263,6 +268,14 @@ namespace Garage_2_Group_1.Controllers
         public async Task<JsonResult> ParkInSelected([FromBody] SelectedParkingSlots dto)
         {
             var parkingSlots = new List<ParkingSlot>();
+
+            var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == dto.regnr);
+
+            Validation val = new Validation();
+            if (!val.AgeValidation(dbResult.UserSSN))
+            {
+                return Json("The owner of this vehicle is not 18, vehicle can't be parked");
+            }
 
             for (var i = 0; i < dto.selected.Length; i++)
             {

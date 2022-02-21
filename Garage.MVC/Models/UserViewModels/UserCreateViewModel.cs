@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 #nullable disable
 
 namespace Garage_2_Group_1.Models.UserViewModels
@@ -7,12 +8,16 @@ namespace Garage_2_Group_1.Models.UserViewModels
     {
         [Required]
         [Display(Name = "Social Security Number")]
-        public long SSN { get; set; }
+        [Remote(action: "CheckSSN", controller: "Users")]
+        public long? SSN { get; set; }
+        
         [Required]
         public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
         
-
+        [Required]
+        [Remote(action: "CheckLastName", controller: "Users", AdditionalFields="FirstName")]
+        public string LastName { get; set; }
     }
+
+
 }
