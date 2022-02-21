@@ -10,7 +10,15 @@ namespace Garage_2_Group_1.Automapper
     {
         public HomeMappings()
         {
-          
+            CreateMap<Vehicle, ParkatronDetailsViewModel>()
+                 .ForMember(dest => dest.RegisteredVehicleTypes, from => from.MapFrom(t => t.VehicleType));
+            // .ForMember(dest => dest.NumberOfRegisteredVehicles, from => from.MapFrom(v => v.))
+            CreateMap<GarageContext2, ParkatronDetailsViewModel>()
+                 .ForMember(dest => dest.NumberOfRegisteredVehicles, from => from.MapFrom(t => t.Vehicle.Count()));
+            CreateMap<GarageContext2, ParkatronDetailsViewModel>()
+                 .ForMember(dest => dest.NumberOfRegisteredUsers, from => from.MapFrom(t => t.User.Count()));
+            CreateMap<GarageContext2, ParkatronDetailsViewModel>()
+                 .ForMember(dest => dest.EarnedTotals, from => from.MapFrom(t => t.Receipt.Count()));
         }
     }
 }

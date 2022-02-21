@@ -1,10 +1,11 @@
-﻿@using Garage_2_Group_1.Models.VehicleVeiwModels
-@model IEnumerable<ParkatronDetailsViewModel>
-@inject IParkingService parkingService
+﻿@model ParkingStatsViewModel
+
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "ParkingStats";
+    Layout = "_Layout";
+
 }
+
 
 <h4 class="m-2 p-2">Amount of vehicles by type</h4>
 
@@ -17,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var type in Model.Vehicle)
+        @foreach (var type in Model.VehicleTypesData)
         {
             @if (type.Value != 0)
             {
@@ -37,7 +38,7 @@
             @Model.WheelCount
         </div>
     </li>
-    
+   
     </ul>
 
 
@@ -45,8 +46,3 @@
 <div>
         <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
-
-
-
-
-  
