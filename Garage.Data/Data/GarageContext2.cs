@@ -13,7 +13,7 @@ using Garage.Entities.Vehicles;
             : base(options)
         {
         }
-
+    public DbSet<Receipt> Receipt { get; set; }
     public DbSet<Vehicle> Vehicle { get; set; }
     public DbSet<User> User { get; set; }
     public DbSet<VehicleType> VehicleType { get; set; }
