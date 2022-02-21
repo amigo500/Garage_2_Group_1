@@ -17,7 +17,7 @@
             var regNr = _vehicle.RegNr;
             var name = _vehicle.User.FirstName + " " + _vehicle.User.LastName;
 
-            _receipt = new Receipt(_vehicle, regNr, name);
+            _receipt = new Receipt(regNr, name);
             db.Add(_receipt);
             db.SaveChanges();
             return true;

@@ -12,10 +12,8 @@ namespace Garage.Entities
 
     public class Receipt
     {
-        public Receipt(Vehicle vehicle, 
-            string vehicleRegId, string userFullName)
+        public Receipt(string vehicleRegId, string userFullName)
         {
-            Vehicle = vehicle;
             VehicleRegId = vehicleRegId;
             UserFullName = userFullName;
             
