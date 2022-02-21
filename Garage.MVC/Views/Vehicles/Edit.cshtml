@@ -1,6 +1,5 @@
-﻿@model VehicleCreateViewModel
+﻿@model VehicleEditViewModel
 @inject IVehicleTypeSelectListService typeListService
-@inject IUserSelectListService userListService
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,6 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserSSN" />
             <div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
                 <input asp-for="RegNr" class="form-control" />
@@ -21,15 +21,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="VehicleTypeID" class="control-label"></label>
-                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync()">
-                    <option selected="selected" disabled value="">Please select</option>
+                <select class="form-control inputField" name="VehicleTypeID" asp-items="@await typeListService.GetSelectListAsync((int)Model!.VehicleTypeID!)">
+                    <option  disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="VehicleTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                 <select class="form-control inputField" name="Color" asp-items="@Html.GetEnumSelectList<VehicleColor>()">
-                    <option selected="selected" disabled value="">Please select</option>
+                 <select class="form-control inputField" name="Color" asp-items="Html.GetEnumValueSelectList<VehicleColor>(Model.Color)">
+                    <option disabled value="">Please select</option>
                 </select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
@@ -48,28 +48,35 @@
                 <input asp-for="WheelCount" class="form-control" />
                 <span asp-validation-for="WheelCount" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group mt-3">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-primary">Back</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit results</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your vehicle has been successfully edited!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
- <script>
-        $(document).ready(function () {
-            $('select[name="UserSSN"]').val('');
-        });
-        $('select[name="UserSSN"]').on('change', function () {
-            $('#UserValidation').html("");
-            $(".hidden").removeClass("hidden");
-        });
+
+    <script>
         $('select[name="VehicleTypeID"]').on('change', function () {
             $('#TypeValidation').html("");
         });
@@ -80,10 +87,6 @@
             let selectedUser = $('select[name="UserSSN"]').find(":selected").val();
             let selectedType = $('select[name="VehicleTypeID"]').find(":selected").val();
             let selectedColor = $('select[name="Color"]').find(":selected").val();
-            if (selectedUser == "") {
-                e.preventDefault();
-                $('#UserValidation').html("Please pick a user");
-            }
             if (selectedType == "") {
                 e.preventDefault();
                 $('#TypeValidation').html("Please pick a vehicle type");
@@ -94,3 +97,15 @@
             }
         });
     </script>
+
+    @if (Model?.EditedSuccesfully == true)
+    {
+        <script type="text/javascript">
+        $(function () {
+            $("#editModal").modal('show');
+        });
+        </script>
+    }
+}
+
+
