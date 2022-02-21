@@ -48,7 +48,15 @@
         parkViewComponent.parkInSelectedSlots().then(_ => {
             const modalBody = modal.querySelector(".modal-body");
             const parkText = modalBody.querySelector("#park-text");
-            parkText.innerHTML = "Your vehicle has been successfully parked, have a nice day!";
+            if (parkViewComponent.getParkingStatus())
+            {
+                parkText.innerHTML = "Your vehicle has been successfully parked, have a nice day!";
+            }
+            else
+            {
+                parkText.innerHTML = "The <b>owner</b> of this vehicle is <b>not 18</b>, vehicle can't be parked";
+            }
+            
         });
     });
 
