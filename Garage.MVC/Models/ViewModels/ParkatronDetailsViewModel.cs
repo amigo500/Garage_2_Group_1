@@ -14,11 +14,12 @@ namespace Garage_2_Group_1.Models.ViewModels
         public int EarnedTotals { get; set; }
         public int UsedParkingSlots { get; set; }
         public int TotalGarageSpace { get; set; }
-        public int WheelCount { get; set; }
-        public ICollection<Vehicle> RegisteredVehicles { get; set; } 
+        public ICollection<Vehicle> RegisteredVehicles { get; set; }
         public ICollection<ParkingSlot> ParkingSlots { get; set; }
         public ICollection<User> RegisteredUsers { get; set; }
-        public ICollection<VehicleType> RegisteredVehicleTypes { get; set; }
+        public List<(string Name, int Count)> RegisteredVehicleTypes { get; set; }
+        public int TotalWheels { get; set; }
+
 
 
 

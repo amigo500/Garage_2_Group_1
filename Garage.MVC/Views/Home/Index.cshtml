@@ -1,5 +1,71 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ParkatronDetailsViewModel
+
 @{
-}
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";}
+
+    <div>
+        <h4>Parking Stats</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.NumberOfParkedVehicles)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NumberOfParkedVehicles)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.NumberOfRegisteredVehicles)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NumberOfRegisteredVehicles)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.NumberOfRegisteredUsers)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NumberOfRegisteredUsers)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EarnedTotals)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EarnedTotals)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UsedParkingSlots)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UsedParkingSlots)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.TotalGarageSpace)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TotalGarageSpace)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.TotalWheels)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TotalWheels)
+            </dd>
+            @foreach (var r in Model.RegisteredVehicleTypes)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => r.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => r.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => r.Count)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => r.Count)
+                </dd>
+            }
+
+        </dl>
+    </div>
+
