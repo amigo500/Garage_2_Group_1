@@ -23,7 +23,7 @@ namespace Garage_2_Group_1.Controllers
         }
 
         //Get Statistics
-        //public async Task<IActionResult> Index()
+        // public async Task<IActionResult> Index()
         //{
 
         //    var vehicles = await _context.Vehicle.ToListAsync();
@@ -46,12 +46,11 @@ namespace Garage_2_Group_1.Controllers
 
 
 
-        //        return View(model);
+        //       return View(model);
+        //   }
+
+
     }
 
 
 }
-
-
-
-
