@@ -8,8 +8,9 @@
 
 
 
-        void CreateReceiptOnPark(Vehicle vehicle);
-        Receipt CheckoutReceipt();
+        bool CreateReceiptOnPark(Vehicle vehicle);
+        Task<Receipt?> GetCheckoutReceipt(string regNr);
+        int GetPriceTotal(Receipt _receipt);
 
 
 

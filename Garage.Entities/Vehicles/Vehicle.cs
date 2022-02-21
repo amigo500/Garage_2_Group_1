@@ -21,13 +21,11 @@ namespace Garage.Entities.Vehicles
         public long UserSSN { get; set; }
         [Required]
         public User User { get; set; }
-
         public ICollection<ParkingSlot> ParkingSlots { get; set; } = new List<ParkingSlot>();
-
         [Required]
         public int VehicleTypeID { get; set; }
         public VehicleType VehicleType { get; set; }
-        public IEnumerable<Receipt> ReceiptHistory { get; set; }
+        public ICollection<Receipt> ReceiptHistory { get; set; }
 
         private Vehicle()
         {

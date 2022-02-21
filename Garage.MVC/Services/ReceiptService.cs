@@ -6,33 +6,43 @@
         public int HourlyRate { get; set; } = 70;
 
         private readonly GarageContext2 db;
-        private Receipt _receipt;
-        private Vehicle _vehicle;
         public ReceiptService(GarageContext2 db) => this.db = db;
 
-        public void CreateReceiptOnPark(Vehicle vehicle)
+        public bool CreateReceiptOnPark(Vehicle vehicle)
         {
+            Receipt _receipt;
+            Vehicle _vehicle;
             _vehicle = vehicle;
             var parkingSlots = _vehicle.ParkingSlots;
             var regNr = _vehicle.RegNr;
             var name = _vehicle.User.FirstName + " " + _vehicle.User.LastName;
 
-            _receipt = new Receipt(_vehicle, parkingSlots, regNr, name);
+            _receipt = new Receipt(_vehicle, regNr, name);
             db.Add(_receipt);
             db.SaveChanges();
+            return true;
         }
 
-        public Receipt CheckoutReceipt()
+        public async Task<Receipt?> GetCheckoutReceipt(string regNr)
         {
-            GetPriceTotal();
+            var _receipt = await db.Receipt.FirstOrDefaultAsync(r => r.VehicleRegId == regNr);
 
 
+            if (_receipt == null)
+            {
+                return _receipt;
+            }
+            _receipt.Price = GetPriceTotal(_receipt);
 
+            db.Update(_receipt);
+            await db.SaveChangesAsync();
             return _receipt;
+            
         }
 
-        private void GetPriceTotal()
+        public int GetPriceTotal(Receipt _receipt)
         {
+            var _vehicle = _receipt.Vehicle;
             var finalPrice = 0;
             double totalHours = _receipt.ParkingDuration.TotalHours;
             int defaultPriceTotal = InitPrice + (int)totalHours * HourlyRate;
@@ -61,9 +71,9 @@
                 finalPrice = defaultPriceTotal;
             }
 
-            _receipt.Price = finalPrice;
-            db.Update(_receipt);
-            db.SaveChanges();
+            return finalPrice;
+
+            
         }
     }
 
