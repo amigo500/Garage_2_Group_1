@@ -6,15 +6,13 @@ namespace Garage_2_Group_1.Controllers
 {
     public class HomeController : Controller
     {
-        
-        private readonly GarageContext2 _db;
         private IMapper mapper;
-        private GarageContext2 db;
+        private GarageContext2 _db;
 
         public HomeController(GarageContext2 context, IMapper mapper)
         {
             this.mapper = mapper;
-            db = context;
+            _db = context;
         }
 
 
@@ -35,6 +33,7 @@ namespace Garage_2_Group_1.Controllers
             _stats.NumberOfParkedVehicles = await GetNumberOfParkedVehicle();
             _stats.EarnedTotals = await GetTotalEarnings();
             _stats.UsedParkingSlots = await GetNumberOfUsedParkingSlots();
+            _stats.TotalGarageSpace = await _db.ParkingSlot.CountAsync();
 
             return _stats;
         }
