@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage.Data.Migrations
 {
     [DbContext(typeof(GarageContext2))]
-    [Migration("20220221110736_init")]
-    partial class init
+    [Migration("20220221210543_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,9 +62,6 @@ namespace Garage.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserFullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VehicleRegId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VehicleRegNr")

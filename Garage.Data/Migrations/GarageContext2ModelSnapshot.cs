@@ -62,9 +62,6 @@ namespace Garage.Data.Migrations
                     b.Property<string>("UserFullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VehicleRegId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("VehicleRegNr")
                         .HasColumnType("nvarchar(6)");
 

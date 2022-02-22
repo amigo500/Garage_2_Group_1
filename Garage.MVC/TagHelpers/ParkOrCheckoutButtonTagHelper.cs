@@ -32,9 +32,8 @@ namespace Garage_2_Group_1.TagHelpers
 
             if (_ps.IsParked(RegNr))
             {
-                output.Attributes.SetAttribute("asp-action", "Checkout");
-                output.Attributes.SetAttribute("asp-controller", "Vehicles");
-                output.Attributes.SetAttribute("asp-route-id", RegNr);
+                output.AddClass("checkout-button", HtmlEncoder.Default);
+                output.Attributes.SetAttribute("regNr", RegNr);
                 output.Content.Append("Checkout");
             }
 
