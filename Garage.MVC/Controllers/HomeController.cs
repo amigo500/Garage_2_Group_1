@@ -21,7 +21,5 @@ namespace Garage_2_Group_1.Controllers
             var model = _sb.GetAllDataFromGarage(_db);
             return View(await model);
         }
-
-       
     }
 }
