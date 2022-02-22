@@ -56,7 +56,7 @@ namespace Garage_2_Group_1.Controllers
 
         private int GetNumberOfParkedVehicle() // This code would work if the Vehicle got assigned a slot. But only the slot gets assigned.
         {
-            var parkedVehicles = _vehicles.Where(v => v.ParkingSlots != null).Count();
+            var parkedVehicles = _vehicles.Where(v => v.ParkingSlots.Count() > 0).Count();
 
             return parkedVehicles;
         }

@@ -49,6 +49,8 @@
 </div>
 <partial name="DetailsPartialView" />
 
+@TempData.Remove("checkout");
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
@@ -58,15 +60,11 @@
 
     let modal;
     let regNr
-    let checkoutStatus = ('@TempData.ContainsKey("checkout")' == 'True');
+    //let checkoutStatus = ('@TempData.ContainsKey("checkout")' == 'True');
 
-    if (checkoutStatus) 
-    {
-        @TempData.Remove("checkout");
-        //regNr = '@TempData["regNr"]';
-        //let selector = `#c2${regNr}`;
-        //$(selector).modal('show');
-    }
+    //if (checkoutStatus) 
+    //{
+    //}
 
     $(".park-button").click(function() {
         let parkingSlots = [];
@@ -110,11 +108,7 @@
     });
 
     $('.modal').on('hide.bs.modal', function(e) {
-        // Only refresh page if it's a parking modal
-        if(e.target.id.startsWith("p"))
-        {
-            location.reload(true);
-        }   
+        window.location.reload(true);
     });
 
     function printReceipt(receipt) {

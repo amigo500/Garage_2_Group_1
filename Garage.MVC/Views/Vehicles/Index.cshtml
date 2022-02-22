@@ -14,6 +14,8 @@
 
 <partial name="IndexRegisteredVehiclesPartial" />
 
+@TempData.Remove("checkout");
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
@@ -66,11 +68,7 @@
     });
 
     $('.modal').on('hide.bs.modal', function(e) {
-        // Only refresh page if it's a parking modal
-        if(e.target.id.startsWith("p"))
-        {
-            location.reload(true);
-        }   
+        window.location.reload(true);
     });
 
     function printReceipt(receipt) {
