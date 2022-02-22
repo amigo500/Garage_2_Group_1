@@ -5,68 +5,78 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";}
 
-    <div>
-        <h4>Parking Stats</h4>
-        <hr />
+    <h1 class="header_table">Garage Statistics</h1>
+
+   <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <div class="card-header">Total Number of Parked Vehicles</div>
+  <div class="card-body">
+    <h5 class="card-title"> @Html.DisplayFor(model => model.NumberOfParkedVehicles)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+  <div class="card-header">Total Number of Registered Vehicles</div>
+  <div class="card-body">
+    <h5 class="card-title"> @Html.DisplayFor(model => model.NumberOfRegisteredVehicles)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+  <div class="card-header">Total Number of Registered Users</div>
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => model.NumberOfRegisteredUsers)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+  <div class="card-header">Earned Total Sum of Parking Revenue</div>
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => model.EarnedTotals)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card text-white bg-warning mb-3" style="max-width: 20rem;">
+  <div class="card-header">Number of Used Parking Slots</div>
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => model.UsedParkingSlots)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+  <div class="card-header">Total Garage Space</div>
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => model.TotalGarageSpace)</h5>
+    <p class="card-text text-white"></p>
+  </div>
+</div>
+<div class="card bg-light mb-3" style="max-width: 20rem;">
+  <div class="card-header">Total Amount of Wheels</div>
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => model.TotalWheels)</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+ <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  
+  <div class="card-body">
+        <p class="card-text text-white"></p>
+ <div class="card-header">Number of Vehicles per Vehicle Type</div>
+
+          <br />
         <dl class="row">
-        @*    <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NumberOfParkedVehicles)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NumberOfParkedVehicles)
-            </dd>*@
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NumberOfRegisteredVehicles)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NumberOfRegisteredVehicles)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NumberOfRegisteredUsers)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NumberOfRegisteredUsers)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EarnedTotals)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EarnedTotals)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.UsedParkingSlots)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.UsedParkingSlots)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TotalGarageSpace)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TotalGarageSpace)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TotalWheels)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TotalWheels)
-            </dd>
-            @foreach (var r in Model.RegisteredVehicleTypes)
-            {
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => r.Name)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => r.Name)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => r.Count)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => r.Count)
-                </dd>
-            }
+             
+
+            
+           
+             @foreach (var item in Model.RegisteredVehicleTypes)
+        {
+            <div class="col"> @Html.DisplayFor(modelItem => item.Name)</div>
+            <div class="col"> @Html.DisplayFor(modelItem => item.Count)</div>
+            <div class="w-100"></div>
+        }
 
         </dl>
     </div>
 
+     </div>
+</div>
