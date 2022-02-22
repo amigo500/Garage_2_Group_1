@@ -1,11 +1,15 @@
 ﻿using Garage_2_Group_1.Models.ViewModels;
+#nullable disable
 
 namespace Garage_2_Group_1.Controllers
 {
     public class StatisticsBuilder
     {
         private GarageContext2 _db;
-        private ICollection<Vehicle>? _vehicles;
+        private ICollection<Vehicle> _vehicles;
+        private ICollection<ParkingSlot> _parkingSlots;
+        private ICollection<VehicleType> _vehicleTypes;
+
         public async Task<ParkatronDetailsViewModel> GetAllDataFromGarage(GarageContext2 db)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
@@ -14,25 +18,27 @@ namespace Garage_2_Group_1.Controllers
             ParkatronDetailsViewModel _stats = new();
             _stats.NumberOfRegisteredUsers = await _db.User.CountAsync();
             _stats.RegisteredVehicleTypes = await GetVehicleTypeTuple();
-            _stats.NumberOfRegisteredVehicles = await GetRegisteredVehicles();
-            _stats.TotalWheels = await GetVehicleWheelCount();
-            _stats.NumberOfParkedVehicles = await GetNumberOfParkedVehicle();
+            _stats.NumberOfRegisteredVehicles = _vehicles.Count();
+            _stats.TotalWheels = _vehicles.Select(vehicle => vehicle.WheelCount).Sum();
+            _stats.NumberOfParkedVehicles = GetNumberOfParkedVehicle(); // This code would work if the Vehicle got assigned a slot. But only the slot gets assigned.
             _stats.EarnedTotals = await GetTotalEarnings();
-            _stats.UsedParkingSlots = await GetNumberOfUsedParkingSlots();
+            _stats.UsedParkingSlots = GetNumberOfUsedParkingSlots();
             _stats.TotalGarageSpace = await _db.ParkingSlot.CountAsync();
 
             return _stats;
         }
 
-        private void DoQueries()
+        private async void DoQueries()
         {
-            
+            _vehicles = await _db.Vehicle.ToListAsync();
+            _parkingSlots = await _db.ParkingSlot.ToListAsync();
+            _vehicleTypes = await _db.VehicleType.ToListAsync();
         }
 
-        private async Task<int> GetNumberOfUsedParkingSlots()
+        private int GetNumberOfUsedParkingSlots()
         {
-            var parkingSlots = await _db.ParkingSlot.ToListAsync();
-            var usedParkingSlots = parkingSlots.Where(s => s.Vehicle != null).Count();
+            
+            var usedParkingSlots = _parkingSlots.Where(s => s.Vehicle != null).Count();
             return usedParkingSlots;
         }
 
@@ -47,39 +53,23 @@ namespace Garage_2_Group_1.Controllers
             return total;
         }
 
-        private async Task<int> GetNumberOfParkedVehicle() // This code would work if the Vehicle got assigned a slot. But only the slot gets assigned.
+        private int GetNumberOfParkedVehicle() // This code would work if the Vehicle got assigned a slot. But only the slot gets assigned.
         {
-            var vehicles = await _db.Vehicle.ToListAsync();
-            var parkedVehicles = vehicles.Where(v => v.ParkingSlots != null).Count();
+            var parkedVehicles = _vehicles.Where(v => v.ParkingSlots != null).Count();
 
             return parkedVehicles;
-
-        }
-
-        private async Task<int> GetVehicleWheelCount()
-        {
-            var vehicles = await _db.Vehicle.ToListAsync();
-            var wheelCount = vehicles.Select(vehicle => vehicle.WheelCount).Sum();
-
-            return wheelCount;
-        }
-
-        private async Task<int> GetRegisteredVehicles()
-        {
-            var vehicles = await _db.Vehicle.ToListAsync();
-            return vehicles.Count();
         }
 
         public async Task<List<(string, int)>> GetVehicleTypeTuple()
         {
-            var vehicles = await _db.Vehicle.ToListAsync();
+            
             var vehicleTypes = await _db.VehicleType.ToListAsync();
             var vehicleTypeTuple = new List<(string, int)>();
 
             foreach (var item in vehicleTypes)
             {
                 var name = item.Name;
-                var count = vehicles.Where(t => t.VehicleType.Name == item.Name).Count();
+                var count = _vehicles.Where(t => t.VehicleType.Name == item.Name).Count();
 
                 vehicleTypeTuple.Add((name, count));
             }

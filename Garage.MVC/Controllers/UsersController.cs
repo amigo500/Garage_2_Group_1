@@ -29,7 +29,7 @@ namespace Garage_2_Group_1.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var model = mapper.ProjectTo<UserDetailsViewModel>(db.User);
+            var model = mapper.ProjectTo<UserDetailsViewModel>(db.User).OrderBy(v => v.FirstName);
 
             return View(await model.ToListAsync());
         }
