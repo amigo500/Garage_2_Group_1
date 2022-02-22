@@ -1,13 +1,13 @@
 ﻿@using Garage_2_Group_1.Models.VehicleVeiwModels
 @model IEnumerable<VehicleIndexViewModel>
 @inject IParkingService parkingService
+@inject IVehicleTypeSelectListService typeService
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Registered Vehicles</h1>
-
 
 <a asp-action="Create" class="btn btn-primary">Register Vehicles</a>
 <a asp-action="Park" class="btn btn-primary">Park Vehicles</a>
