@@ -16,14 +16,10 @@ namespace Garage_2_Group_1.Controllers
             _db = context;
         }
 
-
-
         public async Task<IActionResult> Index()
         {
             var model = _sb.GetAllDataFromGarage(_db);
             return View(await model);
         }
-
-       
     }
 }
