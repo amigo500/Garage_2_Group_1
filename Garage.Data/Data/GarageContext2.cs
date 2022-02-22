@@ -24,11 +24,6 @@ using Garage.Entities.Vehicles;
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<ParkingSlot>().Property(p => p.VehicleRegNr).IsRequired(false);
-
-        //modelBuilder.Entity<ParkingSlot>()
-        //    .Property(p => p.Id)
-        //    .UseIdentityColumn(seed: 0, increment: 1);
-
         modelBuilder.Entity<VehicleType>()
             .HasData
                 (
