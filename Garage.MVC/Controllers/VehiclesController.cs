@@ -25,25 +25,8 @@ namespace Garage_2_Group_1.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var model = new VehicleIndexViewModel()
-            {
-                Vehicles = await _db.Vehicle.ToListAsync(),
-                Types = await GetTypesAsync()
-            };
-            
-            return View(model);
-        }
-        private async Task<IEnumerable<SelectListItem>> GetTypesAsync()
-        {
-            return await _db.Vehicle
-                           .Select(v => v.VehicleType.Name)
-                           .Distinct()
-                           .Select(t => new SelectListItem
-                           {
-                               Text = t.ToString(),
-                               Value = t.ToString()
-                           })
-                           .ToListAsync();
+            var model = _mapper.ProjectTo<VehicleIndexViewModel>(_db.Vehicle);
+            return View(await model.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -294,23 +277,6 @@ namespace Garage_2_Group_1.Controllers
             }
 
             return Json(true);
-        }
-        public async Task<IActionResult> Filter(VehicleIndexViewModel viewModel)
-        {
-            var vehicles = string.IsNullOrWhiteSpace(viewModel.RegNr) ?
-                                    _db.Vehicle :
-                                    _db.Vehicle.Where(v => v.RegNr.StartsWith(viewModel.RegNr));
-
-            vehicles = viewModel.VehicleTypeName == null ?
-                             vehicles :
-                             vehicles.Where(m => m.VehicleType.Name == viewModel.VehicleTypeName);
-
-            var model = new VehicleIndexViewModel
-            {
-                Vehicles = await vehicles.ToListAsync()
-            };
-
-            return View(nameof(Index), model);
         }
     }
 }

@@ -9,20 +9,6 @@
 
 <h1>Registered Vehicles</h1>
 
-<form asp-action="Filter">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" asp-for="RegNr"  placeholder="Filter from Reg ID..." />
-        <div class="input-group-append">
-            <select class="form-control" asp-for="VehicleTypeName"  asp-items="@await typeService.GetSelectListAsync()">
-                <option selected="selected" value="">Please select</option>
-            </select>
-        </div>
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
-        </div>
-    </div>
-</form>
-
 <a asp-action="Create" class="btn btn-primary">Register Vehicles</a>
 <a asp-action="Park" class="btn btn-primary">Park Vehicles</a>
 

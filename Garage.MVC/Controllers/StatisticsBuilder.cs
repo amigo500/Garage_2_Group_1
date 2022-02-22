@@ -13,7 +13,7 @@ namespace Garage_2_Group_1.Controllers
         public async Task<ParkatronDetailsViewModel> GetAllDataFromGarage(GarageContext2 db)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
-            DoQueries();
+            await DoQueries();
             
             ParkatronDetailsViewModel _stats = new();
             _stats.NumberOfRegisteredUsers = await _db.User.CountAsync();
@@ -28,11 +28,12 @@ namespace Garage_2_Group_1.Controllers
             return _stats;
         }
 
-        private async void DoQueries()
+        private async Task<bool> DoQueries()
         {
             _vehicles = await _db.Vehicle.ToListAsync();
             _parkingSlots = await _db.ParkingSlot.ToListAsync();
             _vehicleTypes = await _db.VehicleType.ToListAsync();
+            return true;
         }
 
         private int GetNumberOfUsedParkingSlots()
