@@ -21,7 +21,7 @@ namespace Garage.Entities.Vehicles
         public long UserSSN { get; set; }
         [Required]
         public User User { get; set; }
-        public ICollection<ParkingSlot> ParkingSlots { get; set; } = new List<ParkingSlot>();
+        public ICollection<ParkingSlot> ParkingSlots { get; set; }
         [Required]
         public int VehicleTypeID { get; set; }
         public VehicleType VehicleType { get; set; }

@@ -8,10 +8,13 @@ namespace Garage_2_Group_1.Models.VehicleVeiwModels
     public class VehicleIndexViewModel
     {
         public string RegNr { get; set; }
-        
+        public IEnumerable<SelectListItem> Types { get; set; } = new List<SelectListItem>();
+        public ICollection<Vehicle> Vehicles { get; set; }
+        public ICollection<VehicleType> VehicleTypes { get; set; }
 
         [Display(Name = "Vehicle Type")]
         public string VehicleTypeName { get; set; }
+
         public int VehicleTypeId { get; set; }
         public VehicleType Type { get; set; }
 
