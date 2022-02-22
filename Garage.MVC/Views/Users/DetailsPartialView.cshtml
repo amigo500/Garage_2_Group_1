@@ -22,7 +22,14 @@
                         </div>
                     </div>
                 </div>
-                <vc:park reg-nr=@item.RegNr id="vc-park"></vc:park>
+                @if (item.ParkingSlots.Count == 0)
+                {
+                    <vc:park reg-nr=@item.RegNr id="vc-park"></vc:park>
+                }
+                @if (item.ParkingSlots.Count > 0)
+                {
+                    <vc:checkout reg-nr=@item.RegNr></vc:checkout>
+                }
             }
         </div>
     </div>

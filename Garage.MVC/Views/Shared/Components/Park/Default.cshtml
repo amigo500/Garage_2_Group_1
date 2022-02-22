@@ -1,7 +1,11 @@
 ﻿@model ParkViewModel
 @inject IParkingService parkingService
 
-<div class="modal fade" id="@Model.RegNr" tabindex="-1" aria-labelledby="ParkModalLabel" aria-hidden="true">
+@{
+    var modalId = "p" + Model.RegNr;
+}
+
+<div class="modal fade" id=@modalId tabindex="-1" aria-labelledby="ParkModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

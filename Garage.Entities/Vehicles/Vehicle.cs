@@ -25,7 +25,7 @@ namespace Garage.Entities.Vehicles
         [Required]
         public int VehicleTypeID { get; set; }
         public VehicleType VehicleType { get; set; }
-        public ICollection<Receipt> ReceiptHistory { get; set; }
+        public ICollection<Receipt>? ReceiptHistory { get; set; }
 
         private Vehicle()
         {

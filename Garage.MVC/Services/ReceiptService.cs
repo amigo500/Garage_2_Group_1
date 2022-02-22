@@ -1,4 +1,6 @@
-﻿namespace Garage_2_Group_1.Services
+﻿using Garage_2_Group_1.Models.ViewModels;
+
+namespace Garage_2_Group_1.Services
 {
     public class ReceiptService : IReceiptService
     {
@@ -11,76 +13,56 @@
         /// Creates a Database Entry for this Vehicles Receipt. 
         /// </summary>
         /// <returns>Boolean for Success</returns>
-        public bool CreateReceiptOnPark(Vehicle vehicle)
+        public async Task<bool> CreateReceiptOnParkAsync(Vehicle vehicle)
         {
-            Receipt _receipt;
-            Vehicle _vehicle;
-            _vehicle = vehicle;
-            var parkingSlots = _vehicle.ParkingSlots;
-            var regNr = _vehicle.RegNr;
-            var name = _vehicle.User.FirstName + " " + _vehicle.User.LastName;
-
-            _receipt = new Receipt(regNr, name);
-            db.Add(_receipt);
-            db.SaveChanges();
+            var name = vehicle.User.FirstName + " " + vehicle.User.LastName;
+            var receipt = new Receipt(vehicle.RegNr, name);
+            db.Receipt.Add(receipt);
+            await db.SaveChangesAsync();
             return true;
         }
         /// <summary>
-        /// Updates the Vehicles Receipt at Checkout with information like Price, ParkingDuration and CheckoutTime.
+        /// Updates the Vehicles Receipt at Checkout.
         /// </summary>
         /// <returns>returns the Receipt Object Async.</returns>
-        public async Task<Receipt?> GetCheckoutReceipt(string regNr)
+        public async Task<bool> SetCheckoutReceiptAsync(ReceiptViewModel viewModel)
         {
-            var _receipt = await db.Receipt.FirstOrDefaultAsync(r => r.VehicleRegId == regNr);
+            var receipt = await db.Receipt.FirstOrDefaultAsync(r => r.VehicleRegNr == viewModel.VehicleRegNr);
 
-            if (_receipt == null)
+            if (receipt == null)
             {
-                return _receipt;
+                return false;
             }
 
-            var timeNow = DateTime.Now;
-            var timeThen = _receipt.ArrivalTime;
-            TimeSpan ts = timeNow - timeThen;
+            receipt.CheckOutTime = viewModel.CheckOutTime;
+            receipt.Price = viewModel.Price;
+            receipt.ParkingDuration = viewModel.ParkingDuration;
 
-            _receipt.ParkingDuration = ts;
-            _receipt.Price = GetPriceTotal(_receipt);
-
-            db.Update(_receipt);
+            db.Update(receipt);
             await db.SaveChangesAsync();
-            return _receipt;
+
+            return true;
         }
-        private int GetPriceTotal(Receipt _receipt)
+
+        /// <summary>
+        /// Get the total price for the parking duration at checkout
+        /// </summary>
+        /// <param name="receipt"></param>
+        /// <returns>The price paid at checkout</returns>
+        public int GetPriceTotal(Vehicle vehicle, double totalHours)
         {
-            var _vehicle = _receipt.Vehicle;
-            var finalPrice = 0;
-            double totalHours = _receipt.ParkingDuration.TotalHours;
-            int defaultPriceTotal = InitPrice + (int)totalHours * HourlyRate;
+            var totalPrice = InitPrice + (HourlyRate * totalHours);
 
-
-            if (_vehicle.VehicleType.Size == 2)
+            if (vehicle.VehicleType.Size == 2)
             {
-                var size2PriceTotal = 0;
-                var initSize2 = (double)InitPrice * 1.3;
-                var rateSize2 = _receipt.ParkingDuration.TotalHours * 1.4;
-                size2PriceTotal = (int)initSize2 + (int)rateSize2 * HourlyRate;
-
-                finalPrice = size2PriceTotal;
+                totalPrice = (InitPrice * 1.3) + (HourlyRate * 1.4 * totalHours);
             }
-            else if (_vehicle.VehicleType.Size == 3)
+            else if (vehicle.VehicleType.Size == 3)
             {
-                var size3PriceTotal = 0;
-                var initSize3 = (double)InitPrice * 1.6;
-                var rateSize3 = _receipt.ParkingDuration.TotalHours * 1.5;
-                size3PriceTotal = (int)initSize3 + (int)rateSize3 * HourlyRate;
-
-                finalPrice = size3PriceTotal;
-            }
-            else
-            {
-                finalPrice = defaultPriceTotal;
+                totalPrice = (InitPrice * 1.6) + (HourlyRate * 1.5 * totalHours);
             }
 
-            return finalPrice;
+            return (int) totalPrice;
         }
     }
 

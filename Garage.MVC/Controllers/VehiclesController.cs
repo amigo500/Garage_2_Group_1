@@ -2,7 +2,7 @@
 using AutoMapper;
 using Garage.Entities;
 using Garage_2_Group_1.Models.VehicleVeiwModels;
-
+using Garage_2_Group_1.Models.ViewModels;
 using Garage_2_Group_1.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,12 +14,14 @@ namespace Garage_2_Group_1.Controllers
         private readonly GarageContext2 _context;
         private readonly IMapper _mapper;
         private readonly IParkingService _ps;
+        private readonly IReceiptService _rs;
 
-        public VehiclesController(GarageContext2 context, IMapper mapper, IParkingService ps)
+        public VehiclesController(GarageContext2 context, IMapper mapper, IParkingService ps, IReceiptService rs)
         {
             _context = context;
             _mapper = mapper;
             _ps = ps;
+            _rs = rs;
         }
 
         // GET: Vehicles
@@ -90,6 +92,7 @@ namespace Garage_2_Group_1.Controllers
             {
                 var vehicle = await _context.Vehicle
                     .Include(v => v.VehicleType)
+                    .Include(v => v.User)
                     .FirstOrDefaultAsync(m => m.RegNr == viewModel.RegNr);
 
                 // Vehicle is already parked (occurs on page refresh after successful parking)
@@ -110,11 +113,42 @@ namespace Garage_2_Group_1.Controllers
                         slot.VehicleRegNr = viewModel.RegNr;
                         await _ps.ParkInSlotAsync(slot);
                     }
+                    // Add info to the future receipt
+                    await _rs.CreateReceiptOnParkAsync(vehicle);
+
                     ModelState.Clear();
                     viewModel = new VehicleParkViewModel { ParkedSuccesfully = true };
                 }
             }
             return View(viewModel);
+        }
+
+        // POST: Vehicles/Checkout
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(ReceiptViewModel viewModel)
+        {
+            var vehicle = await _context.Vehicle
+                .Include(v => v.ParkingSlots)
+                .FirstAsync(v => v.RegNr == viewModel.VehicleRegNr);
+
+            var parkingSlots = vehicle.ParkingSlots.ToList();
+
+            // Free parking slots
+            foreach (var slot in parkingSlots)
+            {
+                await _ps.FreeParkingSlotAsync(slot);
+            }
+
+            // Update receipt
+            await _rs.SetCheckoutReceiptAsync(viewModel);
+
+            TempData["checkout"] = true;
+            TempData["regNr"] = viewModel.VehicleRegNr;
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Vehicles/Edit/5
@@ -251,6 +285,11 @@ namespace Garage_2_Group_1.Controllers
             //check database
             var dbResult = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegNr == regnr);
 
+            if (!val.AgeValidation(dbResult.UserSSN))
+            {
+                return Json("The owner of this vehicle is not 18, can't be parked");
+            }
+
             if (dbResult == null)
                 return Json("Vehicle is not registered, register a new vehicle?");
 
@@ -264,6 +303,17 @@ namespace Garage_2_Group_1.Controllers
         {
             var parkingSlots = new List<ParkingSlot>();
 
+            var vehicle = await _context.Vehicle
+                .Include(v => v.User)
+                .Include(v => v.VehicleType)
+                .FirstOrDefaultAsync(m => m.RegNr == dto.regnr);
+
+            Validation val = new Validation();
+            if (!val.AgeValidation(vehicle.UserSSN))
+            {
+                return Json("The owner of this vehicle is not 18, vehicle can't be parked");
+            }
+
             for (var i = 0; i < dto.selected.Length; i++)
             {
                 var slot = await _context.ParkingSlot
@@ -275,6 +325,9 @@ namespace Garage_2_Group_1.Controllers
                 slot.VehicleRegNr = dto.regnr;
                 await _ps.ParkInSlotAsync(slot);
             }
+
+            // Add info to the future receipt
+            await _rs.CreateReceiptOnParkAsync(vehicle);
 
             return Json(true);
         }

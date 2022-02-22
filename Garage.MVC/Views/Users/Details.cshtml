@@ -49,7 +49,6 @@
 </div>
 <partial name="DetailsPartialView" />
 
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
@@ -59,6 +58,15 @@
 
     let modal;
     let regNr
+    let checkoutStatus = ('@TempData.ContainsKey("checkout")' == 'True');
+
+    if (checkoutStatus) 
+    {
+        @TempData.Remove("checkout");
+        //regNr = '@TempData["regNr"]';
+        //let selector = `#c2${regNr}`;
+        //$(selector).modal('show');
+    }
 
     $(".park-button").click(function() {
         let parkingSlots = [];
@@ -70,9 +78,9 @@
 
         regNr = $(this).attr("regNr");
         let size = $(this).attr("size");
-        $(`#${regNr}`).modal('show');
+        $(`#p${regNr}`).modal('show');
 
-        modal = document.querySelector(`#${regNr}`);
+        modal = document.querySelector(`#p${regNr}`);
         const modalFooter = modal.querySelector(".modal-footer");
         const parkButton = modalFooter.querySelector("#modal-park-btn");
 
@@ -80,16 +88,42 @@
         parkViewComponent.selectParking();
     });
 
+    $(".checkout-button").click(function() {
+        regNr = $(this).attr("regNr");
+        $(`#c${regNr}`).modal('show');
+    });
+
     $(document).on('click', '#modal-park-btn', function () {
         parkViewComponent.parkInSelectedSlots().then(_ => {
             const modalBody = modal.querySelector(".modal-body");
             const parkText = modalBody.querySelector("#park-text");
-            parkText.innerHTML = "Your vehicle has been successfully parked, have a nice day!";
+            if (parkViewComponent.getParkingStatus())
+            {
+                parkText.innerHTML = "Your vehicle has been successfully parked, have a nice day!";
+            }
+            else
+            {
+                parkText.innerHTML = "The <b>owner</b> of this vehicle is <b>not 18</b>, vehicle can't be parked";
+            }
+            
         });
     });
 
-    $('.modal').on('hide.bs.modal', function() {
-        window.location.reload();
+    $('.modal').on('hide.bs.modal', function(e) {
+        // Only refresh page if it's a parking modal
+        if(e.target.id.startsWith("p"))
+        {
+            location.reload(true);
+        }   
     });
-    </script>
+
+    function printReceipt(receipt) {
+        let restorePage = document.body.innerHTML;
+        document.body.innerHTML = receipt.innerHTML;
+        window.print();
+        document.body.innerHTML = restorePage;
+        location.reload(true);
+    }
+
+</script>
 }
