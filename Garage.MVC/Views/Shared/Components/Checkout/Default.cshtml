@@ -6,103 +6,109 @@
     var receiptId = "r" + Model.VehicleRegNr;
 }
 
-<div class="modal fade" id=@modalId1 tabindex="-1" aria-labelledby="CheckoutModalToggle1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ParkModalLabel">Checkout Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container my-3">
-                     <h5 class="fw-light">
-                        Are you sure you want to checkout and pay <b>@Model.Price kr</b> for your visit?
-                     </h5>
+@if (!TempData.ContainsKey("checkout"))
+{
+    <div class="modal fade" id=@modalId1 tabindex="-1" aria-labelledby="CheckoutModalToggle1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ParkModalLabel">Checkout Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                @*<form asp-action="Checkout" asp-controller="Vehicles">
-                    <input type="hidden" asp-for="VehicleRegNr" />
-                    <input type="hidden" asp-for="UserFullName" />
-                    <input type="hidden" asp-for="Make" />
-                    <input type="hidden" asp-for="Model" />
-                    <input type="hidden" asp-for="ArrivalTime" />
-                    <input type="hidden" asp-for="CheckOutTime" />
-                    <input type="hidden" asp-for="Duration" />
-                    <input type="hidden" asp-for="Price" />
-                    <input type="hidden" asp-for="ParkingDuration" />*@
-                    <button @*type="submit"*@ class="btn btn-danger" data-bs-target="#@modalId2" data-bs-toggle="modal" data-bs-dismiss="modal" onclick="$('#@modalId1').modal('hide');">Confirm</button>
-               @* </form>*@
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button>
+                <div class="modal-body">
+                    <div class="container my-3">
+                         <h5 class="fw-light">
+                            Are you sure you want to checkout and pay <b>@Model.Price kr</b> for your visit?
+                         </h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="Checkout">
+                        <input type="hidden" asp-for="VehicleRegNr" />
+                        <input type="hidden" asp-for="UserFullName" />
+                        <input type="hidden" asp-for="Make" />
+                        <input type="hidden" asp-for="Model" />
+                        <input type="hidden" asp-for="ArrivalTime" />
+                        <input type="hidden" asp-for="CheckOutTime" />
+                        <input type="hidden" asp-for="Duration" />
+                        <input type="hidden" asp-for="Price" />
+                        <input type="hidden" asp-for="ParkingDuration" />
+                        <button type="submit" class="btn btn-danger">Confirm</button>
+                    </form>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id=@modalId2  tabindex="-1" aria-labelledby="CheckoutModalToggle2" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="CheckoutModalLabel">Checkout Vehicle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container my-3" id="@receiptId">
-                     <dl class="row">
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.VehicleRegNr)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.VehicleRegNr)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.UserFullName)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.UserFullName)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Make)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Make)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Model)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Model)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.ArrivalTime)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.ArrivalTime)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.CheckOutTime)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.CheckOutTime)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Duration)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Duration)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Price)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Price) Kr
-                        </dd>
-                    </dl>
+}
+@if (TempData.ContainsKey("checkout"))
+{  
+    <div class="modal fade in" id=@modalId2  tabindex="-1" aria-labelledby="CheckoutModalToggle2" aria-hidden="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CheckoutModalLabel">Checkout Vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="printReceipt(@receiptId)">Print</button>
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button>
+                <div class="modal-body">
+                    <div class="container my-3" id="@receiptId">
+                         <dl class="row">
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.VehicleRegNr)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.VehicleRegNr)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.UserFullName)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.UserFullName)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.Make)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.Make)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.Model)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.Model)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.ArrivalTime)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.ArrivalTime)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.CheckOutTime)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.CheckOutTime)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.Duration)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.Duration)
+                            </dd>
+                            <dt class = "col-sm-2">
+                                @Html.DisplayNameFor(model => model.Price)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.Price) Kr
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="printReceipt(@receiptId)">Print</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}

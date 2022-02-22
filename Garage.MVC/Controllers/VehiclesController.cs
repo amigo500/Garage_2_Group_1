@@ -123,12 +123,12 @@ namespace Garage_2_Group_1.Controllers
             return View(viewModel);
         }
 
-        // POST: Vehicles/Park
+        // POST: Vehicles/Checkout
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Checkout(ReceiptViewModel viewModel)
+        public async Task<IActionResult> Checkout(ReceiptViewModel viewModel)
         {
             var vehicle = await _context.Vehicle
                 .Include(v => v.ParkingSlots)
@@ -145,6 +145,10 @@ namespace Garage_2_Group_1.Controllers
             // Update receipt
             await _rs.SetCheckoutReceiptAsync(viewModel);
 
+            TempData["checkout"] = true;
+            TempData["regNr"] = viewModel.VehicleRegNr;
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Vehicles/Edit/5

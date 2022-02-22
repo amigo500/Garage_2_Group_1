@@ -11,6 +11,7 @@ using Bogus;
 using AutoMapper;
 using Garage_2_Group_1.Models.UserViewModels;
 using System.Text.RegularExpressions;
+using Garage_2_Group_1.Models.ViewModels;
 
 namespace Garage_2_Group_1.Controllers
 {
@@ -19,12 +20,16 @@ namespace Garage_2_Group_1.Controllers
         private readonly Faker faker;
         private readonly GarageContext2 db;
         private readonly IMapper mapper;
+        private readonly IParkingService _ps;
+        private readonly IReceiptService _rs;
 
-        public UsersController(GarageContext2 context, IMapper mapper)
+        public UsersController(GarageContext2 context, IMapper mapper, IParkingService ps, IReceiptService rs)
         {
             this.mapper = mapper;
             db = context;
             faker = new Faker("en");
+            _ps = ps;
+            _rs = rs;
         }
 
         // GET: Users
@@ -38,11 +43,9 @@ namespace Garage_2_Group_1.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            
-
+           
             var user = await mapper.ProjectTo<UserDetailsViewModel>(db.User)
                 .FirstOrDefaultAsync(m => m.SSN == id);
-            
 
             return View(user);
         }
@@ -69,6 +72,36 @@ namespace Garage_2_Group_1.Controllers
             await db.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Users/Checkout
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(ReceiptViewModel viewModel)
+        {
+            var vehicle = await db.Vehicle
+                .Include(v => v.ParkingSlots)
+                .FirstAsync(v => v.RegNr == viewModel.VehicleRegNr);
+
+            var parkingSlots = vehicle.ParkingSlots.ToList();
+
+            // Free parking slots
+            foreach (var slot in parkingSlots)
+            {
+                await _ps.FreeParkingSlotAsync(slot);
+            }
+
+            // Update receipt
+            await _rs.SetCheckoutReceiptAsync(viewModel);
+
+            TempData["checkout"] = true;
+            TempData["regNr"] = viewModel.VehicleRegNr;
+
+            var ssn = vehicle.UserSSN;
+
+            return RedirectToAction(nameof(Details),new { @id = vehicle.UserSSN});
         }
 
         // GET: Users/Edit/5
